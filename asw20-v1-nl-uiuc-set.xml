@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!--
+************************************************************************
+ASW 20 simulation config.  This file ties together all the
+components used by FGFS to represent a 15-meter class sailplane.
+Components include the flight data model, instrument panel, and
+external model.
+
+Flight model details: 
+Aircraft/UIUC/asw20-v1-nl/README.asw20.html
+
+External model details:  
+Aircraft/asw20/Models/uiuc/hgldr-cs/README.TXT 
+(courtesy of Roland Stuck, rstuck@evc.net)
+
+Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
+************************************************************************
+-->
+
+<PropertyList>
+
+ <sim>
+
+  <description>ASW-20 sailplane (UIUC)</description>
+
+  <flight-model>larcsim</flight-model>
+  <aero>uiuc</aero>
+  <uiuc-type>uiuc-sailplane</uiuc-type>
+  <aircraft-dir>Aircraft/UIUC/asw20-v1-nl</aircraft-dir>
+
+  <sound>
+   <audible>true</audible>
+   <path>Aircraft/asw20/Sounds/uiuc/asw20-sound.xml</path>
+  </sound>
+
+  <panel>
+   <path>Aircraft/c172/Panels/c172-vfr-panel.xml</path>
+   <visibility>true</visibility>
+  </panel>
+
+  <panel_2>
+   <path>Aircraft/c172/Panels/c172-trans-mini-panel.xml</path>
+  </panel_2>
+
+  <model>
+   <path>Aircraft/asw20/Models/uiuc/asw20-stuck/asw20-stuck-model.xml</path>
+  </model>
+
+  <view n="1">
+   <config>
+    <eye-heading-deg-path>/orientation/gamma-horiz-deg</eye-heading-deg-path>
+   </config>
+  </view>
+
+ </sim>
+</PropertyList>
