@@ -21,9 +21,9 @@
    <volume>
     <property>/engines/engine/mp-osi</property>
     <factor>0.005</factor>
-    <min>0.15</min>
+    <min>0.0</min>
     <max>0.5</max>
-    <offset>0.15</offset>
+    <offset>0.0</offset>
    </volume>
    <pitch>
     <property>/engines/engine/rpm</property>
@@ -34,6 +34,32 @@
    </pitch>
   </engine>
  
+
+  <wind>
+   <name>wind</name>
+   <mode>looped</mode>
+   <path>Sounds/wind.wav</path>
+   <property>/velocities/airspeed-kt</property>
+   <volume>
+    <property>/position/altitude-ft</property>
+    <factor>-0.000015</factor>
+    <offset>1.0</offset>
+    <min>0.1</min>
+    <max>1.0</max>
+   </volume>
+   <volume>
+     <property>/velocities/airspeed-kt</property>
+     <factor>0.0028</factor>
+     <min>0.03</min>
+     <max>0.25</max>
+   </volume>
+   <pitch>
+    <property>/velocities/airspeed-kt</property>
+    <factor>0.012</factor>
+    <offset>1.25</offset>
+   </pitch>
+  </wind>
+
 
 </fx>
  
