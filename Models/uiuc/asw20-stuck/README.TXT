@@ -7,7 +7,7 @@ Permission granted to use and release with FlightGear under the GNU
 GPL.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Correspondance:
+Correspondence:
 
 11/4/02 - request
 
