@@ -22,7 +22,7 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
  <sim>
 
   <description>ASW-20 sailplane (UIUC)</description>
-  <author>Michael Selig</author>
+  <author>Michael Selig, Roland Stuck (3D)</author>
 
   <flight-model>larcsim</flight-model>
   <aero>uiuc</aero>
