@@ -29,7 +29,6 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
   <aircraft-dir>Aircraft/UIUC/asw20-v1-nl</aircraft-dir>
 
   <sound>
-   <audible>true</audible>
    <path>Aircraft/asw20/Sounds/uiuc/asw20-sound.xml</path>
   </sound>
 
