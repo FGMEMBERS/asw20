@@ -52,5 +52,17 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
    </config>
   </view>
 
+  <help>
+   <title>ASW-20</title>
+   <key>
+    <name>j/k</name>
+    <desc>close/open spoilers</desc>
+   </key>
+   <key>
+    <name>[ ]</name>
+    <desc>flaps up/down</desc>
+   </key>
+  </help>
+
  </sim>
 </PropertyList>
