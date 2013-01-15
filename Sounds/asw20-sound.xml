@@ -1,0 +1,227 @@
+<?xml version="1.0"?>
+ 
+<PropertyList>
+
+ <fx>
+ 
+  <crank>
+   <name>crank</name>
+   <path>Sounds/cranking.wav</path>
+   <property>/engines/engine/cranking</property>
+   <volume>
+    <offset>0.5</offset>
+   </volume>
+  </crank>
+ 
+  <engine>
+   <name>engine</name>
+   <path>Sounds/wasp.wav</path>
+   <mode>looped</mode>
+   <property>/sim/asw20/engine_running</property>
+   <volume>
+    <property>/fdm/jsbsim/external_reactions/GenericEngine/magnitude</property>
+    <factor>0.005</factor>
+    <min>0.0</min>
+    <max>0.5</max>
+    <offset>0.0</offset>
+   </volume>
+   <pitch>
+    <property>/fdm/jsbsim/external_reactions/GenericEngine/magnitude</property>
+    <factor>0.0012</factor>
+    <min>.3</min>
+    <max>5.0</max>
+    <offset>0.3</offset>
+   </pitch>
+  </engine>
+ 
+
+  <wind>
+   <name>wind</name>
+   <mode>looped</mode>
+   <path>Sounds/wind.wav</path>
+   <property>/velocities/airspeed-kt</property>
+   <volume>
+    <property>/position/altitude-ft</property>
+    <factor>-0.000015</factor>
+    <offset>1.0</offset>
+    <min>0.1</min>
+    <max>1.0</max>
+   </volume>
+   <volume>
+     <property>/velocities/airspeed-kt</property>
+     <factor>0.004</factor>
+     <min>0.03</min>
+     <max>1.2</max>
+   </volume>
+   <pitch>
+    <property>/velocities/airspeed-kt</property>
+    <factor>0.006</factor>
+    <offset>2.65</offset>
+   </pitch>
+  </wind>
+
+ <variometer-up>
+   <name>variometer-up</name>
+   <mode>looped</mode>
+   <path>Aircraft/asw20/Sounds/vario.wav</path>
+   <condition>
+   <and>
+     <greater-than>
+      <property>instrumentation/ilec-sc7/audio</property>
+     <value>0</value>
+     </greater-than>
+     <greater-than>
+	 <property>instrumentation/ilec-sc7/te-reading-mps</property>
+     <value>0.01</value>
+     </greater-than>
+     </and>
+    </condition>
+    <pitch>
+     <property>instrumentation/ilec-sc7/te-reading-mps</property> 
+     <factor>0.246</factor>
+     <offset>1.0</offset>
+    </pitch>
+    <volume>
+     <property>instrumentation/ilec-sc7/volume</property>
+     <max>1</max>
+    </volume>
+  </variometer-up>
+  
+ <variometer-down>
+   <name>variometer-down</name>
+   <mode>looped</mode>
+   <path>Aircraft/asw20/Sounds/vario2.wav</path>
+    <condition>
+    <and>
+     <equals>
+     <property>instrumentation/ilec-sc7/audio</property>
+     <value>2</value>
+     </equals>
+     <greater-than>
+      <property>instrumentation/ilec-sc7/te-reading-mps</property>
+      <value>-10.66</value>
+     </greater-than>
+    <less-than>
+      <property>instrumentation/ilec-sc7/te-reading-mps</property>
+      <value>-0.01</value>
+     </less-than>
+    </and>
+    </condition>
+    <pitch>
+     <property>instrumentation/ilec-sc7/te-reading-neg</property>
+     <factor>-0.05</factor>
+     <offset>1.0</offset>
+    </pitch>
+    <volume>
+     <property>instrumentation/ilec-sc7/volume</property>
+     <max>1</max>
+    </volume>   
+ </variometer-down>
+
+ <!-- ground reactions -->
+ <main-wheel-rumble>
+   <name>main-wheel-rumble</name>
+   <mode>looped</mode>
+   <path>Aircraft/asw20/Sounds/ground_roll3.wav</path>
+   <condition>
+     <property>/gear/gear[0]/wow</property>  <!-- main wheel -->
+   </condition>
+   <volume>
+     <property>velocities/groundspeed-kt</property>
+     <factor>0.25</factor>
+   </volume>
+ </main-wheel-rumble>
+
+ <!--
+ <left-wing-tip>
+   <name>left-wing-tip</name>
+   <mode>once</mode>
+   <path>Aircraft/asw20/Sounds/left-wing-tip.wav</path>
+   <condition>
+     <property>/gear/gear[6]/wow</property>  
+   </condition>
+ </left-wing-tip>
+ 
+ <right-wing-tip>
+   <name>right-wing-tip</name>
+   <mode>once</mode>
+   <path>Aircraft/asw20/Sounds/right-wing-tip.wav</path>
+   <condition>
+     <property>/gear/gear[7]/wow</property>  
+   </condition>
+ </right-wing-tip>
+ -->
+
+ <!-- handling noises -->
+ <!--
+ <airbrakes_lock>
+   <name>airbrakes_lock</name>
+   <mode>once</mode>
+   <path>Aircraft/asw20/Sounds/airbrakes-lock.wav</path>
+   <condition>
+     <equals>
+       <property>surface-positions/speedbrake-pos-norm</property>
+       <value>1</value>
+     </equals>  
+   </condition>
+ </airbrakes_lock>
+ -->
+ <cable_release>
+   <name>cable_release</name>
+   <mode>once</mode>
+   <path>Aircraft/asw20/Sounds/winch_release.wav</path>
+   <condition>
+     <not>
+       <property>sim/glider/winch/flags/pull</property>
+     </not>
+   </condition>
+ </cable_release>
+
+ <!--    
+ <airbrakes>
+  <name>airbrakes</name>
+  <mode>looped</mode>
+  <path>Aircraft/asw20/Sounds/airbrakes2.wav</path>
+  <property>velocities/airspeed-kt</property>
+  <volume>
+    <property>/surface-positions/speedbrake-pos-norm</property>
+    <factor>0.6</factor>
+    <offset>0.0</offset>
+    <min>0.0</min>
+    <max>2</max>
+  </volume>
+  <volume> 
+    <property>velocities/airspeed-kt</property>
+    <factor>0.015</factor>
+    <min>0.00</min>
+    <max>5</max>
+  </volume>
+  <pitch>
+    <property>velocities/airspeed-kt</property>
+    <factor>0.002</factor>
+    <offset>1</offset>
+  </pitch> 
+ </airbrakes>
+ -->
+     
+ <winch_tow>
+   <name>winch_tow</name>
+   <mode>looped</mode>
+   <path>Aircraft/asw20/Sounds/winch_tow.wav</path>
+   <condition>
+     <equals>
+       <property>sim/glider/winch/flags/pull</property>
+       <value>1</value>
+     </equals>
+   </condition>
+   <volume>
+     <property>velocities/airspeed-kt</property>
+     <factor>0.01</factor>
+     <max>1</max>
+   </volume>
+ </winch_tow>
+    
+
+</fx>
+ 
+</PropertyList>

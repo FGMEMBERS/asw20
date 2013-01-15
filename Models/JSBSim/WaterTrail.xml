@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<PropertyList>
+
+  <!--particle system-->
+
+  <particlesystem>
+    <type>normal</type>                
+    <!-- <type>trail</type> -->
+    <name>WaterBallastTrail</name>
+    <texture>smoke.rgb</texture>
+    <emissive type="bool">false</emissive>
+    <lighting type="bool">true</lighting>
+    <align>billboard</align> <!-- billboard / fixed -->
+
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+      <pitch-deg>  30.</pitch-deg>
+      <roll-deg>    0.</roll-deg>
+      <heading-deg> 0.</heading-deg>
+    </offsets>
+
+    <attach>world</attach> <!-- world / local-->
+
+    <placer>
+      <type>point</type> <!-- sector / segments / point -->
+    </placer>
+
+    <shooter>
+      <theta-min-deg>80</theta-min-deg>
+      <theta-max-deg>100</theta-max-deg>
+      <phi-min-deg>-20</phi-min-deg>
+      <phi-max-deg>0</phi-max-deg>
+      <speed-mps>
+        <!-- <property> </property> -->
+        <value>10</value>
+        <factor>0.01</factor>
+	<spread>5</spread>
+      </speed-mps>
+      <rotation-speed>
+        <x-min-deg-sec>0</x-min-deg-sec>
+        <x-max-deg-sec>0</x-max-deg-sec>
+        <y-min-deg-sec>0</y-min-deg-sec>
+        <y-max-deg-sec>0</y-max-deg-sec>
+        <z-min-deg-sec>-180</z-min-deg-sec>
+        <z-max-deg-sec> 180</z-max-deg-sec>
+      </rotation-speed>
+    </shooter>
+
+    <counter>
+      <particles-per-sec>
+        <!-- <property> </property> -->
+	<value>250</value>
+        <factor>1.0</factor>
+	<spread>25</spread>
+      </particles-per-sec>
+    </counter>
+
+    <particle>
+      <start>
+        <color>
+          <red>   <value>0.787</value> </red>
+          <green> <value>0.882</value> </green>
+          <blue>  <value>0.999</value> </blue>
+          <alpha> <value>0.6</value> </alpha>
+        </color>
+        <size>
+          <value>0.15</value>
+        </size>
+      </start>
+
+      <end>
+        <color>
+          <red>   <value>0.95</value> </red>
+          <green> <value>0.95</value> </green>
+          <blue>  <value>0.95</value> </blue>
+          <alpha> <value>0.001</value> </alpha>
+        </color>
+        <size>
+          <value>10.0</value>
+        </size>
+      </end>
+      <life-sec>
+        <value>3.0</value>
+      </life-sec>
+      <mass-kg>0.5</mass-kg>
+      <radius-m>0.25</radius-m>
+    </particle>
+
+    <program>
+      <fluid>air</fluid>
+      <gravity>true</gravity>
+      <wind>true</wind>
+    </program>
+
+  </particlesystem>
+
+</PropertyList>

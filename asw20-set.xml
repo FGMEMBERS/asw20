@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 
-<PropertyList include="asw20-v1-nl-uiuc-set.xml">
+<PropertyList include="asw20-JSBSim-set.xml">
  <sim>
-  <description>Alias for asw20-v1-nl-uiuc.</description>
+  <description>Alias for asw20-JSBSim</description>
+  <!-- <description>Alias for asw20-v1-nl-uiuc.</description>  -->
  </sim>
 </PropertyList>

@@ -1,0 +1,489 @@
+<?xml version="1.0"?>
+<!--
+************************************************************************
+ASW 20 simulation config.  This file ties together all the
+components used by FGFS to represent a 15-meter class sailplane.
+Components include the flight data model, instrument panel, and
+external model.
+
+Flight model details: 
+Aircraft/UIUC/asw20-v1-nl/README.asw20.html
+
+External model details:  
+Aircraft/asw20/Models/uiuc/hgldr-cs/README.TXT 
+(courtesy of Roland Stuck, rstuck@evc.net)
+
+Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
+             January, 2013 D-NXKT, D_NXKT@yahoo.de
+************************************************************************
+-->
+
+<PropertyList>
+
+ <sim>
+
+  <description>ASW-20 sailplane (JSBSim)</description>
+  <author>Michael Selig, Roland Stuck (3D), D-NXKT</author>
+
+  <flight-model>jsb</flight-model>
+  <aero>Models/JSBSim/asw20-JSBSim</aero>
+
+  <startup>
+    <splash-texture>Aircraft/asw20/splash.png</splash-texture>
+    <splash-title>ASW 20</splash-title>
+  </startup>
+
+  <sound>
+   <path>Aircraft/asw20/Sounds/asw20-sound.xml</path>
+  </sound>
+
+  <panel>
+   <path>Aircraft/Generic/Panels/generic-vfr-panel.xml</path>
+   <visibility>false</visibility>
+  </panel>
+
+  <panel_2>
+   <path>Aircraft/Generic/Panels/generic-trans-mini-panel.xml</path>
+  </panel_2>
+
+  <model>
+   <path>Aircraft/asw20/Models/JSBSim/asw20-model.xml</path>
+  </model>
+
+  <multiplay>
+   <generic>
+    <float n="0" alias="/gear/gear[0]/rollspeed-ms"/>
+    <float n="1" alias="/sim/asw20/wing_load"/>
+    <int n="0" alias="/sim/asw20/waterballast/dumping"/>
+   </generic>
+  </multiplay>
+
+
+<!--       	  
+     	      y       
+     	      |  x	 
+     	      | / 
+     	      |/ 
+     	      ______z
+     	     
+            View-System
+-->		  
+
+  <view n="0">
+    <internal archive="y">true</internal>
+    <config>
+      <pitch-offset-deg>-10.0</pitch-offset-deg>   
+ <!--Right--> <x-offset-m archive="y">0.</x-offset-m>
+ <!--Up-->    <y-offset-m archive="y">0.16</y-offset-m>
+ <!--Back-->  <z-offset-m archive="y">-0.68</z-offset-m>
+    </config>
+  </view>
+
+  <view n="100">
+    <name>Tail View</name>
+    <type>lookfrom</type>
+    <internal type="bool">true</internal>
+    <config>
+      <from-model type="bool">true</from-model>
+      <from-model-idx type="int">0</from-model-idx>
+      <x-offset-m archive="y" type="double">0.00</x-offset-m>
+      <y-offset-m archive="y" type="double">1.3</y-offset-m>
+      <z-offset-m archive="y" type="double">3.35</z-offset-m>
+      <pitch-offset-deg type="double">-15</pitch-offset-deg>
+    </config>
+  </view>
+
+
+  <menubar>
+   <default>
+    <menu n="10">
+     <label>ASW 20</label>
+     <enabled type="bool">true</enabled>     
+
+     <item>
+      <label>---------------------------</label>    
+      <enabled>false</enabled>
+     </item>
+     
+     <item>
+      <label>Toggle Auto-Coordination Aileron+Rudder</label>
+       <binding>
+        <command>property-toggle</command>
+        <property>controls/flight/auto-coordination</property>
+        <value>0</value> 
+       </binding>
+     </item>	
+
+     <item>
+       <label>Toggle Woolthread On/Off</label>
+       <binding>
+         <command>property-toggle</command>
+         <property>sim/asw20/with-woolthread</property>
+         <value>0</value>
+       </binding>
+     </item>    
+
+     <item>
+      <label>-------- Experimental --------</label>    
+      <enabled>false</enabled>
+     </item>
+    
+     <item>
+       <label>Winch Launch</label>
+       <binding>
+     	 <command>nasal</command>
+     	 <script>asw20.winch_dialog.open()</script>.
+       </binding>
+     </item>
+     
+     <item>
+       <label>Aerotowing MP/AI</label>
+       <binding>
+     	 <command>nasal</command>
+     	 <script>asw20.aerotowing_ai_dialog.open()</script>.
+       </binding>
+     </item>
+     <item>
+       <label>Drag Roboter</label>
+       <binding>
+     	 <command>nasal</command>
+     	 <script>asw20.dragrobot_dialog.open()</script>.
+       </binding>
+     </item>
+
+    </menu>
+   </default>
+  </menubar>
+
+  
+  <help>
+   <title>ASW 20</title>
+      <key>
+        <name>g/G</name>
+        <desc>gear up/down</desc>
+      </key>
+      <key>
+        <name>[ ]</name>
+        <desc>flaps up/down (-11, -6, 0, +9, +55 deg)</desc>
+      </key>
+      <key>
+        <name>j/k</name>
+        <desc>speedbrakes in/out</desc>
+      </key>
+      <key>
+        <name>T</name>
+        <desc>load 10 liter water ballast (max: 110 liter)</desc>
+      </key>
+      <key>
+        <name>t</name>
+        <desc>toggle dumping water ballast</desc>
+      </key>
+       <key>
+        <name>s</name>
+        <desc>toggle start/stop generic engine</desc>
+      </key>     
+      <key>
+        <name>9/PgUp</name>
+        <desc>increase throttle</desc>
+      </key>
+      <key>
+        <name>3/PgDn</name>    
+        <desc>decrease throttle</desc>
+      </key>
+      <key>
+        <name>Ctrl-U</name>
+        <desc>jump up 1000ft</desc>
+      </key>
+      <line> </line>
+      <line>experimental winch support (copied from DG-101G)</line>
+      <line> Ctrl-w: place winch</line>
+      <line> w     : run winch</line>
+      <line> W     : release winch</line>
+      <line>experimental drag robot support (copied from DG-101G)</line>
+      <line> d     : start/stop drag roboter</line>
+      <line> D     : create drag roboter</line>
+      <line> Ctrl-d: update presets from property tree</line>
+      <line> </line>
+      <line>Note: </line>             
+      <line>This glider is a conversion of the LaRCsim/UIUC version.</line>
+      <line>Additionally the impact of drag due to flaps and gear is </line>      
+      <line>modelled. Flight performance is not yet checked! However the</line>  
+      <line>converted UIUC-part seems reasonable (Flap-position = 0deg).</line>
+      <line>It is highly appreciated if someone else wants to improve the cockpit!</line>
+      <line> </line>
+  </help>
+
+
+  <flaps>
+    <current-setting>2</current-setting>
+    <setting>0.000</setting>    <!-- Flaps 1: -11deg -->
+    <setting>0.075</setting>    <!-- Flaps 2:  -6deg -->
+    <setting>0.167</setting>    <!-- Flaps 3:   0deg -->
+    <setting>0.303</setting>    <!-- Flaps 4:   9deg -->
+    <setting>1.000</setting>    <!-- Flaps 5:  55deg -->
+  </flaps>
+
+
+  <glider>
+    <winch>
+      <conf>
+  	<rope_initial_length_m>1000.0</rope_initial_length_m>
+  	<pull_max_lbs>1102.0</pull_max_lbs> <!-- 500daN -->
+      </conf>
+    </winch>
+    <towing>
+      <conf>
+  	<rope_length_m>60.0</rope_length_m>
+  	<nominal_towforce_lbs>500.0</nominal_towforce_lbs>
+  	<breaking_towforce_lbs>9999.0</breaking_towforce_lbs>
+      </conf>
+      <hooked>0</hooked>
+    </towing>
+  </glider>
+
+
+  <asw20>
+    <with-woolthread>1</with-woolthread>
+    <waterballast>
+      <valve type="bool">0</valve>
+      <dumping type="bool">0</dumping>
+    </waterballast>
+  </asw20>
+
+
+  <aircraft-data>
+    <path>/sim/asw20/with-woolthread</path>
+    <path>/controls/flight/auto-coordination</path>
+    <path>/instrumentation/ilec-sc7/volume</path>  
+  </aircraft-data>
+  
+  
+  <status>beta</status>
+  <rating>
+   <FDM type="int">4</FDM>
+   <systems type="int">4</systems>
+   <cockpit type="int">2</cockpit>
+   <model type="int">3</model>
+  </rating>
+
+ </sim>
+ 
+ 
+ <input>
+  <keyboard>
+   <key n="115">
+    <name>s</name>
+    <desc>Toggle Engine Running</desc>
+    <binding>
+     <command>property-toggle</command>
+     <property>/sim/asw20/engine_running</property>
+    </binding>
+   </key>
+
+   <key n="57">
+    <name>9</name>
+      <desc>Increase throttle</desc>
+      <repeatable type="bool">true</repeatable>
+      <binding>
+ 	<command>property-adjust</command>
+ 	<property>/fdm/jsbsim/fcs/throttle-generic-engine-norm</property>
+ 	<step>0.02</step>
+ 	<min>0</min>
+ 	<max>1</max>
+      </binding>
+   </key>    
+
+   <key n="360">
+    <name>PageUp</name>
+      <desc>Increase throttle</desc>
+      <repeatable type="bool">true</repeatable>
+      <binding>
+ 	<command>property-adjust</command>
+ 	<property>/fdm/jsbsim/fcs/throttle-generic-engine-norm</property>
+ 	<step>0.02</step>
+ 	<min>0</min>
+ 	<max>1</max>
+      </binding>
+   </key>    
+
+   <key n="51">
+    <name>3</name>
+      <desc>Decrease throttle</desc>
+      <repeatable type="bool">true</repeatable>
+      <binding>
+ 	<command>property-adjust</command>
+ 	<property>/fdm/jsbsim/fcs/throttle-generic-engine-norm</property>
+ 	<step>-0.02</step>
+ 	<min>0</min>
+ 	<max>1</max>
+      </binding>
+   </key>
+
+   <key n="361">
+    <name>PageDown</name>
+      <desc>Decrease throttle</desc>
+      <repeatable type="bool">true</repeatable>
+      <binding>
+ 	<command>property-adjust</command>
+ 	<property>/fdm/jsbsim/fcs/throttle-generic-engine-norm</property>
+ 	<step>-0.02</step>
+ 	<min>0</min>
+ 	<max>1</max>
+      </binding>
+   </key>
+
+    <!-- Winch -->
+   <key n="23">
+     <name>Ctrl-w</name>
+     <desc>Place Winch and hook in</desc>
+     <binding>
+       <command>nasal</command>
+       <script>asw20.placeWinch()</script>
+     </binding>
+   </key>
+   
+   <key n="119">
+     <name>w</name>
+     <desc>Start winch</desc>
+     <binding>
+       <command>nasal</command>
+       <script>asw20.startWinch()</script>
+     </binding>
+   </key>
+   
+   <key n="87">
+     <name>W</name>
+     <desc>Release winch hook</desc>
+     <binding>
+       <command>nasal</command>
+       <script>asw20.releaseWinch()</script>
+     </binding>
+   </key>
+   <key n="15">
+     <name>Ctrl-o</name>
+     <desc>Find dragger</desc>
+     <binding>
+       <command>nasal</command>
+       <script>asw20.findDragger()</script>
+     </binding>
+   </key>
+   
+   <key n="111">
+     <name>o</name>
+     <desc>Hook on dragger</desc>
+     <binding>
+       <command>nasal</command>
+       <script>asw20.hookDragger()</script>
+     </binding>
+   </key>
+   
+   <key n="79">
+     <name>O</name>
+     <desc>Release drag hook</desc>
+     <binding>
+       <command>nasal</command>
+       <script>asw20.releaseDragger()</script>
+     </binding>
+   </key>
+   
+   <key n="4">
+     <name>Ctrl-d</name>
+     <desc>update presets drag robot</desc>
+     <binding>
+       <command>nasal</command>
+       <script>asw20.presetsRobot()</script>
+     </binding>
+   </key>
+   
+   <key n="100">
+     <name>d</name>
+     <desc>Drag robot</desc>
+     <binding>
+       <command>nasal</command>
+       <script>asw20.startDragRobot()</script>
+     </binding>
+   </key>
+   
+   <key n="68">
+     <name>D</name>
+     <desc>run drag robot</desc>
+     <binding>
+       <command>nasal</command>
+       <script>asw20.setupDragRobot()</script>
+     </binding>
+   </key>
+
+   <key n="84">
+     <name>T</name>
+     <desc>load water ballast</desc>
+     <binding>
+       <command>property-adjust</command>
+       <property>/fdm/jsbsim/inertia/pointmass-weight-lbs[1]</property>
+       <step type="double">11.023115</step> <!-- 5 liter per tank -->
+       <min>0.</min>
+       <max>121.25427</max> <!-- max 55 liter per Tank --> 
+     </binding>
+     <binding>
+       <command>nasal</command>
+       <script>
+     	 var weight_lbs = getprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[1]");
+     	 var weight_kg = weight_lbs / 2.204623;
+     	 var water_both_tanks_liter = weight_kg * 2;
+   	 # setprop("sim/messages/atc", "loading 10 liter water ballast");
+     	 var atc_msg = sprintf("%.2f liter water ballast on board", water_both_tanks_liter);
+     	 setprop("sim/messages/atc", atc_msg);
+      </script>
+     </binding>
+   </key>
+   
+   <key n="116">
+     <name>t</name>
+     <desc>toggle ballast dumping</desc>
+     <binding>
+       <command>property-toggle</command>
+       <property>/sim/asw20/waterballast/valve</property>      
+     </binding>
+   </key>
+   
+  </keyboard> 
+ </input> 
+
+
+ <nasal>
+   <asw20>
+     <file>Aircraft/Instruments-3d/glider/vario/ilec-sc7/ilec-sc7.nas</file>
+     <file>Aircraft/asw20/Nasal/wool-thread.nas</file>
+     <file>Aircraft/asw20/Nasal/AR3201.nas</file>
+     <file>Aircraft/asw20/Nasal/dialogs.nas</file>
+     <file>Aircraft/asw20/Nasal/winch.nas</file>
+     <file>Aircraft/asw20/Nasal/aerotowing.nas</file>
+     <file>Aircraft/asw20/Nasal/dragrobot.nas</file>
+     <file>Aircraft/asw20/Nasal/messages.nas</file>	 
+   </asw20>
+ </nasal>
+
+
+ <fdm>
+   <jsbsim>
+     <fcs>
+       <throttle-generic-engine-norm type="double">0.</throttle-generic-engine-norm>
+     </fcs> 
+    </jsbsim>
+ </fdm>
+
+
+ <controls>
+   <flight>
+     <auto-coordination-factor type="float">0.5</auto-coordination-factor>
+     <flaps>0.167</flaps>
+   </flight>
+ </controls> 
+
+
+ <instrumentation>
+   <ilec-sc7>
+     <volume>0.1</volume>
+   </ilec-sc7>  
+ </instrumentation>
+  
+</PropertyList>
