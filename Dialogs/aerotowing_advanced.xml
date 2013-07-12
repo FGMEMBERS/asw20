@@ -22,7 +22,9 @@
   <hrule/>
 
 <!-- advanced aerotowing parameters -->
+
   <!-- nominal tow force -->
+<!--
   <group>
     <layout>hbox</layout>
     <text>
@@ -71,12 +73,16 @@
       </group>
     </group>
   </group>
+
+-->
+
+
     <!-- breaking tow force -->
   <group>
     <layout>hbox</layout>
     <text>
       <halign>left</halign>
-      <label>Breaking Tow Force</label>
+      <label>Breaking Tow Force_lbs</label>
     </text>
     <group>
       <layout>hbox</layout>
@@ -121,6 +127,7 @@
     </group>
   </group>
 <!-- force starting point -->
+<!--
   <group>
     <layout>hbox</layout>
     <text>
@@ -168,12 +175,15 @@
       </group>
     </group>
   </group>
+-->
+
+
 <!-- tow characteristics -->
   <group>
     <layout>hbox</layout>
     <text>
       <halign>left</halign>
-      <label>Tow Characteristics</label>
+      <label>Tow Elastic Constant [N]</label>
     </text>
     <group>
       <layout>hbox</layout>
@@ -196,14 +206,14 @@
       <group>
         <width>60</width>
         <text>
-          <label>1</label>
+          <label>0N</label>
         </text>
       </group>
       <slider>
-        <name>aerotow_length</name>
+        <name>elastic-constant</name>
         <property>/sim/glider/towing/conf/rope_characteristics</property>
-        <min>1</min>
-        <max>4</max>
+        <min>0</min>
+        <max>15000</max>
         <binding>
           <command>dialog-apply</command>
         </binding>
@@ -211,7 +221,7 @@
       <group>
         <width>60</width>
         <text>
-          <label>4</label>
+          <label>15000N</label>
         </text>
       </group>
     </group>

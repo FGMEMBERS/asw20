@@ -9,7 +9,7 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
   <fileheader>
     <author> D-NXKT </author>
     <email> d_nxkt@yahoo.de </email>
-    <filecreationdate> 2013-01-01 </filecreationdate>
+    <filecreationdate> 2013-07-12 </filecreationdate>
     <version> $Version 1.0 $ </version>
     <description> Models ASW-20 sailplane (conversion from UIUC-FDM) </description>
     <note> some kind of remarks</note>
@@ -18,11 +18,19 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
        see "/Aircraft/UIUC/asw20-v1-nl/aircraft.dat"
     </documentation>
     <reference>
-       /Aircraft/UIUC/asw20-v1-nl/README.asw20.html   
-       /Aircraft/UIUC/asw20-v1-nl/aircraft.dat
-       /Aircraft/UIUC/asw20-v1-nl/CDfa-01.dat
-       /Aircraft/UIUC/asw20-v1-nl/CLfa-01.dat
-       /Aircraft/UIUC/asw20-v1-nl/Cmfa-01.dat
+       Ref 1: /Aircraft/UIUC/asw20-v1-nl/README.asw20.html   
+              /Aircraft/UIUC/asw20-v1-nl/aircraft.dat
+              /Aircraft/UIUC/asw20-v1-nl/CDfa-01.dat
+              /Aircraft/UIUC/asw20-v1-nl/CLfa-01.dat
+              /Aircraft/UIUC/asw20-v1-nl/Cmfa-01.dat
+       Ref 2: Flight and Operations Manual for Sailplane Model ASW 20; July, 1977 Edition
+              (http://ebookbrowse.com/asw20-flight-manual-pdf-d182065150)
+       Ref 3: Luftfahrt-Bundesamt Geraetekennblatt Nr. 314; Ausgabe Nr.13; 20.02.1997
+       Ref 4: Johnson, R.H., "A Flight Test Evaluation of the ASW 20," Soaring Magazine, May 1978
+       Ref 5: http://www.alexander-schleicher.de/service/polaren/polare20A.jpg
+       Ref 6: http://www.alpenstreckenflug.de/Prospekte/Alexander%20Schleicher/ASW%2020/page_01.htm
+       Ref 7: Jones, Nathan H, "Glider Ground Effect Investigation" Thesis, Department of The Air Force 
+              Air University, Wright-Patterson Air force Base Ohio, USA, 1989, Storming Media, Washington DC 20002
     </reference>
   </fileheader>
   
@@ -32,21 +40,30 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
     <wingspan unit="FT">49.2</wingspan>     <!-- [x] see asw20 notes 021011 -->
     <chord unit="FT">2.297</chord>          <!-- [x] see asw20 notes 021011 -->
     <wing_incidence>0.00</wing_incidence>   
+     
+    <!--
+        ___________________________________________________
+	
+         datum of all locations is wing root leading edge!
+	 ( distance xDatum to xModel = +0.36m
+	   xJSBsim = xModel + 0.36m ) 
+        ___________________________________________________
+    -->
 
     <location name="AERORP" unit="M">
-      <x>0.</x>
+      <x>0.24</x>
       <y>0.</y>
       <z>0.</z>
     </location>
 
     <location name="EYEPOINT" unit="M">
-      <x>-0.68</x>
-      <y>0.16</y>
-      <z>0.0</z>
+      <x>-0.32</x>
+      <y>0.</y>
+      <z>0.16</z>
     </location>
 
     <location name="VRP" unit="M">
-      <x>0.</x>
+      <x>0.36</x>
       <y>0.</y>
       <z>0.</z>
     </location>
@@ -55,32 +72,68 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
 
   <mass_balance>
   
-    <ixx unit="SLUG*FT2"> 950.478</ixx>    <!-- [x] see asw20 notes 021011 -->
-    <iyy unit="SLUG*FT2"> 396.277</iyy>	   <!-- [x] see asw20 notes 021011 -->
-    <izz unit="SLUG*FT2">1295.657</izz>    <!-- [x] see asw20 notes 021011 -->
-    <ixz unit="SLUG*FT2">   0.   </ixz>	   <!-- [x] see asw20 notes 021011 -->
+    <ixx unit="KG*M2">1288.684</ixx>    <!-- [x] see asw20 notes 021011 <ixx unit="SLUG*FT2"> 950.478</ixx> -->
+    <iyy unit="KG*M2"> 510.085</iyy>	   <!-- minus Steiner Pilot (=75.55*0.6^2) [x] see asw20 notes 021011 <iyy unit="SLUG*FT2"> 396.277</iyy> <iyy unit="KG*M2"> 537.283</iyy>-->
+    <izz unit="KG*M2">1756.687</izz>    <!-- [x] see asw20 notes 021011 <izz unit="SLUG*FT2">1295.657</izz> -->
+    <ixz unit="KG*M2">   0.   </ixz>	<!-- [x] see asw20 notes 021011 <ixz unit="SLUG*FT2">   0.   </ixz> -->
 					 
-    <emptywt unit="LBS">728.736</emptywt>  <!-- [x] see asw20 notes 021011 --> 
+    <emptywt unit="KG">255.0</emptywt>  <!-- Ref. 2 p. 17 --> 
     <location name="CG" unit="M">
-      <x>0.</x>
+      <x>0.6283</x>  <!-- 0.178 -->
       <y>0.</y>
       <z>0.</z>
     </location>
 
     <pointmass name="Pilot">
-      <weight unit="LBS">0.</weight>  
+      <weight unit="KG">85.</weight>  
       <location name="POINTMASS" unit="M">
-        <x>0.</x>
+        <x>-0.595</x> <!-- (0.55m - 6.25m)/2  (was -0.25 error?)-->
         <y>0.</y>
         <z>0.</z>
+      </location>
+    </pointmass>        
+
+    <pointmass name="Baggage">
+      <weight unit="KG">6.</weight>  
+      <location name="POINTMASS" unit="M">
+        <x>0.08</x>
+        <y>0.</y>
+        <z>-0.1</z>
+      </location>
+    </pointmass>        
+
+    <pointmass name="TrimDisc">
+      <weight unit="KG">2.</weight>  
+      <location name="POINTMASS" unit="M">
+        <x>-1.48</x>   <!-- -1.84 -->
+        <y>0.</y>
+        <z>-0.3</z>
+      </location>
+    </pointmass>        
+
+    <pointmass name="PermanentTrimWeight">
+      <weight unit="KG">0.</weight>  
+      <location name="POINTMASS" unit="M">
+        <x>4.16</x>
+        <y>0.</y>
+        <z>0.</z>
+      </location>
+    </pointmass>        
+
+    <pointmass name="InstrumentsPanel">
+      <weight unit="KG">2.</weight>  
+      <location name="POINTMASS" unit="M">
+        <x>-1.250</x>
+        <y>0.</y>
+        <z>-0.15</z>
       </location>
     </pointmass>        
 
     <pointmass name="WaterBallast_left">
       <weight unit="KG">0.</weight>  
       <location name="POINTMASS" unit="M">
-        <x>-0.1</x>
-        <y>-2.</y>
+        <x>0.26</x>
+        <y>-2.6</y>
         <z>0.</z>
       </location>
     </pointmass>        
@@ -88,8 +141,8 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
     <pointmass name="WaterBallast_right">
       <weight unit="KG">0.</weight>  
       <location name="POINTMASS" unit="M">
-        <x>-0.1</x>
-        <y>2.</y>
+        <x>0.26</x>
+        <y>2.6</y>
         <z>0.</z>
       </location>
     </pointmass>        
@@ -100,16 +153,17 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
 
     <contact name="Main_Gear" type="BOGEY">
       <location unit="M">
-        <x>-0.28</x>
+        <x> 0.08</x>
         <y> 0.0 </y>
-        <z>-0.74</z>
+        <!-- <z>-0.74</z>  -->
+	<z>-0.94</z>
       </location>
-      <static_friction>1.50</static_friction>
-      <dynamic_friction>0.80</dynamic_friction>
-      <rolling_friction>0.01</rolling_friction>
-      <spring_coeff unit="LBS/FT">2400</spring_coeff>
-      <damping_coeff unit="LBS/FT/SEC">500</damping_coeff>
-      <damping_coeff_rebound unit="N/M/SEC">2000.</damping_coeff_rebound>
+      <static_friction>0.70</static_friction>
+      <dynamic_friction>0.50</dynamic_friction>
+      <rolling_friction>0.02</rolling_friction>
+      <spring_coeff unit="N/M">11200</spring_coeff>
+      <damping_coeff unit="N/M/SEC">5600</damping_coeff>
+      <damping_coeff_rebound unit="N/M/SEC">5600.</damping_coeff_rebound>
       <max_steer unit="DEG">0</max_steer>
       <brake_group>LEFT</brake_group>
       <retractable>1</retractable>
@@ -117,58 +171,59 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
 
     <contact name="Nose" type="STRUCTURE">
       <location unit="M">
-        <x>-2.25</x>
+        <x>-1.89</x>
         <y> 0.0 </y>
         <z>-0.32</z>
       </location>
       <static_friction>1.80</static_friction>
       <dynamic_friction>0.2</dynamic_friction>
-      <spring_coeff unit="LBS/FT">1200</spring_coeff>
-      <damping_coeff unit="LBS/FT/SEC">150</damping_coeff>
-      <damping_coeff_rebound unit="N/M/SEC">2000.</damping_coeff_rebound>
+      <spring_coeff unit="N/M">9800</spring_coeff>
+      <damping_coeff unit="LBS/FT/SEC">490</damping_coeff>
+      <damping_coeff_rebound unit="N/M/SEC">4900.</damping_coeff_rebound>
     </contact> 
 
     <contact name="FuselageBottom1" type="STRUCTURE">
       <location unit="M">
-        <x>-1.50</x>
+        <x>-1.14</x>
         <y> 0.0 </y>
         <z>-0.55</z>
       </location>
-      <static_friction>1.80</static_friction>
+      <static_friction>1.0</static_friction>
       <dynamic_friction>0.2</dynamic_friction>
       <spring_coeff unit="LBS/FT">1200</spring_coeff>
-      <damping_coeff unit="LBS/FT/SEC">150</damping_coeff>
-      <damping_coeff_rebound unit="N/M/SEC">2000.</damping_coeff_rebound>
+      <damping_coeff unit="LBS/FT/SEC">500</damping_coeff>
+      <damping_coeff_rebound unit="N/M/SEC">500.</damping_coeff_rebound>
     </contact> 
 
     <contact name="FuselageBottom2" type="STRUCTURE">
       <location unit="M">
-        <x>-0.8</x>
+        <x>-0.44</x>
         <y>0.0</y>
         <z>-0.57</z>
       </location>
-      <static_friction>1.80</static_friction>
+      <static_friction>1.0</static_friction>
       <dynamic_friction>0.2</dynamic_friction>
       <spring_coeff unit="LBS/FT">1200</spring_coeff>
-      <damping_coeff unit="LBS/FT/SEC">150</damping_coeff>
-      <damping_coeff_rebound unit="N/M/SEC">2000.</damping_coeff_rebound>
+      <damping_coeff unit="LBS/FT/SEC">500</damping_coeff>
+      <damping_coeff_rebound unit="N/M/SEC">500.</damping_coeff_rebound>
     </contact> 
 
     <contact name="Tail_Skid" type="STRUCTURE">
       <location unit="M">
-        <x> 3.49</x>
+        <x> 4.15</x>
         <y> 0.0 </y>
         <z>-0.24</z>
       </location>
-      <static_friction>1.80</static_friction>
-      <dynamic_friction>0.2</dynamic_friction>
-      <spring_coeff unit="LBS/FT">800</spring_coeff>
-      <damping_coeff unit="LBS/FT/SEC">400</damping_coeff>  
+      <static_friction>1.0</static_friction>
+      <dynamic_friction>0.8</dynamic_friction>
+      <spring_coeff unit="N/M">8000</spring_coeff>
+      <damping_coeff unit="N/M/SEC">4000</damping_coeff>
+      <damping_coeff_rebound unit="N/M/SEC">4000.</damping_coeff_rebound>  
     </contact> 
 
     <contact name="Tail_top" type="STRUCTURE">
       <location unit="M">
-        <x>3.46</x>
+        <x>4.12</x>
         <y>0.0 </y>
         <z>1.23</z>
       </location>
@@ -179,29 +234,29 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
     </contact> 
 
     <contact name="Left_Wing" type="STRUCTURE">
-      <location unit="FT">
-        <x>0.0</x>
-        <y>-26</y>
-        <z> 1.7</z>
+      <location unit="M">
+        <x> 0.11</x>
+        <y>-7.92</y>
+        <z> 0.52</z>
       </location>
       <static_friction>1.80</static_friction>
       <dynamic_friction>0.2</dynamic_friction>
       <spring_coeff unit="LBS/FT">300</spring_coeff>
       <damping_coeff unit="LBS/FT/SEC">150</damping_coeff>
-      <damping_coeff_rebound unit="N/M/SEC">2000.</damping_coeff_rebound>
+      <damping_coeff_rebound unit="N/M/SEC">150.</damping_coeff_rebound>
     </contact> 
     
     <contact name="Right_Wing" type="STRUCTURE">
-      <location unit="FT">
-        <x>0.0</x>
-        <y>26.0</y>
-        <z> 1.7</z>
+      <location unit="M">
+        <x>0.11</x>
+        <y>7.92</y>
+        <z>0.52</z>
       </location>
       <static_friction>1.80</static_friction>
       <dynamic_friction>0.2</dynamic_friction>
       <spring_coeff unit="LBS/FT">300</spring_coeff>
       <damping_coeff unit="LBS/FT/SEC">150</damping_coeff>
-      <damping_coeff_rebound unit="N/M/SEC">2000.</damping_coeff_rebound>
+      <damping_coeff_rebound unit="N/M/SEC">150.</damping_coeff_rebound>
     </contact> 
                
   </ground_reactions>
@@ -212,9 +267,9 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
     <!-- Method DG101 (Nikolaus Kerner) -->
     <property>fcs/winch-cmd-norm</property>
     
-    <force name="winchx" frame="BODY" >
+    <force name="winchx" frame="BODY" unit="N" >
       <location unit="M">
-        <x> -0.5</x>  
+        <x> -0.14</x>  
         <y>  0.0</y>
         <z> -0.6</z>
       </location>
@@ -225,9 +280,9 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
       </direction>
     </force>
     
-    <force name="winchy" frame="BODY" >
+    <force name="winchy" frame="BODY" unit="N" >
       <location unit="M">
-        <x> -0.5</x>  
+        <x> -0.14</x>  
         <y>  0.0</y>
         <z> -0.6</z>
       </location>
@@ -238,9 +293,9 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
       </direction>
     </force>
     
-    <force name="winchz" frame="BODY" >
+    <force name="winchz" frame="BODY" unit="N" >
       <location unit="M">
-        <x> -0.5</x>  
+        <x> -0.14</x>  
         <y>  0.0</y>
         <z> -0.6</z>
       </location>
@@ -254,11 +309,11 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
     
     <property>fcs/dragger-cmd-norm</property>
     
-    <force name="dragx" frame="BODY" >
+    <force name="dragx" frame="BODY" unit="N" >
       <location unit="M">
-        <x> -0.5</x>  
+        <x> -1.89</x>  
         <y>  0.00</y>
-        <z> -0.6</z>
+        <z> -0.32</z>
       </location>
       <direction>
         <x> 1.0</x>
@@ -267,11 +322,11 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
       </direction>
     </force>
     
-    <force name="dragy" frame="BODY" >
+    <force name="dragy" frame="BODY" unit="N" >
       <location unit="M">
-        <x> -0.5</x>
+        <x> -1.89</x>
         <y>  0.00</y>
-        <z> -0.6</z>
+        <z> -0.32</z>
       </location>
       <direction>
         <x> 0.0</x>
@@ -280,11 +335,11 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
       </direction>
     </force>
     
-    <force name="dragz" frame="BODY" >
+    <force name="dragz" frame="BODY" unit="N" >
       <location unit="M">
-        <x> -0.5</x> 
+        <x> -1.89</x> 
         <y>  0.0</y>
-        <z> -0.6</z>
+        <z> -0.32</z>
       </location>
       <direction>
         <x> 0.0</x>
@@ -295,7 +350,7 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
 
     <force name="GenericEngine" frame="BODY">
       <location unit="M">
-        <x>0.0</x>
+        <x>0.36</x>
         <y>0.0</y>
         <z>0.5</z>
       </location>
@@ -328,18 +383,19 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
 
       <aerosurface_scale name="Elevator Control">
         <input>fcs/pitch-trim-sum</input>
+	<gain>0.01745</gain>
         <range>
-          <min>-0.43633</min>
-          <max>+0.38397</max>
+          <min>-24.5</min>  <!-- Ref. 3 p. 3 -->
+          <max>+20.0</max>
         </range>
         <output>fcs/elevator-pos-rad</output>
       </aerosurface_scale>
 
       <aerosurface_scale name="elevator normalization">
-        <input>fcs/elevator-pos-rad</input>
+        <input>fcs/elevator-pos-deg</input>
         <domain>
-          <min>-0.43633</min>
-          <max>+0.38397</max>
+          <min>-24.5</min>
+          <max>+24.5</max>
         </domain>
         <range>
           <min>-1</min>
@@ -351,13 +407,23 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
     </channel>
 
     <channel name="Roll">
-    
+                                                    
+      <aerosurface_scale name="Aileron Control Rad">
+        <input>fcs/aileron-cmd-norm</input> 
+	<gain>0.01745</gain>                        <!-- Ref. 2 p. 42 -->
+        <range>                                     <!-- Flap Pos. 3 (0deg) -->
+          <min>-16.</min>
+          <max>+16.</max>
+        </range>
+        <!-- <output>fcs/aileron-pos-rad</output> -->
+      </aerosurface_scale>
+
       <aerosurface_scale name="Left Aileron Control">
         <input>fcs/aileron-cmd-norm</input> 
-	<gain>-1.</gain>    
-        <range>
-          <min>-0.43633</min>
-          <max>+0.43633</max>
+	<gain>0.01745</gain>    
+        <range>                                     <!-- Flap Pos. 3 (0deg) -->
+          <min>-16.</min>
+          <max>+14.</max>
         </range>
         <output>fcs/left-aileron-pos-rad</output>
       </aerosurface_scale>
@@ -365,8 +431,8 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
       <aerosurface_scale name="left aileron normalization">
         <input>fcs/left-aileron-pos-rad</input>
         <domain>
-          <min>-0.43633</min>
-          <max>+0.43633</max>
+          <min>-0.27925</min>   <!-- = -16deg -->
+          <max>+0.27925</max>
         </domain>
         <range>
           <min>-1</min>
@@ -376,11 +442,11 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
       </aerosurface_scale>
 
       <aerosurface_scale name="Right Aileron Control">
-        <input>fcs/aileron-cmd-norm</input> 
-	<gain>-1.</gain>    
+        <input>-fcs/aileron-cmd-norm</input> 
+	<gain>0.01745</gain>    
         <range>
-          <min>-0.43633</min>
-          <max>+0.43633</max>
+          <min>-16.</min>
+          <max>+14.</max>
         </range>
         <output>fcs/right-aileron-pos-rad</output>
       </aerosurface_scale>
@@ -388,8 +454,8 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
       <aerosurface_scale name="right aileron normalization">
         <input>fcs/right-aileron-pos-rad</input>
         <domain>
-          <min>-0.43633</min>
-          <max>+0.43633</max>
+          <min>-0.27925</min>
+          <max>+0.27925</max>
         </domain>
         <range>
           <min>-1</min>
@@ -415,7 +481,7 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
         <input>fcs/rudder-command-sum</input>
 	<gain>0.01745</gain>
         <range>
-          <min>-31.</min>
+          <min>-31.</min>    <!-- Ref. 3 p 4 -->
           <max>+31.</max>
         </range>
         <output>fcs/rudder-pos-rad</output>
@@ -525,7 +591,7 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
           </setting>
           <setting>
             <position>1</position>
-            <time>1</time>
+            <time>1.35</time>
           </setting>
         </traverse>
         <output>gear/gear-pos-norm</output>
@@ -556,90 +622,198 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
         <default value="0"/>
         <test value="1">
           /sim/asw20/waterballast/valve eq 1
-          inertia/pointmass-weight-lbs[1] gt 0.
+          inertia/pointmass-weight-lbs[5] gt 0.
         </test>
+        <!-- <output>/sim/asw20/waterballast/dumping</output> -->
       </switch>	      
     </channel>
   
     <channel name="Wing Deflection">
+    
+      <fcs_function name="/sim/asw20/wing_load_lbs">
+        <function>
+	  <sum>
+            <property>forces/fbz-aero-lbs</property>
+	    <product>
+	      <!-- <property>accelerations/Nz</property>  usage will cause wing-failure at initialization -->
+	      <property>/accelerations/n-z-cg-fps_sec</property>
+	      <value>-1.</value>
+	      <sum>
+	        <value>306.</value>				      <!-- Ref. 4 p. 1 : 153lbs * 2   -->
+	        <property>inertia/pointmass-weight-lbs[4]</property>  <!-- water ballast left -->
+	        <property>inertia/pointmass-weight-lbs[5]</property>  <!-- water ballast right -->
+	      </sum>
+	    </product>
+	  </sum>
+        </function>
+      </fcs_function>
+
       <fcs_function name="/sim/asw20/wing_load">
         <function>
           <product>
-            <property>forces/fbz-aero-lbs</property>
-	    <value>0.0014</value>
+	    <property>/sim/asw20/wing_load_lbs</property>
+	    <value>0.0014</value> 
+	    <value>1.9</value>   
           </product>
         </function>
       </fcs_function>
-    </channel>
+      
+      <fcs_function name="Wing Contact Point Deflection">
+        <function>
+	  <sum>
+            <product>
+	      <sum>
+                <property>/sim/asw20/wing_load</property>
+	        <value>1.</value>     <!-- offset 1.0 deg -->
+	      </sum>
+	      <value>-0.01745</value> <!-- deg to rad -->
+	      <value>11.75</value>    <!-- inner wing length + 2 * outer wing length [m] -->
+	      <value>39.3701</value>  <!-- [m] to [inch] -->
+            </product>
+	    <value>23.</value>
+	  </sum>
+        </function>
+	<output>contact/unit[6]/z-position</output>
+	<output>contact/unit[7]/z-position</output>
+      </fcs_function>
 
+      <fcs_function name="Wing View Deflection">
+        <function name="Wing View Deflection">
+	  <sum>
+            <product>
+	      <property>contact/unit[6]/z-position</property>
+	      <value>0.0254</value>   <!-- [inch] to [m] -->
+	    </product>
+	    <value>0.4</value>        <!-- offset [m] -->
+	  </sum>
+        </function>
+      </fcs_function>
+
+      <switch name="systems/switch/view_offset">
+        <default value="/sim/current-view/y-offset-m"/>
+        <test value="Wing-View-Deflection">
+	   /sim/current-view/view-number eq 8
+        </test>
+	<output>/sim/current-view/y-offset-m</output>
+    </switch>
+      
+    </channel>
+  
   </flight_control>
 
   <aerodynamics>
-  
+
+    <function name="aero/alpha-shifted-deg">
+      <sum>
+    	<property>aero/alpha-deg</property>
+        <table>       
+    	  <independentVar
+    	  lookup="row">fcs/flap-pos-deg</independentVar>
+    	  <tableData>	     <!-- delta alpha to gain V_minimum_loss in Ref. 2-->
+    	    -11.  -4.
+    	     -6.  -2.
+    	      0.   0.
+    	      9.   2.
+    	     55.   4.
+    	  </tableData>
+    	</table>
+      </sum>
+    </function>
+    
+     <function name="aero/F_GroundEffect">   <!-- Ref. 7 p 23 (2.7) -->
+      <difference>
+        <value>1.</value>
+	<exp>
+	  <product>
+	    <value>-2.48</value>
+	    <pow>
+	      <product>
+	        <value>0.04</value>
+	   <!-- <property>position/h-agl-ft</property>    initialization problem -->
+		<property>/position/altitude-agl-ft</property>
+	      </product>
+	      <value>0.768</value>
+	    </pow> 
+	  </product>
+	</exp>
+      </difference>
+    </function>
+     
+
     <axis name="LIFT">
+      <function name="aero/coefficient/CLo">
+          <description>Lift_correction_to_get_Vmin_for_FlapPos3</description>
+          <product>
+              <property>aero/qbar-psf</property>
+              <property>metrics/Sw-sqft</property>
+              <value>0.0259</value> <!-- delta ca_max to gain Vmin for flap pos 3 and 80% elevator deflection (-18deg) -->
+	      <value>1.0</value>
+          </product>
+      </function>
+
       <function name="aero/coefficient/CLalpha">
         <description>Lift_due_to_alpha</description>
         <product>
           <property>aero/qbar-psf</property>
           <property>metrics/Sw-sqft</property>
           <table>
-            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="row">aero/alpha-shifted-deg</independentVar>
             <tableData>
-               -180 0
-               -175.83   0.6968
-               -171.82   0.87267
-               -169.88   0.77232
-               -166.46   0.67202
-               -161.54   0.64081
-               -157.59   0.66605
-               -150.13   0.84832
-               -143.18   0.99292
-               -139.24   0.99305
-               -135.31   0.91788
-               -126.49   0.74873
-               -113.3    0.39145
-                -94.803 -0.089280
-                -81.811 -0.42832
-                -70.827 -0.73463
-                -61.969 -0.9072
-                -52.992 -1.0204
-                -47.323 -1.0354
-                -40.827 -0.98809
-                -34.803 -0.83086
-                -30.669 -0.69437
-                -27.244 -0.62022
-                -24.409 -0.64408
-                -22.992 -0.72729
-                -21.929 -0.80753
-                -19.921 -0.89967
-                -17.677 -0.89678
-                -16.732 -0.84631
-                  2.2835 1.0481
-                  3.8189 1.1639
-                  5.4724 1.2351
-                  9      1.35
-                 10      1.37
-                 15      0.95
-                 20       .89
-                 24.252  0.91966
-                 29.331  0.9789
-                 35.591  1.0381
-                 43.031  1.0408
-                 48.701  0.98420
-                 55.551  0.87110
-                 70.787  0.46961
-                 80.472  0.21088
-                 99.537 -0.2413
-                120.08  -0.74267
-                130.39  -0.91177
-                135.79  -0.96807
-                141.73  -0.90510
-                151.67  -0.67254
-                157.60  -0.62212
-                163.02  -0.65331
-                170.36  -0.82879
-                174.37  -0.63409
-                179.01  -3.4390e-05
+               -180    0.0
+               -175.83 0.6968
+               -171.82 0.87267
+               -169.88 0.77232
+               -166.46 0.67202
+               -161.54 0.64081
+               -157.59 0.66605
+               -150.13 0.84832
+               -143.18 0.99292
+               -139.24 0.99305
+               -135.31 0.91788
+               -126.49 0.74873
+               -113.3  0.39145
+               -94.803 -0.089280
+               -81.811 -0.42832
+               -70.827 -0.73463
+               -61.969 -0.9072
+               -52.992 -1.0204
+               -47.323 -1.0354
+               -40.827 -0.98809
+               -34.803 -0.83086
+               -30.669 -0.69437
+               -27.244 -0.62022
+               -24.409 -0.64408
+               -22.992 -0.72729
+               -21.929 -0.80753
+               -19.921 -0.89967
+               -17.677 -0.89678
+               -16.732 -0.84631
+               2.2835 1.0481
+               3.8189 1.1639
+               5.4724 1.2351
+               9      1.35
+               10     1.37
+               15     0.95
+               20     .89
+               24.252 0.91966
+               29.331 0.9789
+               35.591 1.0381
+               43.031 1.0408
+               48.701 0.98420
+               55.551 0.87110
+               70.787 0.46961
+               80.472 0.21088
+               99.537 -0.2413
+               120.08 -0.74267
+               130.39 -0.91177
+               135.79 -0.96807
+               141.73 -0.90510
+               151.67 -0.67254
+               157.60 -0.62212
+               163.02 -0.65331
+               170.36 -0.82879
+               174.37 -0.63409
+               179.01 -3.4390e-05
             </tableData>
           </table>
         </product>
@@ -682,8 +856,21 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
           <product>
             <property>aero/qbar-psf</property>
             <property>metrics/Sw-sqft</property>
+            <table>	  
+              <independentVar
+              lookup="row">fcs/flap-pos-deg</independentVar>
+              <tableData>        <!-- delta ca_max to gain Vmin in Ref. 2-->
+                -11.  -0.1368
+                 -6.  -0.0363
+                  0.   0.0000
+                  9.   0.0774
+                 55.   0.2537
+              </tableData>
+            </table>
+      <!--
 	    <property>fcs/flap-pos-rad</property>
-            <value>1.0</value>  <!-- UIUC  0.2 -->
+            <value>0.2</value>
+      -->
           </product>
       </function>
 	    
@@ -693,7 +880,27 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
             <property>aero/qbar-psf</property>
             <property>metrics/Sw-sqft</property>
             <property>fcs/speedbrake-pos-norm</property>
-            <value>-0.01</value>  <!-- rough guess -->
+            <table>	             <!-- Vmin +7km/h Ref. 2 -->
+              <independentVar
+              lookup="row">fcs/flap-pos-deg</independentVar>
+              <tableData>       
+                -11.  -0.1935
+                 -6.  -0.2173
+                  0.  -0.2260
+                  9.  -0.2451
+                 55.  -0.2900
+              </tableData>
+            </table>
+          </product>
+      </function>
+
+      <function name="aero/coefficient/CLDrain">
+          <description>Lift_due_to_Rain</description>
+          <product>
+            <property>aero/qbar-psf</property>
+            <property>metrics/Sw-sqft</property>
+            <property>/environment/rain-norm</property>
+	    <value>-0.3</value>  <!-- first guess  -->
           </product>
       </function>
 	    
@@ -704,9 +911,20 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
       <function name="aero/coefficient/CDo">
           <description>Drag_at_zero_lift</description>
           <product>
-              <property>aero/qbar-psf</property>
-              <property>metrics/Sw-sqft</property>
-              <value>0.0125</value>
+            <property>aero/qbar-psf</property>
+            <property>metrics/Sw-sqft</property>
+            <!-- <value>0.0125</value>  -->
+            <table>	            
+              <independentVar
+              lookup="row">fcs/flap-pos-deg</independentVar>
+              <tableData>       
+                -11.   0.005
+                 -6.   0.008
+                  0.   0.0125
+                  9.   0.0160
+                 55.   0.0625
+              </tableData>
+            </table>
           </product>
       </function>
 
@@ -715,14 +933,26 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
           <product>
             <property>aero/qbar-psf</property>
             <property>metrics/Sw-sqft</property>
+	    <property>aero/F_GroundEffect</property>   <!-- Ref. 7 p 23 (2.7) -->
 	    <value>0.0152</value>
 	    <pow>
 	      <difference>
 	    	<pow>
 	    	  <property>aero/cl-squared</property>
             	  <value>0.5</value>
-	    	</pow> 
-	    	<value>0.1</value>
+	    	</pow>		 
+	    	<!-- <value>0.1</value> -->
+            <table>	            
+              <independentVar
+              lookup="row">fcs/flap-pos-deg</independentVar>
+              <tableData>       
+                -11.  -0.28
+                 -6.  -0.1
+                  0.   0.1
+                  9.   0.2
+                 55.   0.2
+              </tableData>
+            </table>
 	      </difference>
 	      <value>2</value>
 	    </pow>
@@ -736,7 +966,7 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
           <property>metrics/Sw-sqft</property>
           <table>	  
             <independentVar
-            lookup="row">aero/alpha-deg</independentVar>
+            lookup="row">aero/alpha-shifted-deg</independentVar>
             <tableData>
              -178.84  0.038801
              -166.41  0.15873
@@ -752,7 +982,16 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
               -43.06  0.85009
               -28.984 0.38095
               -17.507 0.000000
-               11.362 0.000000
+               -3.460 -0.00048
+               -2.340 -0.00146
+               -1.650 -0.00150
+                0.080 -0.00030
+                2.2835 0.00150
+                5.4724 0.00600
+		9.     0.01104 
+               10.     0.05    
+	       15     0.1109
+	       20     0.2633	       
                21.891 0.32099
                41.284 0.97002
                57.728 1.4074
@@ -766,7 +1005,7 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
               155.42  0.43034
               167.58  0.16226
               178.31  0.045855
-            </tableData>
+            </tableData>	    
           </table>
 	</product>
       </function>
@@ -807,10 +1046,12 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
             <property>aero/qbar-psf</property>
             <property>metrics/Sw-sqft</property>
             <property>fcs/mag-left-aileron-pos-rad</property>
+	    <value>1.6</value> <!-- correction factor to keep UIUC-value (UIUC has different deflections)  -->   
             <value>0.0003</value>
           </product>
       </function>
 
+<!-- see cd0 
       <function name="aero/coefficient/CDDf">
           <description>Drag_due_to_Flap_Deflection</description>
           <product>
@@ -819,24 +1060,24 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
             <table>	  
               <independentVar
               lookup="row">fcs/flap-pos-deg</independentVar>
-              <tableData>        <!-- rough guess (experimental) -->
-                -11.  0.0001
-                 -6.  0.0001
-                  0.  0.0001
-                  9.  0.0002
-                 55.  0.0500
+              <tableData>        
+                -11.  0.0
+                 -6.  0.0
+                  0.  0.0
+                  9.  0.0
+                 55.  0.0
               </tableData>
             </table>
           </product>
       </function>
-
+-->
       <function name="aero/coefficient/CDDs">
           <description>Drag_due_to_Speedbrake</description>
           <product>
             <property>aero/qbar-psf</property>
             <property>metrics/Sw-sqft</property>
             <property>fcs/speedbrake-pos-norm</property>
-            <value>0.025</value>  <!-- rough guess -->
+            <value>0.05</value>  <!-- cd_sb * A_sb/A_wing = 2*( 1.4 * 1.2m * 0.15m / 10m^2 ) -->
           </product>
       </function>
 
@@ -846,7 +1087,17 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
             <property>aero/qbar-psf</property>
             <property>metrics/Sw-sqft</property>
 	    <property>gear/gear-pos-norm</property>
-            <value>0.005</value>  <!-- rough guess -->
+            <value>0.025</value>  <!-- rough guess -->
+          </product>
+      </function>
+
+      <function name="aero/coefficient/CDDrain">
+          <description>Drag_due_to_Rain</description>
+          <product>
+            <property>aero/qbar-psf</property>
+            <property>metrics/Sw-sqft</property>
+            <property>/environment/rain-norm</property>
+	    <value>0.1</value>  <!-- first guess  -->
           </product>
       </function>
 
@@ -891,8 +1142,9 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
           <product>
             <property>aero/qbar-psf</property>
             <property>metrics/Sw-sqft</property>
-            <property>fcs/left-aileron-pos-rad</property>
-            <value>-0.0456</value>
+            <property>fcs/aileron-control-rad</property>
+	    <value>1.6</value> <!-- correction factor to keep UIUC-value (UIUC has different deflections)  -->
+            <value>0.0456</value> 
           </product>
       </function>
       
@@ -933,6 +1185,29 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
         </product>
       </function>
 
+      <function name="aero/coefficient/Clp_Stall">
+        <description>Roll_moment_due_to_roll_rate_at_stall</description>
+        <product>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <property>metrics/bw-ft</property>
+          <property>aero/bi2vel</property>
+          <property>velocities/p-aero-rad_sec</property>
+          <value>-0.6843</value>
+          <table>          <!-- increasing factor due to stalled wing -->
+             <independentVar lookup="row">aero/alpha-deg</independentVar>             
+             <tableData>
+	      -180.0    0.0
+                 0.0	0.0
+                 8.0	0.0  
+                15.0   -0.5  
+                50.0   -0.7  
+	       180.0    0.0
+             </tableData>
+          </table>
+        </product>
+      </function>
+
       <function name="aero/coefficient/Clr">
         <description>Roll_moment_due_to_yaw_rate</description>
         <product>
@@ -945,14 +1220,63 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
         </product>
       </function>
 
+      <function name="aero/coefficient/Clr_Stall">
+        <description>Roll_moment_due_to_yaw_rate_at_stall</description>
+        <product>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <property>metrics/bw-ft</property>
+          <property>aero/bi2vel</property>
+          <property>velocities/r-aero-rad_sec</property>
+          <value>0.1551</value>
+          <table>          <!-- increasing factor due to stalled wing -->
+             <independentVar lookup="row">aero/alpha-deg</independentVar>             
+             <tableData>
+	      -180.0    0.0
+                 0.0	0.0
+                 8.0	0.0 
+                15.0    2.0 
+                50.0	0.2
+	       180.0    0.0
+             </tableData>
+          </table>
+        </product>
+      </function>
+
       <function name="aero/coefficient/Clda">
         <description>Roll_moment_due_to_aileron</description>
         <product>
           <property>aero/qbar-psf</property>
           <property>metrics/Sw-sqft</property>
           <property>metrics/bw-ft</property>
-          <property>fcs/left-aileron-pos-rad</property>
-          <value>-0.214</value> 
+          <property>fcs/aileron-control-rad</property>
+	  <value>1.6</value>  <!-- 1.6 correction factor to keep UIUC-value (UIUC has different deflections)  -->
+          <value>0.214</value> 
+        </product>
+      </function>
+
+      <function name="aero/coefficient/Clda_Stall">
+        <description>Roll_moment_due_to_aileron_at_stall</description>
+        <product>         <!-- adverse aileron effectivity -->
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <property>metrics/bw-ft</property>
+          <property>fcs/aileron-control-rad</property>
+	  <value>1.6</value>  <!-- correction factor to keep UIUC-value (UIUC has different deflections)  -->
+          <value>0.214</value>
+            <table>          <!-- increasing factor -->
+              <independentVar lookup="row">aero/alpha-deg</independentVar>
+              <independentVar lookup="column">fcs/aileron-control-rad</independentVar>
+              <tableData> 
+	                 -0.2792        0     0.2792   		     
+    	  	-180.0      0.0        0.0   	0.0
+    	  	   0.0      0.0        0.0   	0.0
+    	  	   8.0      0.0        0.0   	0.0 
+    	  	  13.0     -1.3       -0.5     -1.3 
+    	  	  50.0     -1.        -1.0     -1.
+    	  	 180.0      0.0        0.0   	0.0
+              </tableData>
+	   </table>   
         </product>
       </function>
 
@@ -963,7 +1287,18 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
           <property>metrics/Sw-sqft</property>
           <property>metrics/bw-ft</property>
           <property>fcs/rudder-pos-rad</property>
-          <value>0.0065</value>
+          <value>-0.0065</value> <!-- wrong sign in uiuc (+0.0065)? changed here to -0.0065 (favorable roll moment) -->
+        </product>
+      </function>
+
+      <function name="aero/coefficient/ClWingFailure">
+        <description>Roll_moment_due_to_wing_failure</description>
+        <product>
+          <property>forces/fbz-aero-lbs</property>
+	  <value>1.</value> <!-- only 1 wing remaining -->
+	  <property>metrics/bw-ft</property>
+	  <value>0.25</value> <!-- moment arm: half of 1 wing-span  -->
+	  <property>/sim/asw20/wing-failure-direction</property>
         </product>
       </function>
 
@@ -971,17 +1306,26 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
 
     <axis name="PITCH">
 
-      <!--
+      
       <function name="aero/coefficient/Cmo">
-          <description>Pitching_moment_at_zero_alpha</description>
-          <product>
-              <property>aero/qbar-psf</property>
-              <property>metrics/Sw-sqft</property>
-              <property>metrics/cbarw-ft</property>
-              <value>0.0</value>
-          </product>
+        <description>Pitching_moment_at_zero_alpha</description>
+        <product>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <property>metrics/cbarw-ft</property>
+          <value>1.0</value>
+          <table>	    <!-- shift due to flap position -->
+            <independentVar lookup="row">fcs/flap-pos-deg</independentVar>
+            <tableData>     <!-- rough guess (experimental) -->
+              -11.   0.03
+               -6.   0.01
+          	0.   0.0
+          	9.  -0.01
+               55.  -0.05
+            </tableData>
+          </table>
+        </product>
       </function>
-      -->
       
       <function name="aero/coefficient/Cmalpha">
         <description>Pitch_moment_due_to_alpha</description>
@@ -1265,6 +1609,29 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
         </product>
       </function>
 
+      <function name="aero/coefficient/Cnp_Stall">
+        <description>Yaw_moment_due_to_roll_rate_at_stall</description>
+        <product>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <property>metrics/bw-ft</property>
+          <property>aero/bi2vel</property>
+          <property>velocities/p-aero-rad_sec</property>
+          <value>-0.08591</value>
+          <table>           <!-- increasing factor -->
+             <independentVar lookup="row">aero/alpha-deg</independentVar>             
+             <tableData>
+	      -180.0    0.0
+                 0.0	0.0
+                 8.0	0.0
+                15.0   -2.0   
+                50.0   -0.5
+	       180.0    0.0
+             </tableData>
+          </table>
+        </product>
+      </function>
+
       <function name="aero/coefficient/Cnr">
         <description>Yaw_moment_due_to_yaw_rate</description>
         <product>
@@ -1277,14 +1644,71 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
         </product>
       </function>
 
+      <function name="aero/coefficient/Cnr_Stall">
+        <description>Yaw_moment_due_to_yaw_rate_at_stall</description>
+        <product>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <property>metrics/bw-ft</property>
+          <property>aero/bi2vel</property>
+          <property>velocities/r-aero-rad_sec</property>
+          <value>-0.05389</value>
+          <table>           <!-- increasing factor -->
+             <independentVar lookup="row">aero/alpha-deg</independentVar>             
+             <tableData>
+	      -180.0    0.0
+                 0.0	0.0
+                 9.0	0.0
+                15.0   -2.0   
+                50.0   -0.5   
+	       180.0    0.0
+             </tableData>
+          </table>
+
+        </product>
+      </function>
+
       <function name="aero/coefficient/Cnda">
         <description>Yaw_moment_due_to_aileron</description>
         <product>
           <property>aero/qbar-psf</property>
           <property>metrics/Sw-sqft</property>
           <property>metrics/bw-ft</property>
-          <property>fcs/left-aileron-pos-rad</property>
-	  <value>-0.017</value> <!-- different sign in UIUC??  -->
+          <property>fcs/aileron-control-rad</property>
+	  <value>-0.017</value> <!-- wrong sign in uiuc (+0.017)? Changed here to -0.017 (adverse yaw moment) -->
+          <table>   <!-- adverse yaw moment is dependent on aileron flap position  -->
+            <independentVar lookup="row">fcs/flap-pos-deg</independentVar>
+            <tableData>
+              -11.   0.5
+               -6.   0.8
+          	0.   1.
+          	9.   1.6  <!-- correction factor to keep UIUC-value (UIUC has different deflections)  -->
+               55.   0.9
+            </tableData>
+          </table>
+        </product>
+      </function>
+
+      <function name="aero/coefficient/Cnda_Stall">
+        <description>Yaw_moment_due_to_aileron_at_stall</description>
+        <product>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <property>metrics/bw-ft</property>
+          <property>fcs/aileron-control-rad</property>
+	  <value>1.</value> <!-- no correction factor to keep UIUC-value (UIUC has different deflections)  --><!-- correct UIUC deflection  -->
+	  <value>-0.017</value>
+          <table>           <!-- increasing factor -->
+             <independentVar lookup="row">aero/alpha-deg</independentVar>             
+             <tableData>
+	      -180.0    0.0
+                 0.0	0.0
+                 8.0	0.0
+                15.0    2.0   
+                50.0    0.0 
+	       180.0    0.0
+             </tableData>
+          </table>
         </product>
       </function>
 
@@ -1296,7 +1720,28 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
               <property>metrics/bw-ft</property>
               <property>fcs/rudder-pos-rad</property>
 	      <value>-0.041</value>
+              <table>   
+                <independentVar lookup="row">aero/alpha-deg</independentVar>             
+                <tableData>
+	         -180.  -1.  
+                  -90.0	 0.
+                    0.	 1.
+                   90.   0.   
+	          180.  -1. 
+                </tableData>
+              </table> 
           </product>
+      </function>
+
+      <function name="aero/coefficient/CnWingFailure">
+        <description>Yaw_moment_due_to_wing_failure</description>
+        <product>
+          <property>forces/fbx-aero-lbs</property>
+	  <value>1.</value> <!-- only 1 wing remaining -->
+	  <property>metrics/bw-ft</property>
+	  <value>0.25</value> <!-- moment arm: half of 1 wing-span  -->
+	  <property>/sim/asw20/wing-failure-direction</property>
+        </product>
       </function>
 
     </axis>
@@ -1305,5 +1750,6 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
 
   <system file="GenericEngine"/>
   <system file="WaterBallast"/>
+  <system file="WingFailure"/>
   
 </fdm_config>

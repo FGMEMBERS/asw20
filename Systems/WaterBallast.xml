@@ -11,7 +11,7 @@
     </pure_gain>
 
     <summer name="systems/Water">
-  	<input>inertia/pointmass-weight-lbs[1]</input>	  
+  	<input>inertia/pointmass-weight-lbs[5]</input>	  
         <input>systems/delta_ballast_per_tank_lbs</input>	  
     </summer>
     
@@ -20,7 +20,7 @@
     Has JSBSim additional/different inner time loops? 
 -->
     <summer name="systems/Water">
-  	<input>inertia/pointmass-weight-lbs[1]</input>	  
+  	<input>inertia/pointmass-weight-lbs[5]</input>	  
         <bias>-0.01</bias>	<!-- 50Hz * 0.5 (drop rate) -->  
     </summer>
     <!-- Drop rate still slightly too high but much better.
@@ -28,8 +28,8 @@
 	 Real time acceleration is taken into account!
      -->
 
-    <switch>
-      <default value="inertia/pointmass-weight-lbs[1]"/>
+    <switch name="systems/switch/water-ballast-liter">
+      <default value="inertia/pointmass-weight-lbs[5]"/>
       <test value="systems/Water">
 	 /sim/asw20/waterballast/valve eq 1
       </test>
@@ -38,10 +38,26 @@
   	<max> 800.</max>
       </clipto>
 
-      <output>inertia/pointmass-weight-lbs[1]</output>
-      <output>inertia/pointmass-weight-lbs[2]</output>
+      <output>inertia/pointmass-weight-lbs[5]</output>
+      <output>inertia/pointmass-weight-lbs[6]</output>
 
-    </switch>	    
+    </switch>
+    
+    <summer name="inertia/waterballast_total-lbs">
+  	<input>inertia/pointmass-weight-lbs[5]</input>	  
+        <input>inertia/pointmass-weight-lbs[6]</input>
+    </summer>
+
+    <pure_gain name="inertia/waterballast_total-kg">
+        <input>inertia/waterballast_total-lbs</input>
+	<gain>0.453592</gain>
+    </pure_gain>
+
+    <pure_gain name="inertia/weight-kg">
+        <input>inertia/weight-lbs</input>
+	<gain>0.453592</gain>
+    </pure_gain>	   
+	    
   </channel>
   
 </system>

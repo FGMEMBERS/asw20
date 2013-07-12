@@ -117,8 +117,8 @@
 # store global values or plane-specific values to prepare for reset option
 var globalsWinch = func {
   var glob_rope_initial_length_m = 800;                 # default length 800m
-  var glob_pull_max_lbs = 1102;                         # default force 1102lbs=500daN
-  var glob_pull_max_speed_mps = 40;                     # default speed 40m/s
+  var glob_pull_max_lbs = 900;                         # default force 1102lbs=500daN
+  var glob_pull_max_speed_mps = 32;                     # default speed 40m/s
   var glob_k_speed_x1 = 0.85;
   var glob_k_speed_y1 = 1.00;
   var glob_k_speed_x2 = 1.00;
@@ -390,9 +390,36 @@ var placeWinch = func {
       var rope_length_m = (ac_pos.direct_distance_to(wpos_geo));
       var rope_heading_deg = (ac_pos.course_to(wpos_geo));
       var rope_pitch_deg = 10; # must be corrected by arcsin function for glider to winch height relation
-      var install_distance_m = 0.05; # 0.05m in front of ref-point of glider, must be tuned
-      var install_alt_m = -1; # 1m below ref-point of glider, must be tuned
-      var rope_pos    = ac_pos.apply_course_distance( ac_hd , install_distance_m );   
+
+################################################## D-NXKT ##############################################################################
+
+  # set hook coordinates
+  set_hook_coordinates();
+
+  # hook coordinates in FDM-system
+  var x = getprop("sim/asw20/hook/hook_x_m");
+  var y = getprop("sim/asw20/hook/hook_y_m");
+  var z = getprop("sim/asw20/hook/hook_z_m");
+
+  var alpha_deg = getprop("orientation/roll-deg") * (-1.);
+  var beta_deg  = getprop("orientation/pitch-deg");
+
+  var hd_deg = getprop("orientation/heading-deg");   # heading of aircraft
+  var hw_deg = rope_heading_deg;                     # heading to winch
+  var gamma_deg = ( hd_deg - hw_deg ) * (-1.);
+ 
+  # transform hook coordinates
+  var Xn = PointRotate3D(x:x,y:y,z:z,xr:0.,yr:0.,zr:0.,alpha_deg:alpha_deg,beta_deg:beta_deg,gamma_deg:gamma_deg);
+
+  var install_distance_m = -Xn[0]; # in front of ref-point of glider, must be tuned
+  var install_side_m     = -Xn[1];
+  var install_alt_m      =  Xn[2];  # below ref-point of glider, must be tuned
+    
+##################################################################################################################################
+      
+      var rope_pos    = ac_pos.apply_course_distance( ac_hd , install_distance_m );  
+      var rope_pos    = ac_pos.apply_course_distance( ac_hd - 90. , install_side_m );  # D-NXKT
+       
       rope_pos.set_alt(ac_pos.alt() + install_alt_m);       # correct hight by pitch
       # get the next free ai id and model id
       var freeModelid = getFreeModelID();
@@ -534,8 +561,12 @@ var releaseWinch = func {
     setprop("fdm/jsbsim/external_reactions/winchx/magnitude", 0);  # set the
     setprop("fdm/jsbsim/external_reactions/winchy/magnitude", 0);  # forces 
     setprop("fdm/jsbsim/external_reactions/winchz/magnitude", 0);  # to zero
+
+    setprop("fdm/jsbsim/external_reactions/dragx/magnitude", 0);  # set the   # D-NXKT
+    setprop("fdm/jsbsim/external_reactions/dragy/magnitude", 0);  # forces    # D-NXKT
+    setprop("fdm/jsbsim/external_reactions/dragz/magnitude", 0);  # to zero   # D-NXKT
+
     setprop("sim/glider/winch/flags/hooked",0);
-setprop("sim/glider/winch/flags/pull",0);
     atc_msg("Hook opened, tow released");
     print("Hook opened, tow released");
   }
@@ -596,7 +627,7 @@ var removeWinch = func {
     props.globals.getNode(modelsNode).remove();
     props.globals.getNode("ai/models/winch").remove();
     props.globals.getNode("sim/glider/winch/work").remove();
-    atc_msg("winch rope removed");
+    atc_msg("winch removed");
     setprop("/sim/glider/winch/flags/pull", 0);
     setprop("/sim/glider/winch/flags/placed", 0);
   }
@@ -639,8 +670,11 @@ var runWinch = func {
   
   
   var roperelease_deg = 70;  # release winch automatically
-  var install_distance_m = 0.05; # 0.05m in front of ref-point of glider, must be tuned
-  var install_alt_m = -1; # 1m below ref-point of glider, must be tuned
+  
+  
+#  var install_distance_m = 0.6; # 0.05m in front of ref-point of glider, must be tuned
+#  var install_alt_m = -0.5; # 1m below ref-point of glider, must be tuned
+
 
   var pullmax = getprop("sim/glider/winch/conf/pull_max_lbs");
   var speedmax = getprop("sim/glider/winch/conf/pull_max_speed_mps");
@@ -654,7 +688,9 @@ var runWinch = func {
   var k_angle_x2 = getprop("sim/glider/winch/conf/k_angle_x2");
   var k_angle_y2 = getprop("sim/glider/winch/conf/k_angle_y2");
   
+  var hook_in_use = getprop("sim/asw20/hook/hook-in-use");   # D-NXKT
 
+  
   if ( winch_timeincrement_s == 0 ) {
     var deltatime_s = getprop("sim/time/delta-sec");
   }
@@ -731,18 +767,53 @@ var runWinch = func {
           releaseWinch(); 
         } 
         # otherwise set the current forces
-        else  { 
+        else  {                                                               
           forcex = forcex * k_force_speed * k_force_angle;
           forcey = forcey * k_force_speed * k_force_angle;
           forcez = forcez * k_force_speed * k_force_angle;
-          setprop("fdm/jsbsim/external_reactions/winchx/magnitude",  forcex );
-          setprop("fdm/jsbsim/external_reactions/winchy/magnitude",  forcey );
-          setprop("fdm/jsbsim/external_reactions/winchz/magnitude",  forcez );
+          if(hook_in_use < 2) {                                                  # D-NXKT 
+            setprop("fdm/jsbsim/external_reactions/winchx/magnitude",  forcex ); 
+            setprop("fdm/jsbsim/external_reactions/winchy/magnitude",  forcey );
+            setprop("fdm/jsbsim/external_reactions/winchz/magnitude",  forcez );
+          }
+	  else{
+            setprop("fdm/jsbsim/external_reactions/dragx/magnitude",  forcex );  # D-NXKT
+            setprop("fdm/jsbsim/external_reactions/dragy/magnitude",  forcey );  # D-NXKT
+            setprop("fdm/jsbsim/external_reactions/dragz/magnitude",  forcez );  # D-NXKT 
+          }
+
           setprop("sim/glider/winch/work/speed", ropespeed); 
           setprop("sim/glider/winch/work/rope_m", dd_m ); 
         }
       # update rope animation
-        var hook_pos    = ac.apply_course_distance( hd_deg , install_distance_m );   
+
+
+
+################################################## D-NXKT ##############################################################################
+
+  # hook coordinates in FDM-system
+  var x = getprop("sim/asw20/hook/hook_x_m");
+  var y = getprop("sim/asw20/hook/hook_y_m");
+  var z = getprop("sim/asw20/hook/hook_z_m");
+
+  var alpha_deg = getprop("orientation/roll-deg") * (-1.);
+  var beta_deg  = getprop("orientation/pitch-deg");
+
+  var hd_deg = getprop("orientation/heading-deg");   # heading of aircraft
+  var hw_deg = (ac.course_to(wp));		     # heading to winch
+  var gamma_deg = ( hd_deg - hw_deg ) * (1.); # should be (-1.) in theory (hook transformation is still buggy!)
+ 
+  # transform hook coordinates
+  var Xn = PointRotate3D(x:x,y:y,z:z,xr:0.,yr:0.,zr:0.,alpha_deg:alpha_deg,beta_deg:beta_deg,gamma_deg:gamma_deg);
+
+  var install_distance_m = -Xn[0]; # in front of ref-point of glider, must be tuned
+  var install_side_m     = -Xn[1];
+  var install_alt_m      =  Xn[2];  # below ref-point of glider, must be tuned
+  
+##################################################################################################################################
+
+        var hook_pos    = ac.apply_course_distance( hd_deg , install_distance_m ); 
+	var hook_pos    = ac.apply_course_distance( hd_deg - 90. , install_side_m );  # D-NXKT
         hook_pos.set_alt(ac.alt() + install_alt_m); 
         var height = ac.alt() - wp.alt();
         if ( ac.alt() > wp.alt() ) {
@@ -798,3 +869,147 @@ var runWinch = func {
 
 var pulling = setlistener("sim/glider/winch/flags/pull", runWinch);
 var initializing_winch = setlistener("sim/signals/fdm-initialized", globalsWinch);
+
+
+
+
+
+
+################################################## D-NXKT ##############################################################################
+
+#----------------------------------------------------------------------------------  
+
+var PointRotate3D = func (x,y,z,xr,yr,zr,alpha_deg,beta_deg,gamma_deg){
+
+# ---------------------------------------------------------------------------------
+#   rotates point (x,y,z) about all 3 cartesian axis
+#   center of rotation (xr,yr,zr)
+#   angle of rotation about x-axis = alpha
+#   angle of rotation about y-axis = beta
+#   angle of rotation about z-axis = gamma
+#   delivers new point coordinates (x_new,y_new,z_new)
+# ---------------------------------------------------------------------------------
+#
+#
+# Definitions:
+# ----------------
+#
+# x        y           z     
+# alpha    beta        gamma   
+#                       
+#                        
+#       z                
+#       |  y             
+#       | / 	         
+#       |/ 	         
+#       ----->x	         
+#		         
+#		        
+#     FDM-System         
+# (Structural Frame)
+#
+
+#----------------------------------------------------------------------------------  
+
+# Transformation in rotation-system X_rel = X-Xr = (x-xr, y-yr, z-zr)
+  var x_rel = x-xr;
+  var y_rel = y-yr;  
+  var z_rel = z-zr;  
+
+# Trigonometry
+  var deg2rad = math.pi / 180.;   
+
+  var alpha_rad	   = deg2rad * alpha_deg;
+  var beta_rad	   = deg2rad * beta_deg;
+  var gamma_rad	   = deg2rad * gamma_deg;
+
+  var sin_alpha = math.sin(alpha_rad);
+  var cos_alpha = math.cos(alpha_rad);
+
+  var sin_beta  = math.sin(beta_rad);
+  var cos_beta  = math.cos(beta_rad);
+
+  var sin_gamma = math.sin(gamma_rad);
+  var cos_gamma = math.cos(gamma_rad);
+
+# Matrices 
+  #
+  # Rotate about x-axis Rx(alpha) 
+  #
+  #		Rx11 Rx12 Rx13      1	  0	       0
+  # Rx(alpha)=  Rx21 Rx22 Rx23   =  0  cos(alpha)  -sin(alpha)
+  #		Rx31 Rx32 Rx33      0  sin(alpha)   cos(alpha)
+  #
+  var Rx11 = 1.;
+  var Rx12 = 0.;
+  var Rx13 = 0.;
+  var Rx21 = 0.;
+  var Rx22 = cos_alpha;
+  var Rx23 = - sin_alpha;
+  var Rx31 = 0.;
+  var Rx32 = sin_alpha;
+  var Rx33 = cos_alpha;
+  #
+  # Rotate about y-axis Ry(beta) 
+  #
+  #	       Ry11 Ry12 Ry13	   cos(beta)  0   sin(beta)   
+  # Ry(beta)=  Ry21 Ry22 Ry23	=      0      1      0 
+  #	       Ry31 Ry32 Ry33	  -sin(beta)  0   cos(beta)
+  #
+  var Ry11 = cos_beta;
+  var Ry12 = 0.;
+  var Ry13 = sin_beta;
+  var Ry21 = 0.;
+  var Ry22 = 1.;
+  var Ry23 = 0.;
+  var Ry31 = - sin_beta;
+  var Ry32 = 0.;
+  var Ry33 = cos_beta;
+  #
+  # Rotate about z-axis Rz(gamma) 
+  #
+  #	       Rz11 Rz12 Rz13	   cos(gamma)  -sin(gamma)  0  
+  # Rz(gamma)= Rz21 Rz22 Rz23	=  sin(gamma)	cos(gamma)  0	
+  #	       Rz31 Rz32 Rz33	       0	    0	    1
+  #
+  var Rz11 = cos_gamma;
+  var Rz12 = - sin_gamma;
+  var Rz13 = 0.;
+  var Rz21 = sin_gamma;
+  var Rz22 = cos_gamma;
+  var Rz23 = 0.;
+  var Rz31 = 0.;
+  var Rz32 = 0.;
+  var Rz33 = 1.; 
+  #
+  # First rotation about z-axis
+  # X_z = Rz*X_rel
+  var x_z = Rz11 * x_rel + Rz12 * y_rel + Rz13 * z_rel;
+  var y_z = Rz21 * x_rel + Rz22 * y_rel + Rz23 * z_rel;
+  var z_z = Rz31 * x_rel + Rz32 * y_rel + Rz33 * z_rel; 
+  #
+  # subsequent rotation about y-axis
+  # X_zy = Ry*X_z
+  var x_zy = Ry11 * x_z + Ry12 * y_z + Ry13 * z_z;
+  var y_zy = Ry21 * x_z + Ry22 * y_z + Ry23 * z_z;
+  var z_zy = Ry31 * x_z + Ry32 * y_z + Ry33 * z_z;  
+  #
+  # subsequent rotation about x-axis:
+  # X_zyx = Rx*X_zy
+  var x_zyx = Rx11 * x_zy + Rx12 * y_zy + Rx13 * z_zy;
+  var y_zyx = Rx21 * x_zy + Rx22 * y_zy + Rx23 * z_zy;
+  var z_zyx = Rx31 * x_zy + Rx32 * y_zy + Rx33 * z_zy; 
+  
+   
+# Back transformation  X_rel = X-Xr = (x-xr, y-yr, z-zr)
+  var xn = xr + x_zyx;
+  var yn = yr + y_zyx;
+  var zn = zr + z_zyx;
+  
+  var Xn = [xn,yn,zn];
+  
+  return Xn;
+  
+}  
+  
+##################################################################################################################################

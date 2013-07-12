@@ -96,7 +96,7 @@
 
 # ####################################################################################
 # global variables:
-var dragrobot_timeincrement_s = 0;                     # timer increment
+var dragrobot_timeincrement_s = 0.;                     # timer increment
 
 
 
@@ -353,7 +353,8 @@ var createDragRobot = func {
   # place drag roboter with a distance, that the tow is nearly tautened
   var rope_length_m = getprop("/sim/glider/towing/conf/rope_length_m");
   var tauten_relative = getprop("/sim/glider/towing/conf/rope_x1");
-  var install_distance_m = rope_length_m * (tauten_relative - 0.02);
+###  var install_distance_m = rope_length_m * (tauten_relative - 0.02);
+  var install_distance_m = rope_length_m - 2.;  
   
   # local variables
   var ac_pos = geo.aircraft_position();                   # get position of aircraft

@@ -118,7 +118,9 @@
     </volume>   
  </variometer-down>
 
- <!-- ground reactions -->
+
+<!-- _________________  ground reactions  _________________ -->
+
  <main-wheel-rumble>
    <name>main-wheel-rumble</name>
    <mode>looped</mode>
@@ -130,30 +132,152 @@
      <property>velocities/groundspeed-kt</property>
      <factor>0.25</factor>
    </volume>
+   <position>
+     <x>0.08</x>
+     <y>0.0</y>
+     <z>-0.94</z>
+   </position>     
  </main-wheel-rumble>
 
- <!--
+ <touchdown-main-wheel>
+   <name>main-wheel-touchdown</name>
+   <mode>once</mode>
+   <path>Aircraft/asw20/Sounds/Roll_tail.wav</path>
+   <condition>
+     <property>/gear/gear[0]/wow</property>  <!-- main wheel -->
+   </condition>
+   <position>
+     <x>0.08</x>
+     <y>0.0</y>
+     <z>-0.94</z>
+   </position>     
+<!--    <volume> 
+      <property>fdm/JSBSim/gear/unit/compression-velocity-fps</property>  
+    <property>/velocities/speed-down-fps</property> 
+     <factor>100</factor>
+     <min>0.00</min>
+     <max>500</max>    
+   </volume>
+-->
+ </touchdown-main-wheel>
+
+ <touchdown-tail-skid>
+   <name>tail-skid-touchdown</name>
+   <mode>once</mode>
+   <path>Aircraft/asw20/Sounds/Roll_tail.wav</path>
+   <condition>
+     <property>/gear/gear[4]/wow</property>
+   </condition>
+   <position>
+     <x>4.15</x>
+     <y>0.0</y>
+     <z>-0.24</z>
+   </position>     
+ </touchdown-tail-skid>
+
+ <tail-skid>
+   <name>tail-skid</name>
+   <mode>looped</mode>
+   <path>Sounds/rattleroll.wav</path>
+   <condition>
+     <property>/gear/gear[4]/wow</property>  
+   </condition>
+   <volume>
+     <property>/velocities/groundspeed-kt</property>
+     <factor>0.03</factor>
+   </volume>
+   <pitch>
+    <property>/velocities/groundspeed-kt</property>
+    <factor>0.05</factor>
+    <offset>0.0</offset>
+   </pitch>
+   <position>
+     <x>0.11</x>
+     <y>7.92</y>
+     <z>0.52</z>
+   </position>     
+ </tail-skid>
+ 
  <left-wing-tip>
    <name>left-wing-tip</name>
-   <mode>once</mode>
-   <path>Aircraft/asw20/Sounds/left-wing-tip.wav</path>
+   <mode>looped</mode>
+   <path>Sounds/rumble.wav</path>
    <condition>
      <property>/gear/gear[6]/wow</property>  
    </condition>
+   <volume>
+     <property>/velocities/groundspeed-kt</property>
+     <factor>0.05</factor>
+   </volume>
+   <pitch>
+    <property>/velocities/groundspeed-kt</property>
+    <factor>0.05</factor>
+    <offset>0.0</offset>
+   </pitch>
+   <position>
+     <x>0.11</x>
+     <y>7.92</y>
+     <z>0.52</z>
+   </position>     
  </left-wing-tip>
  
  <right-wing-tip>
    <name>right-wing-tip</name>
-   <mode>once</mode>
-   <path>Aircraft/asw20/Sounds/right-wing-tip.wav</path>
+   <mode>looped</mode>
+   <path>Sounds/rumble.wav</path>
    <condition>
      <property>/gear/gear[7]/wow</property>  
    </condition>
+   <volume>
+     <property>/velocities/groundspeed-kt</property>
+     <factor>0.05</factor>
+   </volume>
+   <pitch>
+    <property>/velocities/groundspeed-kt</property>
+    <factor>0.05</factor>
+    <offset>0.0</offset>
+   </pitch>
+   <position>
+     <x>0.</x>
+     <y>-7.5</y>
+     <z>0.</z>
+   </position>     
  </right-wing-tip>
- -->
 
- <!-- handling noises -->
- <!--
+
+ <touchdown-left-wing-tip>
+   <name>touchdown-left-wing-tip</name>
+   <mode>once</mode>
+   <path>Aircraft/asw20/Sounds/Roll_tail.wav</path>
+   <!-- <path>Aircraft/asw20/Sounds/left-wing-tip.wav</path>  -->
+   <condition>
+     <property>/gear/gear[6]/wow</property>  
+   </condition>
+   <position>
+     <x>0.11</x>
+     <y>7.92</y>
+     <z>0.52</z>
+   </position>     
+ </touchdown-left-wing-tip>
+ 
+ <touchdown-right-wing-tip>
+   <name>touchdown-right-wing-tip</name>
+   <mode>once</mode>
+   <path>Aircraft/asw20/Sounds/Roll_tail.wav</path>
+   <!-- <path>Aircraft/asw20/Sounds/right-wing-tip.wav</path> -->
+   <condition>
+     <property>/gear/gear[7]/wow</property>  
+   </condition>
+   <position>
+     <x>0.</x>
+     <y>-7.5</y>
+     <z>0.</z>
+   </position>     
+ </touchdown-right-wing-tip>
+
+
+<!-- _________________  handling sounds  _________________ -->
+
  <airbrakes_lock>
    <name>airbrakes_lock</name>
    <mode>once</mode>
@@ -161,27 +285,15 @@
    <condition>
      <equals>
        <property>surface-positions/speedbrake-pos-norm</property>
-       <value>1</value>
+       <value>0</value>
      </equals>  
    </condition>
  </airbrakes_lock>
- -->
- <cable_release>
-   <name>cable_release</name>
-   <mode>once</mode>
-   <path>Aircraft/asw20/Sounds/winch_release.wav</path>
-   <condition>
-     <not>
-       <property>sim/glider/winch/flags/pull</property>
-     </not>
-   </condition>
- </cable_release>
-
- <!--    
+ 
  <airbrakes>
   <name>airbrakes</name>
   <mode>looped</mode>
-  <path>Aircraft/asw20/Sounds/airbrakes2.wav</path>
+  <path>Aircraft/asw20/Sounds/airbrakes.wav</path>
   <property>velocities/airspeed-kt</property>
   <volume>
     <property>/surface-positions/speedbrake-pos-norm</property>
@@ -202,15 +314,177 @@
     <offset>1</offset>
   </pitch> 
  </airbrakes>
- -->
-     
+
+
+ <flap1>
+  <name>flap1</name>
+  <mode>once</mode>
+  <path>Aircraft/asw20/Sounds/flaps.wav</path>
+  <condition>
+    <equals> 
+     <property>controls/flight/flaps</property>
+     <value>0.</value>
+    </equals>
+  </condition>    
+  <volume>
+   <factor>1</factor>
+   <offset>1.0</offset>
+   <min>0.0</min>
+   <max>5.0</max>
+  </volume>
+ </flap1> 
+ 
+ <flap2>
+  <name>flap2</name>
+  <mode>once</mode>
+  <path>Aircraft/asw20/Sounds/flaps.wav</path>
+  <condition>
+    <equals> 
+     <property>controls/flight/flaps</property>
+     <value>0.075</value>
+    </equals>
+  </condition>    
+  <volume>
+   <factor>1</factor>
+   <offset>1.0</offset>
+   <min>0.0</min>
+   <max>5.0</max>
+  </volume>
+ </flap2> 
+
+ <flap3>
+  <name>flap3</name>
+  <mode>once</mode>
+  <path>Aircraft/asw20/Sounds/flaps.wav</path>
+  <condition>
+    <equals> 
+     <property>controls/flight/flaps</property>
+     <value>0.167</value>
+    </equals>
+  </condition>    
+  <volume>
+   <factor>1</factor>
+   <offset>1.0</offset>
+   <min>0.0</min>
+   <max>5.0</max>
+  </volume>
+ </flap3> 
+ 
+ <flap4>
+  <name>flap4</name>
+  <mode>once</mode>
+  <path>Aircraft/asw20/Sounds/flaps.wav</path>
+  <condition>
+    <equals> 
+     <property>controls/flight/flaps</property>
+     <value>0.303</value>
+    </equals>
+  </condition>    
+  <volume>
+   <factor>1</factor>
+   <offset>1.0</offset>
+   <min>0.0</min>
+   <max>5.0</max>
+  </volume>
+ </flap4> 
+ 
+ <flap5>
+  <name>flap5</name>
+  <mode>once</mode>
+  <path>Aircraft/asw20/Sounds/flaps.wav</path>
+  <condition>
+    <equals> 
+     <property>controls/flight/flaps</property>
+     <value>1.</value>
+    </equals>
+  </condition>    
+  <volume>
+   <factor>1</factor>
+   <offset>1.0</offset>
+   <min>0.0</min>
+   <max>5.0</max>
+  </volume>
+ </flap5> 
+ 
+
+ <gear_down>
+  <name>gear_down</name>
+  <mode>once</mode>
+  <path>Aircraft/asw20/Sounds/geardown.wav</path>
+  <condition>
+   <property>fdm/jsbsim/gear/gear-cmd-norm</property>
+  </condition>
+  <volume>
+   <factor>1</factor>
+   <offset>1.0</offset>
+   <min>0.0</min>
+   <max>5.0</max>
+  </volume>
+ </gear_down> 
+
+ <gear_up>
+  <name>gear_up</name>
+  <mode>once</mode>
+  <path>Aircraft/asw20/Sounds/gearup.wav</path>
+  <condition>
+    <not>
+   <property>fdm/jsbsim/gear/gear-cmd-norm</property>
+    </not>
+  </condition>
+  <volume>
+   <factor>1</factor>
+   <offset>1.0</offset>
+   <min>0.0</min>
+   <max>5.0</max>
+  </volume>
+ </gear_up> 
+
+ <gear_wind>
+  <name>gear_wind</name>
+  <mode>looped</mode>
+  <path>Aircraft/asw20/Sounds/airbrakes.wav</path>
+  <condition>
+   <property>fdm/jsbsim/gear/gear-pos-norm</property>
+  </condition>
+  <volume>
+    <property>fdm/jsbsim/gear/gear-pos-norm</property>
+    <factor>0.6</factor>
+    <offset>0.1</offset>
+    <min>0.0</min>
+    <max>2</max>
+  </volume>
+  <volume> 
+    <property>velocities/airspeed-kt</property>
+    <factor>0.015</factor>
+    <min>0.00</min>
+    <max>5</max>
+  </volume>
+  <pitch>
+    <property>velocities/airspeed-kt</property>
+    <factor>0.02</factor>
+    <offset>0.3</offset>
+  </pitch> 
+  <pitch>
+    <property>fdm/jsbsim/gear/gear-pos-norm</property>
+    <type>sqrt</type>
+    <factor>-4.</factor>
+    <offset>4.</offset>
+  </pitch> 
+  <position>
+    <x>0.08</x>
+    <y>0.0</y>
+    <z>-0.94</z>
+  </position>	  
+ </gear_wind>
+
+      
  <winch_tow>
    <name>winch_tow</name>
    <mode>looped</mode>
    <path>Aircraft/asw20/Sounds/winch_tow.wav</path>
    <condition>
      <equals>
-       <property>sim/glider/winch/flags/pull</property>
+       <property>sim/glider/winch/flags/hooked</property>
        <value>1</value>
      </equals>
    </condition>
@@ -220,7 +494,38 @@
      <max>1</max>
    </volume>
  </winch_tow>
-    
+
+ <cable_release>
+   <name>cable_release</name>
+   <mode>once</mode>
+   <path>Aircraft/asw20/Sounds/winch_release.wav</path>
+   <condition>
+    <and>
+      <not>
+       <property>sim/glider/winch/flags/hooked</property>
+     </not>
+     <not>
+       <property>sim/glider/towing/hooked</property>
+     </not>
+    </and> 
+   </condition>
+ </cable_release>
+
+       
+ <wing_failure>
+  <name>wing_failure</name>
+  <mode>once</mode>
+  <path>Aircraft/asw20/Sounds/whack.wav</path>
+  <condition>
+   <property>sim/asw20/wing-failure</property>
+  </condition>
+  <volume>
+   <factor>1</factor>
+   <offset>1.0</offset>
+   <min>0.0</min>
+   <max>5.0</max>
+  </volume>
+ </wing_failure> 
 
 </fx>
  

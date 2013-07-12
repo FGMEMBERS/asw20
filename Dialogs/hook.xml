@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!-- version: 2013-07-01 -->
+<PropertyList>
+  <name>hook_dialog</name>
+  <layout>vbox</layout>
+  <default-padding>1</default-padding>
+  <modal>false</modal>
+  <width>320</width>
+
+  <!-- Title bar with close button -->
+  <group>
+    <layout>hbox</layout><equal>true</equal>
+    <default-padding>1</default-padding>
+    <empty>
+      <stretch>true</stretch>
+    </empty>
+    <text>
+      <label>Select Hook</label>
+      <font>
+        <name>times_bold</name>
+      </font>
+    </text>
+    <empty>
+      <stretch>true</stretch>
+    </empty>
+    <button>
+      <legend/>
+      <key>Esc</key>
+      <pref-width>16</pref-width>
+      <pref-height>16</pref-height>
+      <border>2</border>
+      <binding>
+        <command>dialog-close</command>
+      </binding>
+    </button>
+  </group>
+
+  <hrule/>
+  <hrule/> 
+       
+  <!-- hook selection-->
+  <group>
+    <layout>hbox</layout>
+    <equal>stretch</equal>      
+    <halign>center</halign>
+    <list>
+      <x>200</x>
+      <y>0</y>
+      <pref-width>300</pref-width>
+      <pref-height>70</pref-height>
+      <property>/sim/asw20/hook/hook-in-use</property>
+      <value>auto (c.g. hook for winch / nose hook for towing)</value>
+      <value>c.g. hook</value>
+      <value>nose hook</value>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+      <binding>
+        <command>nasal</command>
+	<script>asw20.set_hook_coordinates()</script>
+      </binding>
+
+    </list>
+  </group>
+
+</PropertyList>

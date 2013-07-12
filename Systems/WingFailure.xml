@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+
+<system name="WingFailure">
+
+  <channel name="WingFailure">        
+
+    <fcs_function name="systems/function/failure_direction">
+      <function>
+    	<product>
+    	  <!-- <property>forces/fbz-aero-lbs</property>  -->
+	  <property>/sim/asw20/wing_load_lbs</property>
+          <property>moments/l-aero-lbsft</property>
+    	</product>
+      </function>
+    </fcs_function>
+
+    <switch name="systems/switch/wing_failure">
+      <default value="/sim/asw20/wing-failure"/>      
+      <test  logic="AND" value="1">         <!-- 1 := wing failure -->
+	/sim/asw20/wing-failure-enable eq 1
+	/sim/asw20/wing_load_lbs gt 2055.   <!-- -2.65g * 235kg * 2.2046lbs/kg * 1.5 -->
+      </test>
+      <test logic="AND" value="1">
+	/sim/asw20/wing-failure-enable eq 1
+	/sim/asw20/wing_load_lbs lt -4110.  <!-- +5.3g * 235kg * 2.2046lbs/kg * 1.5 --> 
+      </test>        
+      <output>/sim/asw20/wing-failure</output>     
+    </switch>
+    
+    <switch name="systems/switch/wing_failure_direction">
+      <default value="/sim/asw20/wing-failure-direction"/>
+      <test  value="/sim/asw20/wing-failure-direction">             
+	/sim/asw20/wing-failure-direction ne 0
+      </test>
+      <test  logic="AND" value="-1">        <!-- -1 := left wing failure -->
+	/sim/asw20/wing-failure eq 1
+        systems/function/failure_direction gt 0.   
+      </test>
+      <test logic="AND" value="+1">         <!-- 1 := right wing failure -->
+	/sim/asw20/wing-failure eq 1
+	systems/function/failure_direction lt 0.
+      </test>         
+      <output>/sim/asw20/wing-failure-direction</output>     
+    </switch>
+
+
+    <switch name="systems/switch/SW_sqft">
+      <default value="113"/>      
+      <test  value="56.5">                  <!-- only 1 wing remaining -->
+	/sim/asw20/wing-failure eq 1
+      </test>
+      <output>/fdm/jsbsim/metrics/Sw-sqft</output>     
+    </switch>
+
+    <switch name="systems/switch/wing_failure_left">
+      <default value="0"/>      
+      <test  value="1">                     
+	/sim/asw20/wing-failure-direction eq 1
+      </test>
+      <output>/sim/asw20/wing-failure-left</output>     
+    </switch>
+    <switch name="systems/switch/wing_failure_right">
+      <default value="0"/>      
+      <test  value="1">                      
+	/sim/asw20/wing-failure-direction eq -1
+      </test>
+      <output>/sim/asw20/wing-failure-right</output>     
+    </switch>
+
+  </channel>
+ 
+</system>

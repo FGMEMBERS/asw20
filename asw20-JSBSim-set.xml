@@ -15,6 +15,7 @@ Aircraft/asw20/Models/uiuc/hgldr-cs/README.TXT
 
 Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
              January, 2013 D-NXKT, D_NXKT@yahoo.de
+	     July, 2013 D-NXKT, D_NXKT@yahoo.de
 ************************************************************************
 -->
 
@@ -24,9 +25,11 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
 
   <description>ASW-20 sailplane (JSBSim)</description>
   <author>Michael Selig, Roland Stuck (3D), D-NXKT</author>
-
+  <aircraft-version>July 2013</aircraft-version>
   <flight-model>jsb</flight-model>
   <aero>Models/JSBSim/asw20-JSBSim</aero>
+
+  <checklists include="asw20-checklists.xml"/>
 
   <startup>
     <splash-texture>Aircraft/asw20/splash.png</splash-texture>
@@ -52,9 +55,14 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
 
   <multiplay>
    <generic>
+    <int n="0" alias="/sim/asw20/waterballast/dumping"/>
+    <int n="1" alias="/sim/asw20/wing-failure-left"/>
+    <int n="2" alias="/sim/asw20/wing-failure-right"/>
+    <int n="3" alias="/sim/asw20/with-woolthread"/> 
+    <int n="4" alias="/sim/asw20/with-sidestringg"/> <!-- funny: if the property is named "with-sidestring" its type is "string" and multiplayer fails -->
     <float n="0" alias="/gear/gear[0]/rollspeed-ms"/>
     <float n="1" alias="/sim/asw20/wing_load"/>
-    <int n="0" alias="/sim/asw20/waterballast/dumping"/>
+    <float n="2" alias="/instrumentation/sidestring"/>
    </generic>
   </multiplay>
 
@@ -80,6 +88,38 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
   </view>
 
   <view n="100">
+    <name>Right Wingtip View</name>
+    <enabled type="bool">true</enabled>
+    <type>lookfrom</type>
+    <internal type="bool">true</internal>
+    <config>
+      <from-model type="bool">true</from-model>
+      <from-model-idx type="int">0</from-model-idx>
+      <x-offset-m archive="y" type="double">8.15</x-offset-m>
+      <y-offset-m archive="y" type="double">0.9</y-offset-m>
+      <z-offset-m archive="y" type="double">0.</z-offset-m>
+      <pitch-offset-deg type="double">-8</pitch-offset-deg>
+      <heading-offset-deg type="double">93.0</heading-offset-deg>
+    </config>
+  </view>
+  
+  <view n="101">
+    <name>Left Wingtip View</name>
+    <enabled type="bool">true</enabled>
+    <type>lookfrom</type>
+    <internal type="bool">true</internal>
+    <config>
+      <from-model type="bool">true</from-model>
+      <from-model-idx type="int">0</from-model-idx>
+      <x-offset-m archive="y" type="double">-8.15</x-offset-m>
+      <y-offset-m archive="y" type="double">0.9</y-offset-m>
+      <z-offset-m archive="y" type="double">0.</z-offset-m>
+      <pitch-offset-deg type="double">-8</pitch-offset-deg>
+      <heading-offset-deg type="double">-93.0</heading-offset-deg>
+    </config>
+  </view>
+
+  <view n="102">
     <name>Tail View</name>
     <type>lookfrom</type>
     <internal type="bool">true</internal>
@@ -88,11 +128,11 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
       <from-model-idx type="int">0</from-model-idx>
       <x-offset-m archive="y" type="double">0.00</x-offset-m>
       <y-offset-m archive="y" type="double">1.3</y-offset-m>
-      <z-offset-m archive="y" type="double">3.35</z-offset-m>
+      <z-offset-m archive="y" type="double">3.65</z-offset-m>
       <pitch-offset-deg type="double">-15</pitch-offset-deg>
+      <default-field-of-view-deg type="double">70.</default-field-of-view-deg>
     </config>
   </view>
-
 
   <menubar>
    <default>
@@ -104,7 +144,27 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
       <label>---------------------------</label>    
       <enabled>false</enabled>
      </item>
-     
+
+     <item>
+      <label>Weight and Balance</label>
+       <binding>
+        <command>nasal</command>
+        <script>asw20.weight_and_balance_dialog.open()</script>
+       </binding>
+       <binding>       
+        <command>nasal</command>
+        <script>
+	  var slider = getprop("/fdm/jsbsim/inertia/waterballast_total-lbs");
+	  var slider = slider * 0.453592 ;
+	  setprop("/fdm/jsbsim/inertia/waterballast_total_slider-kg",slider);
+        </script>
+       </binding>
+	<binding>
+          <command>nasal</command>
+          <script>asw20.weight_and_balance()</script>
+        </binding>
+     </item>	
+
      <item>
       <label>Toggle Auto-Coordination Aileron+Rudder</label>
        <binding>
@@ -122,6 +182,36 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
          <value>0</value>
        </binding>
      </item>    
+
+     <item>
+       <label>Toggle Side String On/Off</label>
+       <binding>
+         <command>property-toggle</command>
+         <property>sim/asw20/with-sidestringg</property>
+         <value>0</value>
+       </binding>
+     </item>    
+
+     <item>
+      <label>Toggle Wing Failure On/Off</label>
+       <binding>
+        <command>property-toggle</command>
+        <property>sim/asw20/wing-failure-enable</property>
+        <value>0</value> 
+       </binding>
+	<binding>
+          <command>nasal</command>
+          <script>asw20.wing_failure_repair()</script>
+        </binding>
+     </item>	
+
+     <item>
+      <label>Repair Plane</label>
+	<binding>
+          <command>nasal</command>
+          <script>asw20.wing_failure_repair()</script>
+        </binding>
+     </item>	
 
      <item>
       <label>-------- Experimental --------</label>    
@@ -143,6 +233,7 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
      	 <script>asw20.aerotowing_ai_dialog.open()</script>.
        </binding>
      </item>
+     <!--     
      <item>
        <label>Drag Roboter</label>
        <binding>
@@ -150,6 +241,14 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
      	 <script>asw20.dragrobot_dialog.open()</script>.
        </binding>
      </item>
+     -->
+     <item>
+      <label>Select Hook</label>
+       <binding>
+        <command>nasal</command>
+        <script>asw20.hook_dialog.open()</script>
+       </binding>
+     </item>	
 
     </menu>
    </default>
@@ -194,25 +293,54 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
         <name>Ctrl-U</name>
         <desc>jump up 1000ft</desc>
       </key>
+      <key>
+        <name>&amp;</name>
+        <desc>toggle auto-coordination aileron+rudder</desc>
+      </key>
+      <key>
+        <name>r</name>
+        <desc>recover/repair plane</desc>
+      </key>
+
       <line> </line>
       <line>experimental winch support (copied from DG-101G)</line>
       <line> Ctrl-w: place winch</line>
       <line> w     : run winch</line>
       <line> W     : release winch</line>
+      <line>experimental AI aerotowing support</line>
+      <line> Ctrl-o: find a dragger</line>
+      <line> o     : hook in </line>
+      <line> O     : release tow </line>
+      <!--
       <line>experimental drag robot support (copied from DG-101G)</line>
       <line> d     : start/stop drag roboter</line>
       <line> D     : create drag roboter</line>
       <line> Ctrl-d: update presets from property tree</line>
+      -->
       <line> </line>
       <line>Note: </line>             
-      <line>This glider is a conversion of the LaRCsim/UIUC version.</line>
-      <line>Additionally the impact of drag due to flaps and gear is </line>      
-      <line>modelled. Flight performance is not yet checked! However the</line>  
-      <line>converted UIUC-part seems reasonable (Flap-position = 0deg).</line>
-      <line>It is highly appreciated if someone else wants to improve the cockpit!</line>
+      <line>This glider is a conversion and further development of the LaRCsim/UIUC version.</line>
       <line> </line>
+      <line>Flight performance:</line>
+      <line>Model meets all published performance data for non-stalled conditions</line>
+      <line>(Vmin, min sink, max glide ratio, speed polar for flap position 1-4).</line>
+      <line>Estimated impact of speedbrakes, gear and ground effect on sink rate.</line>
+      <line> </line>
+      <line>Handling:</line>
+      <line>Seems appropriate but lack of real life experience.</line>
+      <line>Feedback from real glider pilots is highly appreciated!</line>
+      <line> </line>  
+      <line>Proper flap usage:</line>
+      <line>Reading the ASW 20 flight manual (pp. 7-11) is strongly recommended</line>
+      <line>(http://ebookbrowse.com/asw20-flight-manual-pdf-d182065150).</line>
+      <line> </line>
+      <line>Weight and balance:</line>
+      <line>Detailed explanation in ASW 20 flight manual (pp. 20-20c and 30-31).</line>    
+      <line> </line>
+      <line>Read the "Aircraft Checklists" for further informations.</line>    
+      <line> </line>
+      
   </help>
-
 
   <flaps>
     <current-setting>2</current-setting>
@@ -223,12 +351,11 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
     <setting>1.000</setting>    <!-- Flaps 5:  55deg -->
   </flaps>
 
-
   <glider>
     <winch>
       <conf>
   	<rope_initial_length_m>1000.0</rope_initial_length_m>
-  	<pull_max_lbs>1102.0</pull_max_lbs> <!-- 500daN -->
+  	<pull_max_lbs>900.0</pull_max_lbs> <!-- ca. 400daN -->
       </conf>
     </winch>
     <towing>
@@ -241,23 +368,44 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
     </towing>
   </glider>
 
-
   <asw20>
-    <with-woolthread>1</with-woolthread>
+    <with-woolthread type="bool">1</with-woolthread>
+    <with-sidestringg type="bool">1</with-sidestringg>
     <waterballast>
       <valve type="bool">0</valve>
       <dumping type="bool">0</dumping>
     </waterballast>
+    <wing_load_lbs type="float">350.</wing_load_lbs>
+    <wing-failure-enable type="bool">true</wing-failure-enable>
+    <wing-failure type="int">0</wing-failure>
+    <wing-failure-direction type="int">0</wing-failure-direction>
+    <wing-failure-left type="bool">false</wing-failure-left>
+    <wing-failure-right type="bool">false</wing-failure-right>
+    <hook>
+      <hook-in-use type="int">0</hook-in-use>
+    </hook>
   </asw20>
 
+  <submodels>
+    <serviceable type="bool">true</serviceable>
+    <path>Aircraft/asw20/Models/JSBSim/asw20-submodel.xml</path>
+  </submodels>
 
   <aircraft-data>
     <path>/sim/asw20/with-woolthread</path>
+    <path>/sim/asw20/with-sidestringg</path>
     <path>/controls/flight/auto-coordination</path>
-    <path>/instrumentation/ilec-sc7/volume</path>  
+    <path>/instrumentation/ilec-sc7/volume</path> 
+    <path>/fdm/jsbsim/inertia/pointmass-weight-kg[0]</path> 
+    <path>/fdm/jsbsim/inertia/pointmass-weight-kg[1]</path>
+    <path>/fdm/jsbsim/inertia/pointmass-weight-kg[2]</path> 
+    <path>/fdm/jsbsim/inertia/pointmass-weight-kg[3]</path>
+    <path>/fdm/jsbsim/inertia/pointmass-weight-kg[4]</path> 
+    <path>/fdm/jsbsim/inertia/pointmass-weight-kg[5]</path>
+    <path>/fdm/jsbsim/inertia/pointmass-weight-kg[6]</path>
+    <path>/fdm/jsbsim/inertia/pointmass-location-X-inches[0]</path>
   </aircraft-data>
-  
-  
+   
   <status>beta</status>
   <rating>
    <FDM type="int">4</FDM>
@@ -268,7 +416,10 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
 
  </sim>
  
- 
+ <accelerations>
+   <n-z-cg-fps_sec type="double">1.</n-z-cg-fps_sec>
+ </accelerations>
+  
  <input>
   <keyboard>
    <key n="115">
@@ -332,7 +483,7 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
       </binding>
    </key>
 
-    <!-- Winch -->
+   <!-- Winch -->
    <key n="23">
      <name>Ctrl-w</name>
      <desc>Place Winch and hook in</desc>
@@ -359,6 +510,7 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
        <script>asw20.releaseWinch()</script>
      </binding>
    </key>
+   
    <key n="15">
      <name>Ctrl-o</name>
      <desc>Find dragger</desc>
@@ -386,6 +538,7 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
      </binding>
    </key>
    
+   <!--
    <key n="4">
      <name>Ctrl-d</name>
      <desc>update presets drag robot</desc>
@@ -412,13 +565,14 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
        <script>asw20.setupDragRobot()</script>
      </binding>
    </key>
-
+   -->
+   
    <key n="84">
      <name>T</name>
      <desc>load water ballast</desc>
      <binding>
        <command>property-adjust</command>
-       <property>/fdm/jsbsim/inertia/pointmass-weight-lbs[1]</property>
+       <property>/fdm/jsbsim/inertia/pointmass-weight-lbs[5]</property>
        <step type="double">11.023115</step> <!-- 5 liter per tank -->
        <min>0.</min>
        <max>121.25427</max> <!-- max 55 liter per Tank --> 
@@ -426,9 +580,11 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
      <binding>
        <command>nasal</command>
        <script>
-     	 var weight_lbs = getprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[1]");
+     	 var weight_lbs = getprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[5]");
      	 var weight_kg = weight_lbs / 2.204623;
      	 var water_both_tanks_liter = weight_kg * 2;
+	 setprop("/fdm/jsbsim/inertia/waterballast_total-kg",water_both_tanks_liter);
+	 setprop("/fdm/jsbsim/inertia/waterballast_total_slider-kg",water_both_tanks_liter);
    	 # setprop("sim/messages/atc", "loading 10 liter water ballast");
      	 var atc_msg = sprintf("%.2f liter water ballast on board", water_both_tanks_liter);
      	 setprop("sim/messages/atc", atc_msg);
@@ -444,37 +600,67 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
        <property>/sim/asw20/waterballast/valve</property>      
      </binding>
    </key>
-   
+
+   <key n="114">
+     <name>r</name>
+     <desc>recover</desc>
+     <binding>
+       <command>nasal</command>
+       <script>asw20.wing_failure_repair()</script>
+     </binding>
+   </key>
+
+   <key n="38">
+     <name>&amp;</name>
+     <desc>Toggle Auto-Coordination Aileron+Rudder</desc>
+     <binding>
+       <command>property-toggle</command>
+       <property>controls/flight/auto-coordination</property>
+       <value>0</value> 
+     </binding>
+   </key>
+
   </keyboard> 
  </input> 
-
 
  <nasal>
    <asw20>
      <file>Aircraft/Instruments-3d/glider/vario/ilec-sc7/ilec-sc7.nas</file>
      <file>Aircraft/asw20/Nasal/wool-thread.nas</file>
+     <file>Aircraft/asw20/Nasal/side-string.nas</file>
      <file>Aircraft/asw20/Nasal/AR3201.nas</file>
-     <file>Aircraft/asw20/Nasal/dialogs.nas</file>
-     <file>Aircraft/asw20/Nasal/winch.nas</file>
      <file>Aircraft/asw20/Nasal/aerotowing.nas</file>
+     <file>Aircraft/asw20/Nasal/dialogs.nas</file>
      <file>Aircraft/asw20/Nasal/dragrobot.nas</file>
-     <file>Aircraft/asw20/Nasal/messages.nas</file>	 
+     <file>Aircraft/asw20/Nasal/messages.nas</file>
+     <file>Aircraft/asw20/Nasal/winch.nas</file> 
+     <file>Aircraft/asw20/Nasal/weight_and_balance.nas</file>
+     <file>Aircraft/asw20/Nasal/default-settings.nas</file>    	 
    </asw20>
  </nasal>
-
 
  <fdm>
    <jsbsim>
      <fcs>
        <throttle-generic-engine-norm type="double">0.</throttle-generic-engine-norm>
      </fcs> 
+     <inertia>
+       <pointmass-weight-kg type="double">85.</pointmass-weight-kg>
+       <pointmass-weight-kg type="double">6.</pointmass-weight-kg>
+       <pointmass-weight-kg type="double">2.</pointmass-weight-kg>
+       <pointmass-weight-kg type="double">0.</pointmass-weight-kg>
+       <pointmass-weight-kg type="double">2.</pointmass-weight-kg>
+       <pointmass-weight-kg type="double">0.</pointmass-weight-kg>
+       <pointmass-weight-kg type="double">0.</pointmass-weight-kg>
+       <waterballast_total_slider-kg type="double">0.</waterballast_total_slider-kg>
+       <pointmass-location-X-inches type="double">-23.425</pointmass-location-X-inches>
+     </inertia>
     </jsbsim>
  </fdm>
 
-
  <controls>
    <flight>
-     <auto-coordination-factor type="float">0.5</auto-coordination-factor>
+     <auto-coordination-factor type="float">1.</auto-coordination-factor>
      <flaps>0.167</flaps>
    </flight>
  </controls> 
@@ -483,7 +669,9 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
  <instrumentation>
    <ilec-sc7>
      <volume>0.1</volume>
+     <audio>1</audio>
    </ilec-sc7>  
  </instrumentation>
-  
+
+
 </PropertyList>

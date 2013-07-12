@@ -1,3 +1,27 @@
+---------------------------------------------------------------------------
+
+Changes July 2013 by D-NXKT:
+
+- accurate speed polar for flap positions 1-4
+- good stall characteristic
+- tailspin
+- weight and balance
+- rain impact on performance
+- ground effect
+- wing failure
+- improved wing bending (aerodynamic and structural loads) 
+- accurate control surface deflections
+- side-string
+- improved cockpit
+- animated wing view
+- additional sounds
+- checklists
+- fuselage length (rear part) adjusted
+- few improvements for winch and towing but still experimental
+
+
+---------------------------------------------------------------------------
+
 Changes January 2013 by D-NXKT:
 
 - fdm converted from UIUC to JSBSim
@@ -27,6 +51,7 @@ _ model: span is 16m (original 15m); fuselage length ca. 1m shorter
 - it is highly appreciated if someone else wants to improve the cockpit!
 
 
+---------------------------------------------------------------------------
 
 
 

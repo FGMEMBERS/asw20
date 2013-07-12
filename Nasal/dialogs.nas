@@ -1,3 +1,11 @@
+var weight_and_balance_dialog = gui.Dialog.new("sim/gui/dialogs/asw20/weight_and_balance/dialog", 
+                                               "Aircraft/asw20/Dialogs/weight_and_balance.xml");
+				   
+var hook_dialog = gui.Dialog.new("sim/gui/dialogs/asw20/hook/dialog", 
+                                 "Aircraft/asw20/Dialogs/hook.xml");
+				   
+
+
 # ####################################################################################
 # ####################################################################################
 # Nasal script for dialogs
@@ -48,7 +56,7 @@ var guiWinchCancel = func {
 # winch dialog: helper function to display winch operation points
 var guiUpdateWinch = func {
     if ( getprop("sim/glider/winch/conf/pull_max_lbs") == nil ) {
-        var pull_max_lbs = 1100;
+        var pull_max_lbs = 900;
     }
     else {
         var pull_max_lbs = getprop("sim/glider/winch/conf/pull_max_lbs");
@@ -57,7 +65,7 @@ var guiUpdateWinch = func {
     setprop("sim/glider/gui/winch/pull_max_daN", pull_max_daN);
     
     if ( getprop("sim/glider/winch/conf/pull_max_speed_mps") == nil ) {
-        var pull_max_speed_mps = 40;
+        var pull_max_speed_mps = 32;
     }
     else {
         var pull_max_speed_mps = getprop("sim/glider/winch/conf/pull_max_speed_mps");
@@ -166,8 +174,8 @@ var guiUpdateDragRobot = func {
 # ####################################################################################
 # drag-robot dialog: helper function to run the roboter, avoiding race conditions
 var guiRunDragRobot = func {
-    asw20.findDragger();
-    asw20.hookDragger();
+    asw20.findDragger();    
+    asw20.hookDragger();    
     asw20.startDragRobot();
 }
 

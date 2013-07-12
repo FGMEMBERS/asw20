@@ -430,25 +430,125 @@
         </empty>
         <vrule/>
         <text>
-          <label>50m</label>
+          <label>20m</label>
         </text>
         <slider>
           <name>aerotow_length</name>
           <property>/sim/glider/towing/conf/rope_length_m</property>
-          <min>50</min>
-          <max>100</max>
+          <min>20</min>
+          <max>200</max>
           <step>1</step>  
           <binding>
             <command>dialog-apply</command>
           </binding>
         </slider>
         <text>
-          <label>100m</label>
+          <label>200m</label>
         </text>
       </group>
     </group>
   </group>
 
+    <!-- breaking tow force -->
+  <group>
+    <layout>hbox</layout>
+    <text>
+      <halign>left</halign>
+      <label>Breaking Tow Force_lbs</label>
+    </text>
+    <group>
+      <layout>hbox</layout>
+      <halign>right</halign>
+      <text>
+        <label>999999</label>
+        <live>true</live>
+        <format>%0.0f lbs </format>
+        <property>/sim/glider/towing/conf/breaking_towforce_lbs</property>
+        <color>
+          <red>0.2</red>
+          <green>0.9</green>
+          <blue>0.2</blue>
+        </color>
+      </text>
+      <empty>
+        <stretch>true</stretch>
+      </empty>
+      <vrule/>
+      <group>
+        <width>60</width>
+        <text>
+          <label>1000lbs</label>
+        </text>
+      </group>
+      <slider>
+        <name>aerotow_length</name>
+        <property>/sim/glider/towing/conf/breaking_towforce_lbs</property>
+        <min>1000</min>
+        <max>10000</max>
+        <step>10</step>
+        <binding>
+          <command>dialog-apply</command>
+        </binding>
+      </slider>
+      <group>
+        <width>60</width>
+        <text>
+          <label>10000lbs</label>
+        </text>
+      </group>
+    </group>
+  </group>
+
+<!-- tow characteristics -->
+  <group>
+    <layout>hbox</layout>
+    <text>
+      <halign>left</halign>
+      <label>Tow Elastic Constant [N]</label>
+    </text>
+    <group>
+      <layout>hbox</layout>
+      <halign>right</halign>
+      <text>
+        <label>9999</label>
+        <live>true</live>
+        <format>%0.1f</format>
+        <property>/sim/glider/towing/conf/rope_characteristics</property>
+        <color>
+          <red>0.2</red>
+          <green>0.9</green>
+          <blue>0.2</blue>
+        </color>
+      </text>
+      <empty>
+       <stretch>true</stretch>
+      </empty>
+      <vrule/>
+      <group>
+        <width>60</width>
+        <text>
+          <label>0N</label>
+        </text>
+      </group>
+      <slider>
+        <name>elastic-constant</name>
+        <property>/sim/glider/towing/conf/rope_characteristics</property>
+        <min>0</min>
+        <max>15000</max>
+        <binding>
+          <command>dialog-apply</command>
+        </binding>
+      </slider>
+      <group>
+        <width>60</width>
+        <text>
+          <label>15000N</label>
+        </text>
+      </group>
+    </group>
+  </group>
+
+<!--
   <hrule/>
 
   <group>
@@ -467,7 +567,7 @@
       <pref-height>6</pref-height>
     </empty>
   </group>
-
+-->
 
   <hrule/>
   <hrule/>

@@ -1,3 +1,4 @@
+
 # ####################################################################################
 # ####################################################################################
 # Nasal script to handle aerotowing, with AI-dragger
@@ -122,7 +123,7 @@ var globalsTowing = func {
   var glob_nominal_towforce_lbs = 500;
   var glob_breaking_towforce_lbs = 9999;
   var glob_rope_x1 = 0.7;
-  var glob_rope_characteristics = 2;
+  var glob_rope_characteristics = 9000;
   
   # set rope length X2, if not defined from "plane"-set.xml 
   if ( getprop("sim/glider/towing/conf/rope_length_m") == nil ) {
@@ -621,7 +622,9 @@ var getFreeModelID = func {
 var createTowingRope = func {
   # place towing rope at nose of glider and scale it to distance to dragger
   var rope_length_m = getprop("sim/glider/towing/conf/rope_length_m");
-  var rope_distance_m = rope_length_m * (getprop("sim/glider/towing/conf/rope_x1") - 0.02);
+###  var rope_distance_m = rope_length_m * (getprop("sim/glider/towing/conf/rope_x1") - 0.02);
+  var rope_distance_m = rope_length_m ;
+
   var install_distance_m = 0.05; # 0.05m in front of ref-point of glider
   
   # local variables
@@ -846,6 +849,12 @@ var releaseDragger = func {
     setprop("fdm/jsbsim/external_reactions/dragx/magnitude", 0);    # set the forces to zero
     setprop("fdm/jsbsim/external_reactions/dragy/magnitude", 0);    # set the forces to zero
     setprop("fdm/jsbsim/external_reactions/dragz/magnitude", 0);    # set the forces to zero
+
+    setprop("fdm/jsbsim/external_reactions/winchx/magnitude", 0);  # set the   # D-NXKT
+    setprop("fdm/jsbsim/external_reactions/winchy/magnitude", 0);  # forces    # D-NXKT
+    setprop("fdm/jsbsim/external_reactions/winchz/magnitude", 0);  # to zero   # D-NXKT
+
+
     setprop("sim/glider/towing/hooked",0);                         # dragger is not pulling
     atc_msg("Hook opened, tow released");
   }
@@ -894,6 +903,8 @@ var runDragger = func {
   var towlength_m = getprop("sim/glider/towing/conf/rope_length_m");
   var tl0 = getprop("sim/glider/towing/conf/rope_x1");
   var ropetype = getprop("sim/glider/towing/conf/rope_characteristics");
+
+  var hook_in_use = getprop("sim/asw20/hook/hook-in-use");   # D-NXKT
   
   # do all the stuff
   if ( getprop("sim/glider/towing/hooked") == 1 ) {            # is a dragger engaged
@@ -925,14 +936,33 @@ var runDragger = func {
     dragheadto = (glider.course_to(dragger));
     reldistance = distance / towlength_m;
     
-    if ( reldistance < tl0 ) {
-      forcetow = tf0;
-    }
-    else {
-      forcetow = math.pow((reldistance - tl0),ropetype) 
-                 / math.pow((1-tl0),ropetype) * nominaltowforce;
-    }
-    
+###    if ( reldistance < tl0 ) {
+###     if ( reldistance < 1 ) {
+###      forcetow = tf0;
+###    }
+###    else {
+###      forcetow = math.pow((reldistance - tl0),ropetype) 
+###                 / math.pow((1-tl0),ropetype) * nominaltowforce;
+###        forcetow = ( distance - towlength_m ) * 100 ;      # ropetype;
+###	 print(" forcetow ", forcetow , "  distance ", distance,"  ", breakingtowforce);
+###    }
+
+
+ # var tow_rope_factor = Youngs-Modulus * cross-section-aerea / towlength_m * 0.001;  # D-NXKT: calculate once only in gui!
+ ### force in lbs
+ # var elastic_constant = 9000.;
+  var elastic_constant = getprop("sim/glider/towing/conf/rope_characteristics");
+  var delta_towlength_m = distance - towlength_m;
+  if ( delta_towlength_m < 0. ) {
+    forcetow = 0.;
+  }
+  else{
+    forcetow_N = elastic_constant * delta_towlength_m / towlength_m;
+    forcetow = forcetow_N;
+  } 
+  # print(" forcetow ", forcetow , "  distance ", distance,"  ", breakingtowforce);
+
+
     if ( forcetow < breakingtowforce ) {
       
       # correct a failure, if the projected length is larger than direct length
@@ -980,9 +1010,16 @@ var runDragger = func {
       var forcez = flrollz;
       
       # apply forces to clutch
+    if(hook_in_use == 0 or hook_in_use == 2) {                                # D-NXKT       
       setprop("fdm/jsbsim/external_reactions/dragx/magnitude",  forcex);
       setprop("fdm/jsbsim/external_reactions/dragy/magnitude",  forcey);
       setprop("fdm/jsbsim/external_reactions/dragz/magnitude",  forcez);
+      }
+      else{
+        setprop("fdm/jsbsim/external_reactions/winchx/magnitude",  forcex );  # D-NXKT
+        setprop("fdm/jsbsim/external_reactions/winchy/magnitude",  forcey );  # D-NXKT
+        setprop("fdm/jsbsim/external_reactions/winchz/magnitude",  forcez );  # D-NXKT 
+      }
       
       # keep the glider leveled up to a certain speed
       # thanks to the helper, who holds the left wing tip

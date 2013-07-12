@@ -11,7 +11,7 @@ OBJECT poly
 name "backplane"
 data 9
 backplane
-texture "80mm_asi_510_30-300.png"
+texture "80mm_asi_510_30-300_black.png"
 texrep 1 1
 crease 30.000000
 numvert 37

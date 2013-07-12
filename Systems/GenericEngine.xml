@@ -3,7 +3,8 @@
 <system name="GenericEngine">
 
   <channel name="GenericThrust">        
-    <fcs_function>
+
+    <fcs_function name="systems/function/Thrust">
       <function name="systems/Thrust">
   	<product>
           <p>fcs/throttle-generic-engine-norm</p>	  
@@ -11,8 +12,8 @@
         </product>
       </function>
     </fcs_function>
-    <!-- <switch name="systems/ThrustOnOff"> -->
-    <switch>
+
+    <switch name="systems/switch/thrust_magnitude">
       <default value="0.0"/>
       <test value="systems/Thrust">
 	 /sim/asw20/engine_running eq 1
@@ -23,6 +24,7 @@
       </clipto>
       <output>external_reactions/GenericEngine/magnitude</output>
     </switch>	    
+
   </channel>
   
 </system>
