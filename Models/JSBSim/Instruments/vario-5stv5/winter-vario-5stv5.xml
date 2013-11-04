@@ -19,24 +19,12 @@
  <animation>
   <type>rotate</type>
   <object-name>Needle</object-name>
-  <property>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+  <property>/instrumentation/variometer/te-reading-mps</property>
   <interpolation>
-   <entry><ind>   -1240.16</ind><dep> -168.44</dep></entry>
-   <entry><ind>   -1181.1</ind><dep> -160.42</dep></entry>
-   <entry><ind>   -984.25</ind><dep> -135.08</dep></entry>
-   <entry><ind>   -787.5</ind><dep> -107.91</dep></entry>
-   <entry><ind>   -590.55</ind><dep> -80.53</dep></entry>
-   <entry><ind>   -393.7</ind><dep>  -53.99</dep></entry>
-   <entry><ind>    -196.85</ind><dep>  -26.8</dep></entry>
-   <entry><ind>      0.0</ind><dep>   0.0</dep></entry>
-   <entry><ind>    196.85</ind><dep>  26.8</dep></entry>
-   <entry><ind>   393.7</ind><dep>  53.99</dep></entry>
-   <entry><ind>   590.55</ind><dep> 80.53</dep></entry>
-   <entry><ind>   787.5</ind><dep> 107.91</dep></entry>
-   <entry><ind>   984.25</ind><dep> 135.08</dep></entry>
-   <entry><ind>   1181.1</ind><dep> 160.42</dep></entry> 
-   <entry><ind>   1240.16</ind><dep> 168.44</dep></entry>
+   <entry><ind>-6.33</ind><dep> -171</dep></entry>
+   <entry><ind> 6.33</ind><dep>  171</dep></entry>
   </interpolation>     
+
   <axis>
    <x>-1</x>
    <y>0</y>
