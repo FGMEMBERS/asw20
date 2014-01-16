@@ -1,5 +1,16 @@
 ---------------------------------------------------------------------------
 
+Changes January 2014 by D-NXKT:
+
+- aerotowing is now compatible with yasim-draggers
+  (tow-forces are transmitted by multiplayer) 
+- exact winch/towing rope animations
+- enable-hot = FALSE for winch/towing rope 
+  (prevents unrealistic wing failure, if fuselage contact point hits rope) 
+
+
+---------------------------------------------------------------------------
+
 Changes July 2013 by D-NXKT:
 
 - accurate speed polar for flap positions 1-4

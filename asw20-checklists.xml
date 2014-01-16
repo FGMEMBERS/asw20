@@ -310,11 +310,7 @@
 
   <checklist>
     <title>Known Issues</title>
-    <item>
-      <name>- winch/towing: wing failure if fuselage contact point hits rope</name>
-      <value></value>
-    </item>
-    <item>
+<!--    <item>
       <name>- towing forces not yet transmitted by multiplayer</name>
       <value></value>
     </item>
@@ -322,8 +318,9 @@
       <name>- towing insufficiently tested</name>
       <value></value>
     </item>
+-->
     <item>
-      <name>- over pronounced tail spin</name>
+      <name>- maybe over pronounced tail spin</name>
       <value></value>
     </item>
     <item>

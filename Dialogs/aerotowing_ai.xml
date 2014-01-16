@@ -454,7 +454,7 @@
     <layout>hbox</layout>
     <text>
       <halign>left</halign>
-      <label>Breaking Tow Force_lbs</label>
+      <label>Breaking Tow Force [N]</label>
     </text>
     <group>
       <layout>hbox</layout>
@@ -462,8 +462,8 @@
       <text>
         <label>999999</label>
         <live>true</live>
-        <format>%0.0f lbs </format>
-        <property>/sim/glider/towing/conf/breaking_towforce_lbs</property>
+        <format>%0.0fN </format>
+        <property>/sim/glider/towing/conf/breaking_towforce_N</property>
         <color>
           <red>0.2</red>
           <green>0.9</green>
@@ -477,12 +477,12 @@
       <group>
         <width>60</width>
         <text>
-          <label>1000lbs</label>
+          <label>1000N</label>
         </text>
       </group>
       <slider>
         <name>aerotow_length</name>
-        <property>/sim/glider/towing/conf/breaking_towforce_lbs</property>
+        <property>/sim/glider/towing/conf/breaking_towforce_N</property>
         <min>1000</min>
         <max>10000</max>
         <step>10</step>
@@ -493,7 +493,7 @@
       <group>
         <width>60</width>
         <text>
-          <label>10000lbs</label>
+          <label>10000N</label>
         </text>
       </group>
     </group>
@@ -512,7 +512,7 @@
       <text>
         <label>9999</label>
         <live>true</live>
-        <format>%0.1f</format>
+        <format>%0.0fN</format>
         <property>/sim/glider/towing/conf/rope_characteristics</property>
         <color>
           <red>0.2</red>

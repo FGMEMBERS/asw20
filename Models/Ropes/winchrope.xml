@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!--
-  Version: 2012-12-27
+  Version: 2014-01-16
 -->
 
 <PropertyList>
@@ -56,5 +56,10 @@
     <x-factor>200</x-factor>
   </animation>
 
+  <animation>
+    <object-name>winchrope</object-name>
+    <enable-hot type="bool">false</enable-hot>
+  </animation>
 
+   
 </PropertyList>

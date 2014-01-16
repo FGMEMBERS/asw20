@@ -24,8 +24,13 @@ var wing_failure_repair = func {
 #
 ##################################################################
 
-var set_hook_coordinates = func { 
+var set_hook_coordinates = func(mode) { 
+  # mode = 1 := winch
+  # mode = 2 := towing
   var hook_in_use = getprop("sim/asw20/hook/hook-in-use");
+  if(mode == 1 and hook_in_use == 0) hook_in_use = 1;
+  if(mode == 2 and hook_in_use == 0) hook_in_use = 2; 
+  
   if(hook_in_use < 2) {  #C.G. hook (FDM-system)        
      var x = -0.5 ;
      var y =  0.;

@@ -57,7 +57,7 @@
       </binding>
       <binding>
         <command>nasal</command>
-	<script>asw20.set_hook_coordinates()</script>
+	<script>asw20.set_hook_coordinates(0)</script>
       </binding>
 
     </list>
