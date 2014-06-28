@@ -1,5 +1,13 @@
 ---------------------------------------------------------------------------
 
+Changes June 2014 by D-NXKT:
+
+- fix for possible wing failure at startup
+- screen message with state of toggle "wing failure" and "auto-coordination"
+
+
+---------------------------------------------------------------------------
+
 Changes January 2014 by D-NXKT:
 
 - aerotowing is now compatible with yasim-draggers

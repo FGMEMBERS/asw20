@@ -635,9 +635,9 @@ href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
 	  <sum>
             <property>forces/fbz-aero-lbs</property>
 	    <product>
-	      <!-- <property>accelerations/Nz</property>  usage will cause wing-failure at initialization -->
-	      <property>/accelerations/n-z-cg-fps_sec</property>
-	      <value>-1.</value>
+	      <property>accelerations/Nz</property> <!--  will cause wing-failure at initialization -->
+	      <!-- <property>/accelerations/n-z-cg-fps_sec</property> 
+	      <value>-1.</value> -->
 	      <sum>
 	        <value>306.</value>				      <!-- Ref. 4 p. 1 : 153lbs * 2   -->
 	        <property>inertia/pointmass-weight-lbs[4]</property>  <!-- water ballast left -->

@@ -69,3 +69,15 @@ var weight_and_balance_defaults = func {
   
 }
 
+
+################################################################################################
+#
+# Avoid possible wing failure at startup
+#
+################################################################################################
+
+if ( getprop("sim/asw20/wing-failure-enable") ) {
+  setprop("sim/asw20/wing-failure-enable",0);
+  settimer( func { setprop("sim/asw20/wing-failure-enable", 1 ); }, 2 );
+  }
+

@@ -65,8 +65,7 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
     <float n="2" alias="/instrumentation/sidestring"/>
    </generic>
   </multiplay>
-
-
+  
 <!--       	  
      	      y       
      	      |  x	 
@@ -172,6 +171,15 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
         <property>controls/flight/auto-coordination</property>
         <value>0</value> 
        </binding>
+       <binding>
+         <command>nasal</command>
+         <script>
+           if ( getprop("controls/flight/auto-coordination") ) 
+	        { asw20.atc_msg("auto-coordination enabled"); }
+           else { asw20.atc_msg("auto-coordination disabled"); }
+         </script>
+       </binding>
+
      </item>	
 
      <item>
@@ -201,7 +209,12 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
        </binding>
 	<binding>
           <command>nasal</command>
-          <script>asw20.wing_failure_repair()</script>
+          <script>
+	    asw20.wing_failure_repair();
+	    if ( getprop("sim/asw20/wing-failure-enable") ) 
+	         { asw20.atc_msg("wing failure enabled"); }
+	    else { asw20.atc_msg("wing failure disabled"); }
+	  </script>
         </binding>
      </item>	
 
@@ -214,7 +227,7 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
      </item>	
 
      <item>
-      <label>-------- Experimental --------</label>    
+      <label>-------- ------------ --------</label>    
       <enabled>false</enabled>
      </item>
     
@@ -294,7 +307,7 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
         <desc>jump up 1000ft</desc>
       </key>
       <key>
-        <name>&amp;</name>
+        <name>&amp; or R</name>
         <desc>toggle auto-coordination aileron+rudder</desc>
       </key>
       <key>
@@ -303,14 +316,15 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
       </key>
 
       <line> </line>
-      <line>experimental winch support (copied from DG-101G)</line>
+      <line>Winch support</line>
       <line> Ctrl-w: place winch</line>
       <line> w     : run winch</line>
       <line> W     : release winch</line>
-      <line>experimental AI aerotowing support</line>
+      <line>AI and MP aerotowing support</line>
       <line> Ctrl-o: find a dragger</line>
       <line> o     : hook in </line>
       <line> O     : release tow </line>
+      <line>Use GUI for winch/towing configuration settings</line>
       <!--
       <line>experimental drag robot support (copied from DG-101G)</line>
       <line> d     : start/stop drag roboter</line>
@@ -360,9 +374,9 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
     </winch>
     <towing>
       <conf>
-  	<rope_length_m>60.0</rope_length_m>
-  	<nominal_towforce_lbs>500.0</nominal_towforce_lbs>
-  	<breaking_towforce_lbs>9999.0</breaking_towforce_lbs>
+  	<rope_length_m type="float">60.0</rope_length_m>
+  	<nominal_towforce_lbs type="float">500.0</nominal_towforce_lbs>
+  	<breaking_towforce_lbs type="float">9999.0</breaking_towforce_lbs>
       </conf>
       <hooked>0</hooked>
     </towing>
@@ -394,6 +408,7 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
   <aircraft-data>
     <path>/sim/asw20/with-woolthread</path>
     <path>/sim/asw20/with-sidestringg</path>
+    <path>/sim/asw20/wing-failure-enable</path>
     <path>/controls/flight/auto-coordination</path>
     <path>/instrumentation/ilec-sc7/volume</path> 
     <path>/fdm/jsbsim/inertia/pointmass-weight-kg[0]</path> 
@@ -612,6 +627,16 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
 
    <key n="38">
      <name>&amp;</name>
+     <desc>Toggle Auto-Coordination Aileron+Rudder</desc>
+     <binding>
+       <command>property-toggle</command>
+       <property>controls/flight/auto-coordination</property>
+       <value>0</value> 
+     </binding>
+   </key>
+
+   <key n="82">
+     <name>R</name>
      <desc>Toggle Auto-Coordination Aileron+Rudder</desc>
      <binding>
        <command>property-toggle</command>
