@@ -16,6 +16,7 @@ Aircraft/asw20/Models/uiuc/hgldr-cs/README.TXT
 Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
              January, 2013 D-NXKT, D_NXKT@yahoo.de
 	     July, 2013 D-NXKT, D_NXKT@yahoo.de
+	     June, 2014 D-NXKT, D_NXKT@yahoo.de
 ************************************************************************
 -->
 
@@ -25,7 +26,7 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
 
   <description>ASW-20 sailplane (JSBSim)</description>
   <author>Michael Selig, Roland Stuck (3D), D-NXKT</author>
-  <aircraft-version>July 2013</aircraft-version>
+  <aircraft-version>June 2014</aircraft-version>
   <flight-model>jsb</flight-model>
   <aero>Models/JSBSim/asw20-JSBSim</aero>
 
