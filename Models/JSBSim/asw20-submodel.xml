@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!--
+************************************************************************
+Separated wing model required for wing failure
+************************************************************************
+-->
+
+<PropertyList>
+
+<submodel>
+  <name>LeftWing-submodel</name>
+  <model>/Aircraft/asw20/Models/JSBSim/asw20_wing_left.ac</model>
+  <trigger>/sim/asw20/wing-failure-left</trigger>
+  <repeat>false</repeat>
+  <count>1</count>
+  <speed>0</speed>
+  <wind>true</wind>
+  <aero-stabilised>false</aero-stabilised>
+  <eda>50.</eda>
+  <cd>0.5</cd>
+  <weight>160.</weight>
+  <x-offset>0.</x-offset>
+  <y-offset>0.</y-offset>
+  <z-offset>0.</z-offset>
+  <pitch-offset>0</pitch-offset>
+  <yaw-offset>0</yaw-offset>
+  <buoyancy>0.</buoyancy>
+  <life>300</life>
+  <expiry>true</expiry>
+  <delay>0</delay>
+  <impact>false</impact>
+  <impact-reports>/ai/models/model-impact</impact-reports>
+</submodel>
+
+<submodel>
+  <name>RightWing-submodel</name>
+  <model>/Aircraft/asw20/Models/JSBSim/asw20_wing_right.ac</model>  
+  <trigger>/sim/asw20/wing-failure-right</trigger>
+  <repeat>false</repeat>
+  <count>1</count>
+  <speed>0</speed>
+  <wind>true</wind>
+  <aero-stabilised>false</aero-stabilised>
+  <eda>50.</eda>
+  <cd>0.5</cd>
+  <weight>160.</weight>
+  <x-offset>0.</x-offset>
+  <y-offset>0.</y-offset>
+  <z-offset>0.</z-offset>
+  <pitch-offset>0</pitch-offset>
+  <yaw-offset>0</yaw-offset>
+  <buoyancy>0.</buoyancy>
+  <life>300</life>
+  <expiry>true</expiry>
+  <delay>0</delay>
+  <impact>false</impact>
+  <impact-reports>/ai/models/model-impact</impact-reports>
+</submodel>
+  
+</PropertyList>

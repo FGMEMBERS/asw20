@@ -1,0 +1,747 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+ <nasal>
+  <load>
+
+   ##############################################################################
+   # The on-load Nasal is not executed when this file is loaded as the user aircraft.
+   ##############################################################################
+   var rplayer = cmdarg();
+   # Set up property aliases for animations.
+
+   rplayer.getNode("sim/asw20/waterballast/dumping", 1).
+     alias(rplayer.getNode("sim/multiplay/generic/int[0]"));
+   rplayer.getNode("sim/asw20/wing-failure-left", 1).
+     alias(rplayer.getNode("sim/multiplay/generic/int[1]"));
+   rplayer.getNode("sim/asw20/wing-failure-right", 1).
+     alias(rplayer.getNode("sim/multiplay/generic/int[2]"));     
+   rplayer.getNode("sim/asw20/with-woolthread", 1).
+     alias(rplayer.getNode("sim/multiplay/generic/int[3]"));
+   rplayer.getNode("sim/asw20/with-sidestringg", 1).
+     alias(rplayer.getNode("sim/multiplay/generic/int[4]"));   
+   rplayer.getNode("gear/gear[0]/rollspeed-ms", 1).
+     alias(rplayer.getNode("sim/multiplay/generic/float[0]"));  
+   rplayer.getNode("sim/asw20/wing_load", 1).
+     alias(rplayer.getNode("sim/multiplay/generic/float[1]"));  
+   rplayer.getNode("instrumentation/sidestring", 1).
+     alias(rplayer.getNode("sim/multiplay/generic/float[2]"));  
+
+   # print("ASW20 loaded");
+   
+  </load>
+
+  <unload>
+
+   # unalias
+   rplayer.getNode("sim/asw20/waterballast/dumping", 1).unalias();
+   rplayer.getNode("sim/asw20/wing-failure-left", 1).unalias();
+   rplayer.getNode("sim/asw20/wing-failure-right", 1).unalias();
+   rplayer.getNode("sim/asw20/with-woolthread", 1).unalias();
+   rplayer.getNode("sim/asw20/with-sidestringg", 1).unalias();        
+   rplayer.getNode("gear/gear[0]/rollspeed-ms", 1).unalias();  
+   rplayer.getNode("sim/asw20/wing_load", 1).unalias();  
+   rplayer.getNode("instrumentation/sidestring", 1).unalias();  
+
+   # print("ASW20 unloaded");
+  
+  </unload>
+  
+ </nasal>
+
+
+ <path>asw20.ac</path>
+
+ <offsets>
+  <z-m>0</z-m>
+  <x-m>0</x-m>
+  <pitch-deg>0</pitch-deg>
+ </offsets>
+
+
+<!--    _____________________________  Instruments  _________________________________  -->
+
+ <model>
+   <path>Aircraft/asw20/Models/JSBSim/Instruments/vario-5stv5/winter-vario-5stv5.xml</path>
+   <offsets>
+      <x-m>-1.36</x-m>
+      <y-m> 0.09</y-m>
+      <z-m>-0.07</z-m>
+      <pitch-deg>0</pitch-deg>
+   </offsets>	 
+ </model>
+ 
+ <model>
+   <path>Aircraft/Instruments-3d/glider/vario/ilec-sc7/ilec-sc7.xml</path>
+   <offsets>
+     <x-m>-1.36</x-m>
+     <y-m>-0.095</y-m>
+     <z-m>-0.155</z-m>
+     <pitch-deg>0</pitch-deg>
+   </offsets>	  
+ </model>
+
+ <model>
+   <path>Aircraft/asw20/Models/JSBSim/Instruments/winter-asi-dg101/80mm_asi_6fms4.xml</path>
+   <offsets>
+     <x-m>-1.36</x-m>
+     <y-m>-0.09</y-m>
+     <z-m>-0.07</z-m>
+     <pitch-deg>0</pitch-deg>
+   </offsets>
+ </model>
+
+ <model>
+   <path>Aircraft/Instruments-3d/comp/comp.xml</path>
+   <offsets>
+     <x-m>-1.37</x-m>
+     <y-m>0.16</y-m>
+     <z-m>-0.155</z-m>
+     <scale>1.2</scale>
+     <pitch-deg>0</pitch-deg>
+   </offsets>	  
+ </model>
+ 
+ <model>
+   <path>Aircraft/Instruments-3d/winter-ball/ball.xml</path>
+   <offsets>
+     <x-m>-1.36</x-m>
+     <y-m>0.0</y-m>
+     <z-m>-0.12</z-m>
+     <pitch-deg>0</pitch-deg>
+   </offsets>	   
+ </model>
+ 
+ <model>
+   <path>Aircraft/Instruments-3d/ar-3201/ar-3201.xml</path>
+   <offsets>
+     <x-m>-1.36</x-m>
+     <y-m> 0</y-m>
+     <z-m>-0.235</z-m>
+     <pitch-deg>0</pitch-deg>
+   </offsets>	   
+ </model>
+ 
+ <model>
+   <path>Aircraft/Instruments-3d/winter-alti-4110/winter-4110.xml</path>
+   <offsets>
+     <x-m>-1.36</x-m>
+     <y-m>0.0</y-m>
+     <z-m>-0.03</z-m>
+     <pitch-deg>0</pitch-deg>
+   </offsets>	   
+ </model>
+
+ <model>
+   <path>Aircraft/asw20/Models/JSBSim/Instruments/wool-thread/wool-thread.xml</path>
+   <offsets>
+     <x-m>-1.5</x-m>
+     <y-m> 0</y-m>
+     <z-m>0.11</z-m>
+     <pitch-deg>0</pitch-deg>
+   </offsets>	   
+ </model>
+
+ <model>
+   <path>Aircraft/asw20/Models/JSBSim/Instruments/side-string/side-string.xml</path>
+   <offsets>
+     <x-m>-1.5</x-m>
+     <y-m>-0.267</y-m>
+     <z-m>-0.12</z-m>
+     <pitch-deg>0</pitch-deg>
+     <heading-deg>-8.0</heading-deg>
+   </offsets>	   
+ </model>
+
+
+<!-- __________________  Water Trail  __________________ -->
+
+ <model>
+   <path>Aircraft/asw20/Models/JSBSim/WaterTrail.xml</path>
+   <name>WaterTrail</name>
+   <condition>
+     <property>sim/asw20/waterballast/dumping</property>      
+   </condition> 
+   <offsets>
+     <x-m>0.0</x-m>
+     <y-m>0.0</y-m>
+     <z-m>-0.5</z-m>
+   </offsets>
+ </model>
+
+
+<!-- _________________  Wing Failure  _________________ -->
+
+ <animation>
+  <type>select</type>
+   <object-name>WingLeftSegment1</object-name>
+   <object-name>WingLeftSegment2</object-name>
+   <object-name>FlapLeft</object-name>
+   <object-name>AileronLeft</object-name> 
+   <object-name>SpeedbrakeLeft</object-name>
+   <object-name>SpeedbrakeLeftLower</object-name>
+     <condition>
+      <not>
+        <property>sim/asw20/wing-failure-left</property>
+      </not>
+     </condition>
+ </animation>
+
+ <animation>
+  <type>select</type>
+   <object-name>WingRightSegment1</object-name>
+   <object-name>WingRightSegment2</object-name>
+   <object-name>FlapRight</object-name>
+   <object-name>AileronRight</object-name>
+   <object-name>SpeedbrakeRight</object-name> 
+   <object-name>SpeedbrakeRightLower</object-name>
+     <condition>
+      <not>
+        <property>sim/asw20/wing-failure-right</property>
+      </not>
+     </condition>
+ </animation>
+ 
+
+<!-- _________________  Wing Deflection  _________________ -->
+
+ <animation>
+  <type>rotate</type>
+   <object-name>WingLeftSegment1</object-name>
+   <object-name>WingLeftSegment2</object-name>
+   <object-name>FlapLeft</object-name>
+   <object-name>AileronLeft</object-name> 
+   <object-name>SpeedbrakeLeft</object-name>
+   <object-name>SpeedbrakeLeftLower</object-name>
+      <property>sim/asw20/wing_load</property>
+      <offset-deg>1.0</offset-deg>
+    <center>
+      <x-m>0.396</x-m>
+      <y-m>-0.219</y-m>
+      <z-m>-0.004</z-m>
+    </center>
+    <axis>
+      <x>1.0</x>
+      <y>0.0</y>
+      <z>0.0</z>
+    </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+   <object-name>WingLeftSegment2</object-name>
+   <object-name>AileronLeft</object-name>
+      <property>sim/asw20/wing_load</property>
+      <offset-deg>1.0</offset-deg>
+    <center>
+      <x-m>-0.336</x-m>
+      <y-m>-4.453</y-m>
+      <z-m>0.244</z-m>
+    </center>
+    <axis>
+      <x>1.0</x>
+      <y>0.0</y>
+      <z>0.0</z>
+    </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+   <object-name>WingRightSegment1</object-name>
+   <object-name>WingRightSegment2</object-name>
+   <object-name>FlapRight</object-name>
+   <object-name>AileronRight</object-name>
+   <object-name>SpeedbrakeRight</object-name> 
+   <object-name>SpeedbrakeRightLower</object-name>
+      <property>sim/asw20/wing_load</property>
+      <factor>-1</factor>
+      <offset-deg>-1.0</offset-deg>
+    <center>
+      <x-m>0.396</x-m>
+      <y-m>0.219</y-m>
+      <z-m>-0.004</z-m>
+    </center>
+    <axis>
+      <x>1.0</x>
+      <y>0.0</y>
+      <z>0.0</z>
+    </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+   <object-name>WingRightSegment2</object-name>
+   <object-name>AileronRight</object-name>
+      <property>sim/asw20/wing_load</property>
+      <factor>-1</factor>
+      <offset-deg>-1.0</offset-deg>
+    <center>
+      <x-m>-0.336</x-m>
+      <y-m>4.453</y-m>
+      <z-m>0.244</z-m>
+    </center>
+    <axis>
+      <x>1.0</x>
+      <y>0.0</y>
+      <z>0.0</z>
+    </axis>
+ </animation>
+
+
+<!-- _________________  Control Surfaces  _________________ -->
+
+ <animation>
+  <type>rotate</type>
+   <object-name>AileronLeft</object-name>
+     <property>surface-positions/left-aileron-pos-norm</property>
+     <factor>-16</factor>
+     <offset-deg>0.0</offset-deg>
+     <axis>
+     <x1-m>0.213</x1-m>
+     <y1-m>-4.453</y1-m>
+     <z1-m>0.275</z1-m>
+     <x2-m>-0.061</x2-m>
+     <y2-m>-7.928</y2-m>
+     <z2-m>0.594</z2-m>
+     </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>                                    <!-- Ref. 2 pp.42 -->
+   <object-name>AileronLeft</object-name>
+     <property>surface-positions/flap-pos-norm</property>
+     <interpolation>
+      <entry><ind>-1.0 </ind><dep>11.0</dep></entry>
+      <entry><ind>-0.55</ind><dep> 6.0</dep></entry>
+      <entry><ind> 0.0 </ind><dep> 0.0</dep></entry>
+      <entry><ind> 0.82</ind><dep>-7.5</dep></entry>
+      <entry><ind> 5.0 </ind><dep> 8.0</dep></entry>
+     </interpolation>
+     <axis>
+     <x1-m>0.213</x1-m>
+     <y1-m>-4.453</y1-m>
+     <z1-m>0.275</z1-m>
+     <x2-m>-0.061</x2-m>
+     <y2-m>-7.928</y2-m>
+     <z2-m>0.594</z2-m>
+     </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+   <object-name>AileronRight</object-name>
+     <property>surface-positions/right-aileron-pos-norm</property>
+      <factor>16</factor>
+      <offset-deg>0.0</offset-deg>
+     <axis>
+     <x1-m>0.213</x1-m>
+     <y1-m>4.453</y1-m>
+     <z1-m>0.275</z1-m>
+     <x2-m>-0.061</x2-m>
+     <y2-m>7.928</y2-m>
+     <z2-m>0.594</z2-m>
+     </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+   <object-name>AileronRight</object-name>
+     <property>surface-positions/flap-pos-norm</property>
+     <interpolation>
+      <entry><ind>-1.0 </ind><dep>-11.0</dep></entry>
+      <entry><ind>-0.55</ind><dep> -6.0</dep></entry>
+      <entry><ind> 0.0 </ind><dep>  0.0</dep></entry>
+      <entry><ind> 0.82</ind><dep>  7.5</dep></entry>
+      <entry><ind> 5.0 </ind><dep> -8.0</dep></entry>
+     </interpolation>
+     <axis>
+     <x1-m>0.213</x1-m>
+     <y1-m>4.453</y1-m>
+     <z1-m>0.275</z1-m>
+     <x2-m>-0.061</x2-m>
+     <y2-m>7.928</y2-m>
+     <z2-m>0.594</z2-m>
+     </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+   <object-name>FlapLeft</object-name>
+     <property>surface-positions/flap-pos-norm</property>
+      <factor>-11</factor>
+      <offset-deg>0.0</offset-deg>
+     <axis>
+     <x1-m>0.393</x1-m>
+     <y1-m>-0.275</y1-m>
+     <z1-m>0.033</z1-m>
+     <x2-m>0.213</x2-m>
+     <y2-m>-4.453</y2-m>
+     <z2-m>0.275</z2-m>
+     </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+   <object-name>FlapLeft</object-name>
+     <property>surface-positions/left-aileron-pos-norm</property>
+      <factor>-7</factor>
+      <offset-deg>0.0</offset-deg>
+     <axis>
+     <x1-m>0.393</x1-m>
+     <y1-m>-0.275</y1-m>
+     <z1-m>0.033</z1-m>
+     <x2-m>0.213</x2-m>
+     <y2-m>-4.453</y2-m>
+     <z2-m>0.275</z2-m>
+     </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+   <object-name>FlapRight</object-name>
+     <property>surface-positions/flap-pos-norm</property>
+      <factor>11</factor>
+      <offset-deg>0.0</offset-deg>
+     <axis>
+     <x1-m>0.393</x1-m>
+     <y1-m>0.275</y1-m>
+     <z1-m>0.033</z1-m>
+     <x2-m>0.213</x2-m>
+     <y2-m>4.453</y2-m>
+     <z2-m>0.275</z2-m>
+     </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+   <object-name>FlapRight</object-name>
+     <property>surface-positions/right-aileron-pos-norm</property>
+      <factor>+7</factor>
+      <offset-deg>0.0</offset-deg>
+     <axis>
+     <x1-m>0.393</x1-m>
+     <y1-m>0.275</y1-m>
+     <z1-m>0.033</z1-m>
+     <x2-m>0.213</x2-m>
+     <y2-m>4.453</y2-m>
+     <z2-m>0.275</z2-m>
+     </axis>
+ </animation>
+
+ <animation>
+  <type>pick</type>
+   <object-name>FlapLeft</object-name>
+   <object-name>FlapRight</object-name>
+   <action>
+    <button>0</button>
+    <button>4</button>
+    <repeatable>false</repeatable>
+    <binding>
+      <command>nasal</command>
+      <script>
+        controls.flapsDown(1)
+     </script>
+    </binding>
+   </action>
+ </animation>
+ <animation>
+  <type>pick</type>
+   <object-name>FlapLeft</object-name>
+   <object-name>FlapRight</object-name>
+   <action>
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+    <repeatable>false</repeatable>
+    <binding>
+      <command>nasal</command>
+      <script>
+        controls.flapsDown(-1)
+     </script>
+    </binding>
+   </action>
+ </animation>
+
+
+ <animation>
+  <type>rotate</type>
+   <object-name>Rudder</object-name>
+      <property>surface-positions/rudder-pos-norm</property>
+      <factor>31.0</factor>   <!-- Ref. 3 pp 4 -->
+      <offset-deg>0.0</offset-deg>
+     <axis>
+     <x1-m>4.021</x1-m>
+     <y1-m>0.0</y1-m>
+     <z1-m>-0.152</z1-m>
+     <x2-m>4.032</x2-m>
+     <y2-m>0.0</y2-m>
+     <z2-m>1.207</z2-m>
+    </axis>
+ </animation>
+
+ <animation>
+  <type>pick</type>
+   <object-name>Rudder</object-name>
+   <action>
+    <button>0</button>
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>    
+    <button>4</button>
+    <repeatable>false</repeatable>
+    <binding>
+      <command>property-toggle</command>
+      <property>controls/flight/auto-coordination</property>
+    </binding>
+   </action>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+   <object-name>Elevator</object-name>
+    <expression>
+     <product>
+      <property>surface-positions/elevator-pos-norm</property>
+      <value>24.5</value>
+     </product>
+    </expression>
+    <center>
+      <x-m>3.982</x-m>
+      <y-m>0.0</y-m>
+      <z-m>1.2</z-m>
+    </center>
+    <axis>
+      <x>0.0</x>
+      <y>1.0</y>
+      <z>0.0</z>
+    </axis>
+ </animation>
+
+
+<!-- _________________  Gear  _________________ -->
+
+ <animation>
+  <type>translate</type>
+   <object-name>Wheel</object-name>
+    <property>gear/gear[0]/position-norm</property>
+    <factor>-0.4</factor>
+    <offset-m>0.4</offset-m>
+    <axis>
+      <x>0.0</x>
+      <y>0.0</y>
+      <z>1.0</z>
+    </axis>
+ </animation>
+
+ <animation>
+  <type>spin</type>  <!-- Unit = RPM  -->
+   <object-name>Wheel</object-name>
+    <property>gear/gear[0]/rollspeed-ms</property>
+    <factor>-57.87</factor>  
+    <center>
+      <x-m>-0.281</x-m>
+      <y-m>0.0</y-m>
+      <z-m>-0.574</z-m>
+    </center>
+    <axis>
+      <x>0.0</x>
+      <y>1.0</y>
+      <z>0.0</z>
+    </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+   <object-name>GearDoorLeft</object-name>
+      <property>gear/gear[0]/position-norm</property>
+      <factor>110</factor>
+      <offset-deg>-110.0</offset-deg>
+     <axis>
+     <x1-m>-0.107</x1-m>
+     <y1-m>-0.092</y1-m>
+     <z1-m>-0.449</z1-m>
+     <x2-m>-0.539</x2-m>
+     <y2-m>-0.092</y2-m>
+     <z2-m>-0.512</z2-m>
+     </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+   <object-name>GearDoorRight</object-name>
+      <property>gear/gear[0]/position-norm</property>
+      <factor>-110</factor>
+      <offset-deg>110.0</offset-deg>
+     <axis>
+     <x1-m>-0.107</x1-m>
+     <y1-m> 0.092</y1-m>
+     <z1-m>-0.449</z1-m>
+     <x2-m>-0.539</x2-m>
+     <y2-m> 0.092</y2-m>
+     <z2-m>-0.512</z2-m>
+     </axis>
+ </animation>
+
+ <animation>
+  <type>translate</type>
+   <object-name>GearboxFake</object-name>
+    <property>gear/gear[0]/position-norm</property>
+    <interpolation>
+     <entry><ind>0.0</ind> <dep>0.1</dep></entry>
+     <entry><ind>0.4</ind> <dep>0.0</dep></entry>
+     <entry><ind>1.0</ind> <dep>0.0</dep></entry>
+    </interpolation>
+    <axis>
+      <x>0.0</x>
+      <y>0.0</y>
+      <z>1.0</z>
+    </axis>
+ </animation>
+
+ <animation>
+  <type>pick</type>
+   <object-name>Wheel</object-name>
+   <object-name>GearDoorLeft</object-name>
+   <object-name>GearDoorRight</object-name>   
+   <action>
+    <button>0</button>
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>    
+    <button>4</button>
+    <repeatable>false</repeatable>
+    <binding>
+      <command>property-toggle</command>
+      <property>controls/gear/gear-down</property>
+    </binding>
+   </action>
+ </animation>
+
+
+<!-- _________________  Speedbrake  _________________ -->
+
+ <animation>
+  <type>translate</type>
+   <object-name>SpeedbrakeLeft</object-name>
+   <object-name>SpeedbrakeRight</object-name>
+    <property>surface-positions/speedbrake-pos-norm</property>
+    <factor>0.106</factor>
+    <offset-m>-0.106</offset-m>
+    <axis>
+      <x>0.139</x>
+      <y>0.0</y>
+      <z>0.990</z>
+    </axis>
+ </animation>
+
+ <animation>
+  <type>translate</type>
+   <object-name>SpeedbrakeLeftLower</object-name>
+   <object-name>SpeedbrakeRightLower</object-name>
+    <property>surface-positions/speedbrake-pos-norm</property>
+    <factor>0.06</factor>
+    <offset-m>-0.06</offset-m>
+    <axis>
+      <x>0.139</x>
+      <y>0.0</y>
+      <z>0.990</z>
+    </axis>
+ </animation>
+
+ <animation>
+  <type>pick</type>
+   <object-name>SpeedbrakeLeft</object-name>
+   <object-name>SpeedbrakeRight</object-name>
+   <object-name>SpeedbrakeLeftLower</object-name>
+   <object-name>SpeedbrakeRightLower</object-name>   
+   <action>
+    <button>0</button>
+    <button>4</button>
+    <repeatable>false</repeatable>
+    <binding>
+      <command>nasal</command>
+      <script>
+        controls.stepSpoilers(-1)
+     </script>
+    </binding>
+   </action>
+ </animation>
+ <animation>
+  <type>pick</type>
+   <object-name>SpeedbrakeLeft</object-name>
+   <object-name>SpeedbrakeRight</object-name>
+   <object-name>SpeedbrakeLeftLower</object-name>
+   <object-name>SpeedbrakeRightLower</object-name>   
+   <action>
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+    <repeatable>false</repeatable>
+    <binding>
+      <command>nasal</command>
+      <script>
+        controls.stepSpoilers(1)
+     </script>
+    </binding>
+   </action>
+ </animation>
+
+
+<!-- _________________  Flap Lever  _________________ -->
+
+ <animation>
+  <type>translate</type>
+   <object-name>FlapLever</object-name>
+    <property>surface-positions/flap-pos-norm</property>
+    <interpolation>
+     <entry><ind>-1.0 </ind><dep>-0.08 </dep></entry>
+     <entry><ind>-0.55</ind><dep>-0.062</dep></entry>
+     <entry><ind> 0.0 </ind><dep>-0.04 </dep></entry>
+     <entry><ind> 0.82</ind><dep>-0.0072</dep></entry>
+     <entry><ind> 5.0 </ind><dep> 0.08 </dep></entry>
+    </interpolation>
+    <axis>
+     <x1-m>-1.4629</x1-m>
+     <y1-m>-0.2461</y1-m>
+     <z1-m>-0.3809</z1-m>
+     <x2-m>-1.1289</x2-m>
+     <y2-m>-0.2832</y2-m>
+     <z2-m>-0.3711</z2-m>     
+    </axis>
+ </animation>
+
+ <animation>
+  <type>pick</type>
+   <object-name>FlapLever</object-name>
+   <action>
+    <button>0</button>
+    <button>4</button>
+    <repeatable>false</repeatable>
+    <binding>
+      <command>nasal</command>
+      <script>
+        controls.flapsDown(1)
+     </script>
+    </binding>
+   </action>
+ </animation>
+ <animation>
+  <type>pick</type>
+   <object-name>FlapLever</object-name>
+   <action>
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+    <repeatable>false</repeatable>
+    <binding>
+      <command>nasal</command>
+      <script>
+        controls.flapsDown(-1)
+     </script>
+    </binding>
+   </action>
+ </animation>
+
+
+</PropertyList>

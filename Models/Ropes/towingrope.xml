@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+
+<!--
+  Version: 2014-01-16
+-->
+
+<PropertyList>
+
+  <path>towingrope.ac</path>
+  
+  <offsets>
+          <x-m>0.0</x-m>
+          <y-m>0.0</y-m>
+          <z-m>0.0</z-m>
+    <pitch-deg>0</pitch-deg>
+    
+  </offsets>
+  
+ 
+<!-- animations -->
+  <animation>
+    <type>scale</type>
+    <object-name>towingrope</object-name>
+    <condition>
+      <equal>
+        <property>sim/glider/towrope/flags/exist</property>
+        <value>1</value>
+      </equal>
+    </condition>
+    <property>sim/glider/towrope/data/xstretch_rel</property>
+    <x-min>0.0</x-min>
+    <y-min>1.0</y-min>
+    <z-min>1.0</z-min>
+    <x-factor>1</x-factor>
+    <y-factor>0</y-factor>
+    <z-factor>0</z-factor>
+  </animation>
+  
+  <animation>
+    <object-name>towingrope</object-name>
+    <enable-hot type="bool">false</enable-hot>
+  </animation>
+
+
+</PropertyList>
