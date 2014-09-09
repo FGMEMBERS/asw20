@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+ <path>side-string.ac</path>
+
+ <animation>
+   <type>select</type>
+     <object-name>wool-thread</object-name>
+     <object-name>adhesive</object-name>
+     <object-name>stall-boundary</object-name>
+     <object-name>marker</object-name>  
+     <condition>
+       <property>sim/asw20/with-sidestringg</property>
+     </condition>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>wool-thread</object-name>
+  <property>instrumentation/sidestring</property>
+  <factor>-1</factor>
+  <center>
+   <x>0.0</x>
+   <y>0.</y>
+   <z>0.</z>
+  </center>
+  <axis>
+   <x>0</x>
+   <y>1</y>
+   <z>0</z>
+  </axis>
+ </animation>
+
+
+</PropertyList>
+
+

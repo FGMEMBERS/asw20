@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<system name="GenericEngine">
+
+  <channel name="GenericThrust">        
+
+    <fcs_function name="systems/function/Thrust">
+      <function name="systems/Thrust">
+  	<product>
+          <p>fcs/throttle-generic-engine-norm</p>	  
+          <v>110.</v>	  
+        </product>
+      </function>
+    </fcs_function>
+
+    <switch name="systems/switch/thrust_magnitude">
+      <default value="0.0"/>
+      <test value="systems/Thrust">
+	 /sim/asw20/engine_running eq 1
+      </test>
+      <clipto>
+  	<min>  0.</min>
+  	<max> 800.</max>
+      </clipto>
+      <output>external_reactions/GenericEngine/magnitude</output>
+    </switch>	    
+
+  </channel>
+  
+</system>
