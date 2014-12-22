@@ -634,6 +634,14 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
        <property>controls/flight/auto-coordination</property>
        <value>0</value> 
      </binding>
+     <binding>
+       <command>nasal</command>
+       <script>
+     	 if ( getprop("controls/flight/auto-coordination") ) 
+              { asw20.atc_msg("auto-coordination enabled"); }
+     	 else { asw20.atc_msg("auto-coordination disabled"); }
+       </script>
+     </binding>
    </key>
 
    <key n="82">
@@ -643,6 +651,14 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
        <command>property-toggle</command>
        <property>controls/flight/auto-coordination</property>
        <value>0</value> 
+     </binding>
+     <binding>
+       <command>nasal</command>
+       <script>
+     	 if ( getprop("controls/flight/auto-coordination") ) 
+              { asw20.atc_msg("auto-coordination enabled"); }
+     	 else { asw20.atc_msg("auto-coordination disabled"); }
+       </script>
      </binding>
    </key>
 
