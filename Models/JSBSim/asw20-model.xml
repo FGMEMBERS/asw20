@@ -154,8 +154,15 @@
    </offsets>	   
  </model>
 
+ 
+ <!-- Transparent Surfaces for Rembrandt rendering -->
+ <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>Canopy.001</object-name>
+ </effect>
 
-<!-- __________________  Water Trail  __________________ -->
+ 
+ <!-- __________________  Water Trail  __________________ -->
 
  <model>
    <path>Aircraft/asw20/Models/JSBSim/WaterTrail.xml</path>
