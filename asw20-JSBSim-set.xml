@@ -30,6 +30,8 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
   <flight-model>jsb</flight-model>
   <aero>Models/JSBSim/asw20-JSBSim</aero>
 
+ <variant-of>asw20</variant-of>
+
   <checklists include="asw20-checklists.xml"/>
 
   <startup>
