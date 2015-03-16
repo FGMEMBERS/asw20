@@ -3,6 +3,7 @@
 <PropertyList include="asw20-JSBSim-set.xml">
  <sim>
   <description>Alias for asw20-JSBSim</description>
+  <exclude-from-gui type="bool">true</exclude-from-gui>
   <!-- <description>Alias for asw20-v1-nl-uiuc.</description>  -->
  </sim>
 </PropertyList>

@@ -29,7 +29,7 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
   <uiuc-type>uiuc-sailplane</uiuc-type>
   <aircraft-dir>Aircraft/UIUC/asw20-v1-nl</aircraft-dir>
 
-  <variant-of>asw20</variant-of>
+  <variant-of>asw20-JSBSim</variant-of>
   
   <sound>
    <path>Aircraft/asw20/Sounds/uiuc/asw20-sound.xml</path>
