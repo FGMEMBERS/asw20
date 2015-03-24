@@ -27,7 +27,6 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
   <flight-model>larcsim</flight-model>
   <aero>uiuc</aero>
   <uiuc-type>uiuc-sailplane</uiuc-type>
-  <aircraft-dir>Aircraft/UIUC/asw20-v1-nl</aircraft-dir>
 
   <variant-of>asw20-JSBSim</variant-of>
   
