@@ -1,0 +1,252 @@
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+# Aircraft:
+#
+# ASW 20
+#
+# File
+# asw20-v1-nl-uiuc
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+# Authors:
+#
+# Michael Selig
+# http://www.uiuc.edu/~m-selig
+#
+# 2002/05/27   Initial workup
+# 2002/11/03   Many more refinements
+# 2002/11/08   Refinements before first release
+# 2003/06/08   More updates.  See README.asw20.html for details.
+#
+#
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+# References:
+#
+# - Johnson, R.H., "A Flight Test Evaluation of the ASW 20," 
+#   Soaring Magazine, May 1978
+#
+# - aero data from various sources and methods
+#
+# - Additional models and updates 
+#   http://www.aae.uiuc.edu/m-selig/apasim.html
+#
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+# Notes:
+#
+# Performace specs:
+# - Max L/D 41.7 @ approx 60 kts and 759 lbs w/ flaps at -6 deg
+#   (flaps are not yet modeled)
+#
+# Todo items:
+# [] obtain control deflection limits for ASW 20, using ASW 27 for now.
+# [] include water ballast
+# [] change moments of inertia w/ water ballast
+# [] add in ground effect
+# [x] model flaps         [/] flaps    to raise/drop
+# [x] add in spoilers     j/k spoilers to close/open
+# [x] include air sounds
+# [] include nonlinear Cn_beta for high side slip
+# [] stick to elevator throw is likely nonlinear, unlike what I have now
+# [] update included drag due to rudder deflection, aileron deflection, and side slip.  
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# various "init" FGFS settings
+init use_V_rel_wind_2U    
+init use_dyn_on_speed_curve1    
+init dyn_on_speed  2    
+init dyn_on_speed_zero 1    
+init use_Alpha_dot_on_speed 7   # [ft/sec] speed below which Alpha_dot is set to zero    
+init use_gamma_horiz_on_speed 15 # [ft/sec] speed above which Gamma_horiz_deg is used in chase view [1]
+
+# downwash terms
+init downwashMode 100    
+init downwashCoef 0.0114      # [1/ft] see asw20 notes 021026 p 1
+
+# geometry
+geometry bw   49.2       # [ft]   [x] see asw20 notes 021011
+geometry cbar  2.297     # [ft]   [x] see asw20 notes 021011
+geometry Sw  113         # [ft^2] [x] see asw20 notes 021011
+
+# estimates for now, based partly on ASW 27 maintenance manual
+controlSurface de 25 22 # [deg] max/min: 22 deg (nose up), -20 (nose down)
+controlSurface da 25 25 # [deg] 
+controlSurface dr 31 31 # [deg]
+
+controlSurface flap_max  40 # [deg] max flap deflection, positive down
+controlSurface flap_rate 10 # [deg/sec] rate of flap deflection movement once commanded to move
+
+controlSurface spoiler_max   90 # [deg] max spoiler deflection (vertical)
+controlSurface spoiler_rate  30 # [deg/sec] rate of spoiler deflection movement once commanded to move
+
+
+# mass and moment of inertia data
+mass Weight 	728.736    # [lb]        [x] see asw20 notes 021011
+mass I_xx   	950.478	   # [slug-ft^2] [x] see asw20 notes 021011
+mass I_yy   	396.277	   # [slug-ft^2] [x] see asw20 notes 021011
+mass I_zz   	1295.657   # [slug-ft^2] [x] see asw20 notes 021011
+mass I_xz   	0          # [slug-ft^2] [x] see asw20 notes 021011
+
+# Apparent mass terms
+mass Mass_appMass_ratio  0.230         # [x] see asw20 notes 021011
+mass I_xx_appMass_ratio  0.103         # [x] see asw20 notes 021011
+mass I_yy_appMass_ratio  0.014         # [x] see asw20 notes 021011
+
+# simulates tow plane line tension for aero tows
+engine simpleSingle  110  # [lb]
+# simulates spoilers on throttle
+#engine simpleSingle  -100  # [lb]
+# for getting up in a hurry (unrealistic of course)
+#engine simpleSingle  780  # [lb]
+
+######################
+# Longitudinal terms #
+######################
+
+# Lift curve 
+# wing and fuse CL for +-180 deg
+CL CLfa CLfa-01.dat 0 1      #
+CL CL_adot  0.347       # [/rad] [x] asw20 notes 021026 p 3 (see spreadsheet)
+CL CL_q     4.337       # [/rad] [x] asw20 notes 021026 p 1 (see spreadsheet)
+CL CL_de    0.195       # [/rad] [x] asw20 notes 021026 p 1 (see spreadsheet)
+CL CL_df    0.20        # [ ] lift due to flaps
+
+# parasite drag polar from +-180 deg for wing and tail
+CD CDfa CDfa-01.dat 0 1      #
+# base parasite drag coef
+CD CDo 0.0125                 # [] placeholder ........
+CD CD_de  0.0002              # [] placeholder ........
+
+CD CD_dr   0.0004             # [] placeholder ........
+CD CD_da   0.0003             # [] placeholder ........
+CD CD_beta 0.0150             # [] placeholder ........
+
+
+# Induced drag
+#CD CDK 0.0149                 # [-] [x] asw20 notes 021026 p 3 (see spreadsheet)
+CD CDK 0.0152                  # [-] [x] asw20 notes 021026 p 3 (see spreadsheet)
+                               #     [x] includes all CL^2 components (approx), including profile CL^2 drag
+CD CLK .1                      #         offset in parabolic drag polar
+
+CD CD_ds .025                  # [ ] spoiler drag
+
+# wing/fuse moment curve from +-180 deg
+Cm Cmfa   Cmfa-01.dat 0 1       # [-]     [x] Cmarc
+Cm Cmfade Cmfade-01.dat  0 1 1  # [-]     [x] see spreadsheet
+Cm Cm_q     -24.098             # [/rad]  [x] asw20 notes 021026 p 1 (see spreadsheet)
+Cm Cm_adot -1.928               # [/rad]  [x] asw20 notes 021026 p 1 (see spreadsheet)
+
+###########################
+# Lateral Direction terms #
+###########################
+
+# rudder dr terms
+CY CY_dr     0.158      # [/rad] [x] see asw20 notes 021026 p 4  (see spreadsheet)
+Cl Cl_dr     0.0065     # [/rad] [x] see asw20 notes 021026 p 4  (see spreadsheet)
+Cn Cn_dr    -0.041      # [/rad] [x] see asw20 notes 021026 p 4  (see spreadsheet)
+
+# yaw rate r terms
+CY CY_r      0.164      # [/rad] [x] see asw20 notes 021026 p 4  (see spreadsheet)
+Cl Cl_r      0.1551     # [/rad] [x] Cmarc result, see asw20 notes 021030 p 3 (see spreadsheet)
+                        #        [x] 0.0068 from vert fin, see asw20 notes 021026 p 4  (see spreadsheet)
+Cn Cn_r     -0.05389    # [/rad] [x] Cmarc result, see asw20 notes 021030 p 2  (see spreadsheet)
+                        #        [x] -.042 from vert fin,  see asw20 notes 021026 p 4  (see spreadsheet)
+
+# beta terms
+CY CY_beta  -0.316      # [/rad] [] Cmarc contribution
+                        #        [x] -.316 vert fin contribution
+Cl Cl_beta  -0.0693     # [/rad] [x] see asw20 notes 021030 p 4
+Cn Cn_beta   0.1007     # [/rad] [x] -.0045 Cmarc contribution, see asw20 notes 021030 p 4
+                        #        [x] 0.082 vert fin contribution
+                        #            Net is 0.0775, but this does not seem to provide
+                        #            enough damping.  Assume that the fuse produces
+                        #            some Cn_beta (30%) --> 0.1007
+
+# aileron da terms
+CY CY_da    -.0456      # [/rad] [] placeholder
+Cl Cl_da    -0.214      # [/rad] [] placeholder, see asw20 notes 021026 p 5
+Cn Cn_da    -0.017      # [/rad] [] placeholder
+
+# roll rate p terms
+#CY CY_p    -0.2        # [/rad]
+Cl Cl_p     -0.6843     # [/rad] [x] see asw20 notes 021030 p 1
+Cn Cn_p     -0.08591    # [/rad] [x] see asw20 notes 021030 p 1
+
+# nose wheel (must be position 0 if present)
+gear Dx_gear     0     3.2      # x-offset from CG [ft]
+gear Dy_gear     0     0        # y-offset from CG [ft]
+gear Dz_gear     0     2.2      # z-offset from CG [ft]
+gear cgear       0   350        # damping [lbs/ft/sec]
+gear kgear       0   700        # springiness [lbs/ft]
+gear muGear      0     0.01     # rolling coefficient
+gear strutLength 0     -.5      # gear travel [ft] (not yet used)
+
+# right gear (must be position 1 if present)
+gear Dx_gear     1     0.2      # [ft]
+gear Dy_gear     1     0.05     # [ft]
+gear Dz_gear     1     3.10     # [ft]
+gear cgear       1   200        # [lbs/ft/sec]
+gear kgear       1   400        # [lbs/ft]
+gear muGear      1     0.01     # rolling coefficient
+gear strutLength 1     -.5      # gear travel [ft] (not yet used)
+
+# left gear (must be position 2 if present)
+gear Dx_gear     2     0.2      # [ft]
+gear Dy_gear     2    -0.05     # [ft]
+gear Dz_gear     2     3.10     # [ft]
+gear cgear       2   200        # [lbs/ft/sec]
+gear kgear       2   400        # [lbs/ft]
+gear muGear      2     0.01     # rolling coefficient
+gear strutLength 2     -.5      # gear travel [ft] (not yet used)
+
+
+# right wing
+gear Dx_gear     3     0        # [ft]
+gear Dy_gear     3    26        # [ft]
+gear Dz_gear     3    -1.7      # [ft]
+gear cgear       3   150        # [lbs/ft/sec]
+gear kgear       3   300        # [lbs/ft]
+gear muGear      3     0.01     # rolling coefficient
+gear strutLength 3     -.5      # gear travel [ft] (not yet used)
+
+# left wing
+gear Dx_gear     4     0        # [ft]
+gear Dy_gear     4   -26        # [ft]
+gear Dz_gear     4    -1.7      # [ft]
+gear cgear       4   150        # [lbs/ft/sec]
+gear kgear       4   300        # [lbs/ft]
+gear muGear      4     0.02     # rolling coefficient
+gear strutLength 4     -.5      # gear travel [ft] (not yet used)
+
+# tail
+gear Dx_gear     5   -10        # [ft]
+gear Dy_gear     5     0        # [ft]
+gear Dz_gear     5    1.3       # [ft]
+gear cgear       5   400        # [lbs/ft/sec]
+gear kgear       5   800        # [lbs/ft]
+gear muGear      5     0.02     # rolling coefficient
+gear strutLength 5     -.5      # gear travel [ft] (not yet used)
+
+# ahead
+gear Dx_gear     6     5        # [ft]
+gear Dy_gear     6     0        # [ft]
+gear Dz_gear     6    2.6       # [ft]
+gear cgear       6    25        # [lbs/ft/sec]
+gear kgear       6    50        # [lbs/ft]
+gear muGear      6     0.0      # rolling coefficient
+gear strutLength 6     -.5      # gear travel [ft] (not yet used)
+
+# way ahead
+gear Dx_gear     7    10        # [ft]
+gear Dy_gear     7     0        # [ft]
+gear Dz_gear     7    0.3       # [ft]
+gear cgear       7    25        # [lbs/ft/sec]
+gear kgear       7    50        # [lbs/ft]
+gear muGear      7     0.0      # rolling coefficient
+gear strutLength 7     -.5      # gear travel [ft] (not yet used)
+
+*
+
+
