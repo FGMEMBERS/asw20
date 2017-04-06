@@ -23,7 +23,16 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
 
   <description>ASW-20 sailplane (UIUC)</description>
   <author>Michael Selig, Roland Stuck (3D)</author>
-  
+
+  <tags>
+   <tag>glider</tag>
+   <tag>1970s</tag>
+   <tag>1980s</tag>
+   <tag>1990s</tag>
+   <tag>2000s</tag>
+   <tag>unpowered</tag>
+  </tags>
+
   <flight-model>larcsim</flight-model>
   <aero>uiuc</aero>
   <uiuc-type>uiuc-sailplane</uiuc-type>
