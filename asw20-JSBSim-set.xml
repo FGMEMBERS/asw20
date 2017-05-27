@@ -6,17 +6,17 @@ components used by FGFS to represent a 15-meter class sailplane.
 Components include the flight data model, instrument panel, and
 external model.
 
-Flight model details: 
+Flight model details:
 Aircraft/UIUC/asw20-v1-nl/README.asw20.html
 
 External model details:  
-Aircraft/asw20/Models/uiuc/hgldr-cs/README.TXT 
+Aircraft/asw20/Models/uiuc/hgldr-cs/README.TXT
 (courtesy of Roland Stuck, rstuck@evc.net)
 
 Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
              January, 2013 D-NXKT, D_NXKT@yahoo.de
-	     July, 2013 D-NXKT, D_NXKT@yahoo.de
-	     June, 2014 D-NXKT, D_NXKT@yahoo.de
+             July, 2013 D-NXKT, D_NXKT@yahoo.de
+             June, 2014 D-NXKT, D_NXKT@yahoo.de
 ************************************************************************
 -->
 
@@ -29,6 +29,25 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
   <aircraft-version>June 2014</aircraft-version>
   <flight-model>jsb</flight-model>
   <aero>Models/JSBSim/asw20-JSBSim</aero>
+
+  <tags>
+   <tag>glider</tag>
+   <tag>1970s</tag>
+   <tag>1980s</tag>
+   <tag>1990s</tag>
+   <tag>2000s</tag>
+   <tag>retractable-gear</tag>
+   <tag>tow</tag>
+   <tag>unpowered</tag>
+  </tags>
+
+  <status>beta</status>
+  <rating>
+   <FDM type="int">4</FDM>
+   <systems type="int">4</systems>
+   <cockpit type="int">2</cockpit>
+   <model type="int">3</model>
+  </rating>
 
   <checklists include="asw20-checklists.xml"/>
 
@@ -67,20 +86,20 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
    </generic>
   </multiplay>
   
-<!--       	  
-     	      y       
-     	      |  x	 
-     	      | / 
-     	      |/ 
-     	      ______z
-     	     
+<!--
+              y
+              |  x
+              | /
+              |/
+              ______z
+             
             View-System
--->		  
+-->
 
   <view n="0">
     <internal archive="y">true</internal>
     <config>
-      <pitch-offset-deg>-10.0</pitch-offset-deg>   
+      <pitch-offset-deg>-10.0</pitch-offset-deg>
  <!--Right--> <x-offset-m archive="y">0.</x-offset-m>
  <!--Up-->    <y-offset-m archive="y">0.16</y-offset-m>
  <!--Back-->  <z-offset-m archive="y">-0.68</z-offset-m>
@@ -102,7 +121,7 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
       <heading-offset-deg type="double">93.0</heading-offset-deg>
     </config>
   </view>
-  
+
   <view n="101">
     <name>Left Wingtip View</name>
     <enabled type="bool">true</enabled>
@@ -138,10 +157,10 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
    <default>
     <menu n="10">
      <label>ASW 20</label>
-     <enabled type="bool">true</enabled>     
+     <enabled type="bool">true</enabled>
 
      <item>
-      <label>---------------------------</label>    
+      <label>---------------------------</label>
       <enabled>false</enabled>
      </item>
 
@@ -151,19 +170,19 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
         <command>nasal</command>
         <script>asw20.weight_and_balance_dialog.open()</script>
        </binding>
-       <binding>       
+       <binding>
         <command>nasal</command>
         <script>
-	  var slider = getprop("/fdm/jsbsim/inertia/waterballast_total-lbs");
-	  var slider = slider * 0.453592 ;
-	  setprop("/fdm/jsbsim/inertia/waterballast_total_slider-kg",slider);
+          var slider = getprop("/fdm/jsbsim/inertia/waterballast_total-lbs");
+          var slider = slider * 0.453592 ;
+          setprop("/fdm/jsbsim/inertia/waterballast_total_slider-kg",slider);
         </script>
        </binding>
-	<binding>
+        <binding>
           <command>nasal</command>
           <script>asw20.weight_and_balance()</script>
         </binding>
-     </item>	
+     </item>
 
      <item>
       <label>Toggle Auto-Coordination Aileron+Rudder</label>
@@ -175,13 +194,13 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
        <binding>
          <command>nasal</command>
          <script>
-           if ( getprop("controls/flight/auto-coordination") ) 
-	        { asw20.atc_msg("auto-coordination enabled"); }
+           if ( getprop("controls/flight/auto-coordination") )
+                { asw20.atc_msg("auto-coordination enabled"); }
            else { asw20.atc_msg("auto-coordination disabled"); }
          </script>
        </binding>
 
-     </item>	
+     </item>
 
      <item>
        <label>Toggle Woolthread On/Off</label>
@@ -190,7 +209,7 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
          <property>sim/asw20/with-woolthread</property>
          <value>0</value>
        </binding>
-     </item>    
+     </item>
 
      <item>
        <label>Toggle Side String On/Off</label>
@@ -199,7 +218,7 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
          <property>sim/asw20/with-sidestringg</property>
          <value>0</value>
        </binding>
-     </item>    
+     </item>
 
      <item>
       <label>Toggle Wing Failure On/Off</label>
@@ -208,51 +227,51 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
         <property>sim/asw20/wing-failure-enable</property>
         <value>0</value> 
        </binding>
-	<binding>
+        <binding>
           <command>nasal</command>
           <script>
-	    asw20.wing_failure_repair();
-	    if ( getprop("sim/asw20/wing-failure-enable") ) 
-	         { asw20.atc_msg("wing failure enabled"); }
-	    else { asw20.atc_msg("wing failure disabled"); }
-	  </script>
+            asw20.wing_failure_repair();
+            if ( getprop("sim/asw20/wing-failure-enable") )
+                 { asw20.atc_msg("wing failure enabled"); }
+            else { asw20.atc_msg("wing failure disabled"); }
+          </script>
         </binding>
-     </item>	
+     </item>
 
      <item>
       <label>Repair Plane</label>
-	<binding>
+        <binding>
           <command>nasal</command>
           <script>asw20.wing_failure_repair()</script>
         </binding>
-     </item>	
+     </item>
 
      <item>
-      <label>-------- ------------ --------</label>    
+      <label>-------- ------------ --------</label>
       <enabled>false</enabled>
      </item>
-    
+
      <item>
        <label>Winch Launch</label>
        <binding>
-     	 <command>nasal</command>
-     	 <script>asw20.winch_dialog.open()</script>.
+         <command>nasal</command>
+         <script>asw20.winch_dialog.open()</script>.
        </binding>
      </item>
-     
+
      <item>
        <label>Aerotowing MP/AI</label>
        <binding>
-     	 <command>nasal</command>
-     	 <script>asw20.aerotowing_ai_dialog.open()</script>.
+         <command>nasal</command>
+         <script>asw20.aerotowing_ai_dialog.open()</script>.
        </binding>
      </item>
-     <!--     
+     <!--
      <item>
        <label>Drag Roboter</label>
        <binding>
-     	 <command>nasal</command>
-     	 <script>asw20.dragrobot_dialog.open()</script>.
+         <command>nasal</command>
+         <script>asw20.dragrobot_dialog.open()</script>.
        </binding>
      </item>
      -->
@@ -262,13 +281,13 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
         <command>nasal</command>
         <script>asw20.hook_dialog.open()</script>
        </binding>
-     </item>	
+     </item>
 
     </menu>
    </default>
   </menubar>
 
-  
+
   <help>
    <title>ASW 20</title>
       <key>
@@ -350,11 +369,11 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
       <line>(http://ebookbrowse.com/asw20-flight-manual-pdf-d182065150).</line>
       <line> </line>
       <line>Weight and balance:</line>
-      <line>Detailed explanation in ASW 20 flight manual (pp. 20-20c and 30-31).</line>    
+      <line>Detailed explanation in ASW 20 flight manual (pp. 20-20c and 30-31).</line>
       <line> </line>
-      <line>Read the "Aircraft Checklists" for further informations.</line>    
+      <line>Read the "Aircraft Checklists" for further informations.</line>
       <line> </line>
-      
+
   </help>
 
   <flaps>
@@ -369,15 +388,15 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
   <glider>
     <winch>
       <conf>
-  	<rope_initial_length_m>1000.0</rope_initial_length_m>
-  	<pull_max_lbs>900.0</pull_max_lbs> <!-- ca. 400daN -->
+        <rope_initial_length_m>1000.0</rope_initial_length_m>
+        <pull_max_lbs>900.0</pull_max_lbs> <!-- ca. 400daN -->
       </conf>
     </winch>
     <towing>
       <conf>
-  	<rope_length_m type="float">60.0</rope_length_m>
-  	<nominal_towforce_lbs type="float">500.0</nominal_towforce_lbs>
-  	<breaking_towforce_lbs type="float">9999.0</breaking_towforce_lbs>
+        <rope_length_m type="float">60.0</rope_length_m>
+        <nominal_towforce_lbs type="float">500.0</nominal_towforce_lbs>
+        <breaking_towforce_lbs type="float">9999.0</breaking_towforce_lbs>
       </conf>
       <hooked>0</hooked>
     </towing>
@@ -412,30 +431,22 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
     <path>/sim/asw20/wing-failure-enable</path>
     <path>/controls/flight/auto-coordination</path>
     <path>/instrumentation/ilec-sc7/volume</path> 
-    <path>/fdm/jsbsim/inertia/pointmass-weight-kg[0]</path> 
+    <path>/fdm/jsbsim/inertia/pointmass-weight-kg[0]</path>
     <path>/fdm/jsbsim/inertia/pointmass-weight-kg[1]</path>
-    <path>/fdm/jsbsim/inertia/pointmass-weight-kg[2]</path> 
+    <path>/fdm/jsbsim/inertia/pointmass-weight-kg[2]</path>
     <path>/fdm/jsbsim/inertia/pointmass-weight-kg[3]</path>
-    <path>/fdm/jsbsim/inertia/pointmass-weight-kg[4]</path> 
+    <path>/fdm/jsbsim/inertia/pointmass-weight-kg[4]</path>
     <path>/fdm/jsbsim/inertia/pointmass-weight-kg[5]</path>
     <path>/fdm/jsbsim/inertia/pointmass-weight-kg[6]</path>
     <path>/fdm/jsbsim/inertia/pointmass-location-X-inches[0]</path>
   </aircraft-data>
-   
-  <status>beta</status>
-  <rating>
-   <FDM type="int">4</FDM>
-   <systems type="int">4</systems>
-   <cockpit type="int">2</cockpit>
-   <model type="int">3</model>
-  </rating>
 
  </sim>
- 
+
  <accelerations>
    <n-z-cg-fps_sec type="double">1.</n-z-cg-fps_sec>
  </accelerations>
-  
+
  <input>
   <keyboard>
    <key n="115">
@@ -452,37 +463,37 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
       <desc>Increase throttle</desc>
       <repeatable type="bool">true</repeatable>
       <binding>
- 	<command>property-adjust</command>
- 	<property>/fdm/jsbsim/fcs/throttle-generic-engine-norm</property>
- 	<step>0.02</step>
- 	<min>0</min>
- 	<max>1</max>
+        <command>property-adjust</command>
+        <property>/fdm/jsbsim/fcs/throttle-generic-engine-norm</property>
+        <step>0.02</step>
+        <min>0</min>
+        <max>1</max>
       </binding>
-   </key>    
+   </key>
 
    <key n="360">
     <name>PageUp</name>
       <desc>Increase throttle</desc>
       <repeatable type="bool">true</repeatable>
       <binding>
- 	<command>property-adjust</command>
- 	<property>/fdm/jsbsim/fcs/throttle-generic-engine-norm</property>
- 	<step>0.02</step>
- 	<min>0</min>
- 	<max>1</max>
+        <command>property-adjust</command>
+        <property>/fdm/jsbsim/fcs/throttle-generic-engine-norm</property>
+        <step>0.02</step>
+        <min>0</min>
+        <max>1</max>
       </binding>
-   </key>    
+   </key>
 
    <key n="51">
     <name>3</name>
       <desc>Decrease throttle</desc>
       <repeatable type="bool">true</repeatable>
       <binding>
- 	<command>property-adjust</command>
- 	<property>/fdm/jsbsim/fcs/throttle-generic-engine-norm</property>
- 	<step>-0.02</step>
- 	<min>0</min>
- 	<max>1</max>
+        <command>property-adjust</command>
+        <property>/fdm/jsbsim/fcs/throttle-generic-engine-norm</property>
+        <step>-0.02</step>
+        <min>0</min>
+        <max>1</max>
       </binding>
    </key>
 
@@ -491,11 +502,11 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
       <desc>Decrease throttle</desc>
       <repeatable type="bool">true</repeatable>
       <binding>
- 	<command>property-adjust</command>
- 	<property>/fdm/jsbsim/fcs/throttle-generic-engine-norm</property>
- 	<step>-0.02</step>
- 	<min>0</min>
- 	<max>1</max>
+        <command>property-adjust</command>
+        <property>/fdm/jsbsim/fcs/throttle-generic-engine-norm</property>
+        <step>-0.02</step>
+        <min>0</min>
+        <max>1</max>
       </binding>
    </key>
 
@@ -508,7 +519,7 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
        <script>asw20.placeWinch()</script>
      </binding>
    </key>
-   
+
    <key n="119">
      <name>w</name>
      <desc>Start winch</desc>
@@ -517,7 +528,7 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
        <script>asw20.startWinch()</script>
      </binding>
    </key>
-   
+
    <key n="87">
      <name>W</name>
      <desc>Release winch hook</desc>
@@ -526,7 +537,7 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
        <script>asw20.releaseWinch()</script>
      </binding>
    </key>
-   
+
    <key n="15">
      <name>Ctrl-o</name>
      <desc>Find dragger</desc>
@@ -535,7 +546,7 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
        <script>asw20.findDragger()</script>
      </binding>
    </key>
-   
+
    <key n="111">
      <name>o</name>
      <desc>Hook on dragger</desc>
@@ -544,7 +555,7 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
        <script>asw20.hookDragger()</script>
      </binding>
    </key>
-   
+
    <key n="79">
      <name>O</name>
      <desc>Release drag hook</desc>
@@ -553,7 +564,7 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
        <script>asw20.releaseDragger()</script>
      </binding>
    </key>
-   
+
    <!--
    <key n="4">
      <name>Ctrl-d</name>
@@ -563,7 +574,7 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
        <script>asw20.presetsRobot()</script>
      </binding>
    </key>
-   
+
    <key n="100">
      <name>d</name>
      <desc>Drag robot</desc>
@@ -572,7 +583,7 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
        <script>asw20.startDragRobot()</script>
      </binding>
    </key>
-   
+
    <key n="68">
      <name>D</name>
      <desc>run drag robot</desc>
@@ -582,7 +593,7 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
      </binding>
    </key>
    -->
-   
+
    <key n="84">
      <name>T</name>
      <desc>load water ballast</desc>
@@ -596,24 +607,24 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
      <binding>
        <command>nasal</command>
        <script>
-     	 var weight_lbs = getprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[5]");
-     	 var weight_kg = weight_lbs / 2.204623;
-     	 var water_both_tanks_liter = weight_kg * 2;
-	 setprop("/fdm/jsbsim/inertia/waterballast_total-kg",water_both_tanks_liter);
-	 setprop("/fdm/jsbsim/inertia/waterballast_total_slider-kg",water_both_tanks_liter);
-   	 # setprop("sim/messages/atc", "loading 10 liter water ballast");
-     	 var atc_msg = sprintf("%.2f liter water ballast on board", water_both_tanks_liter);
-     	 setprop("sim/messages/atc", atc_msg);
+         var weight_lbs = getprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[5]");
+         var weight_kg = weight_lbs / 2.204623;
+         var water_both_tanks_liter = weight_kg * 2;
+         setprop("/fdm/jsbsim/inertia/waterballast_total-kg",water_both_tanks_liter);
+         setprop("/fdm/jsbsim/inertia/waterballast_total_slider-kg",water_both_tanks_liter);
+         # setprop("sim/messages/atc", "loading 10 liter water ballast");
+         var atc_msg = sprintf("%.2f liter water ballast on board", water_both_tanks_liter);
+         setprop("sim/messages/atc", atc_msg);
       </script>
      </binding>
    </key>
-   
+
    <key n="116">
      <name>t</name>
      <desc>toggle ballast dumping</desc>
      <binding>
        <command>property-toggle</command>
-       <property>/sim/asw20/waterballast/valve</property>      
+       <property>/sim/asw20/waterballast/valve</property>
      </binding>
    </key>
 
@@ -637,9 +648,9 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
      <binding>
        <command>nasal</command>
        <script>
-     	 if ( getprop("controls/flight/auto-coordination") ) 
+         if ( getprop("controls/flight/auto-coordination") ) 
               { asw20.atc_msg("auto-coordination enabled"); }
-     	 else { asw20.atc_msg("auto-coordination disabled"); }
+         else { asw20.atc_msg("auto-coordination disabled"); }
        </script>
      </binding>
    </key>
@@ -655,14 +666,14 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
      <binding>
        <command>nasal</command>
        <script>
-     	 if ( getprop("controls/flight/auto-coordination") ) 
+         if ( getprop("controls/flight/auto-coordination") )
               { asw20.atc_msg("auto-coordination enabled"); }
-     	 else { asw20.atc_msg("auto-coordination disabled"); }
+         else { asw20.atc_msg("auto-coordination disabled"); }
        </script>
      </binding>
    </key>
 
-  </keyboard> 
+  </keyboard>
  </input> 
 
  <nasal>
@@ -675,9 +686,9 @@ Last update: June 8, 2003 Michael Selig, m-selig@uiuc.edu
      <file>Aircraft/asw20/Nasal/dialogs.nas</file>
      <file>Aircraft/asw20/Nasal/dragrobot.nas</file>
      <file>Aircraft/asw20/Nasal/messages.nas</file>
-     <file>Aircraft/asw20/Nasal/winch.nas</file> 
+     <file>Aircraft/asw20/Nasal/winch.nas</file>
      <file>Aircraft/asw20/Nasal/weight_and_balance.nas</file>
-     <file>Aircraft/asw20/Nasal/default-settings.nas</file>    	 
+     <file>Aircraft/asw20/Nasal/default-settings.nas</file>
    </asw20>
  </nasal>
 
